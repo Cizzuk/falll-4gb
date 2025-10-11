@@ -12,7 +12,7 @@
 
 BOOLEAN is_gaming = TRUE;
 BOOLEAN player_flip = FALSE;
-UINT8 frame_counter = 0;
+UINT8 frame_counter = 0; // counts from 0 to 179
 
 // screen has dead zones, left: 8px, top: 16px
 UINT8 player_pos[2] = {63, 32}; // X: 36 - 90
