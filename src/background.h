@@ -104,16 +104,7 @@
 #define BackgroundCGB0 0
 
 /* Background palette data. */
-const unsigned short BackgroundPalette[32] = {
-    BackgroundCGBPal0c0, BackgroundCGBPal0c1, BackgroundCGBPal0c2, BackgroundCGBPal0c3,
-    BackgroundCGBPal1c0, BackgroundCGBPal1c1, BackgroundCGBPal1c2, BackgroundCGBPal1c3,
-    BackgroundCGBPal2c0, BackgroundCGBPal2c1, BackgroundCGBPal2c2, BackgroundCGBPal2c3,
-    BackgroundCGBPal3c0, BackgroundCGBPal3c1, BackgroundCGBPal3c2, BackgroundCGBPal3c3,
-    BackgroundCGBPal4c0, BackgroundCGBPal4c1, BackgroundCGBPal4c2, BackgroundCGBPal4c3,
-    BackgroundCGBPal5c0, BackgroundCGBPal5c1, BackgroundCGBPal5c2, BackgroundCGBPal5c3,
-    BackgroundCGBPal6c0, BackgroundCGBPal6c1, BackgroundCGBPal6c2, BackgroundCGBPal6c3,
-    BackgroundCGBPal7c0, BackgroundCGBPal7c1, BackgroundCGBPal7c2, BackgroundCGBPal7c3
-};
+extern const unsigned short BackgroundPalette[32];
 
 /* Start of tile array. */
 extern const unsigned char Background[];
