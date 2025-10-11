@@ -104,26 +104,20 @@ void player_control(void) {
 
 void render_leaves(void) {
     // Leaf 1
-    if (leaves_pos[0][1] != 0) {
-        move_sprite(4, leaves_pos[0][0], leaves_pos[0][1]);
-        move_sprite(5, leaves_pos[0][0] + 8, leaves_pos[0][1]);
-        move_sprite(6, leaves_pos[0][0], leaves_pos[0][1] + 8);
-        move_sprite(7, leaves_pos[0][0] + 8, leaves_pos[0][1] + 8);
-    }
+    move_sprite(4, leaves_pos[0][0], leaves_pos[0][1]);
+    move_sprite(5, leaves_pos[0][0] + 8, leaves_pos[0][1]);
+    move_sprite(6, leaves_pos[0][0], leaves_pos[0][1] + 8);
+    move_sprite(7, leaves_pos[0][0] + 8, leaves_pos[0][1] + 8);
     // Leaf 2
-    if (leaves_pos[1][1] != 0) {
-        move_sprite(8, leaves_pos[1][0], leaves_pos[1][1]);
-        move_sprite(9, leaves_pos[1][0] + 8, leaves_pos[1][1]);
-        move_sprite(10, leaves_pos[1][0], leaves_pos[1][1] + 8);
-        move_sprite(11, leaves_pos[1][0] + 8, leaves_pos[1][1] + 8);
-    }
+    move_sprite(8, leaves_pos[1][0], leaves_pos[1][1]);
+    move_sprite(9, leaves_pos[1][0] + 8, leaves_pos[1][1]);
+    move_sprite(10, leaves_pos[1][0], leaves_pos[1][1] + 8);
+    move_sprite(11, leaves_pos[1][0] + 8, leaves_pos[1][1] + 8);
     // Leaf 3
-    if (leaves_pos[2][1] != 0) {
-        move_sprite(12, leaves_pos[2][0], leaves_pos[2][1]);
-        move_sprite(13, leaves_pos[2][0] + 8, leaves_pos[2][1]);
-        move_sprite(14, leaves_pos[2][0], leaves_pos[2][1] + 8);
-        move_sprite(15, leaves_pos[2][0] + 8, leaves_pos[2][1] + 8);
-    }
+    move_sprite(12, leaves_pos[2][0], leaves_pos[2][1]);
+    move_sprite(13, leaves_pos[2][0] + 8, leaves_pos[2][1]);
+    move_sprite(14, leaves_pos[2][0], leaves_pos[2][1] + 8);
+    move_sprite(15, leaves_pos[2][0] + 8, leaves_pos[2][1] + 8);
 }
 
 UINT8 get_leaf_random_x(void) {
