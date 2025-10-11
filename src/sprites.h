@@ -169,25 +169,16 @@
 #define SpritesCGB65 6
 
 /* Sprite palette data. */
-const palette_color_t SpritePalette[32] = {
-    SpritesCGBPal0c0, SpritesCGBPal0c1, SpritesCGBPal0c2, SpritesCGBPal0c3,
-    SpritesCGBPal1c0, SpritesCGBPal1c1, SpritesCGBPal1c2, SpritesCGBPal1c3,
-    SpritesCGBPal2c0, SpritesCGBPal2c1, SpritesCGBPal2c2, SpritesCGBPal2c3,
-    SpritesCGBPal3c0, SpritesCGBPal3c1, SpritesCGBPal3c2, SpritesCGBPal3c3,
-    SpritesCGBPal4c0, SpritesCGBPal4c1, SpritesCGBPal4c2, SpritesCGBPal4c3,
-    SpritesCGBPal5c0, SpritesCGBPal5c1, SpritesCGBPal5c2, SpritesCGBPal5c3,
-    SpritesCGBPal6c0, SpritesCGBPal6c1, SpritesCGBPal6c2, SpritesCGBPal6c3,
-    SpritesCGBPal7c0, SpritesCGBPal7c1, SpritesCGBPal7c2, SpritesCGBPal7c3
-};
+extern const unsigned short SpritePalette[32];
 
 /* Sprite font entries. */
-const UINT8 SpriteHeart = 16;
-const UINT8 SpriteCursor = 40;
-const UINT8 SpriteNumbers[10] = {17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
-const UINT8 SpriteTextGAMEOVER[8] = {27, 28, 29, 30, 17, 31, 30, 32};
-const UINT8 SpriteTextSTART[5] = {33, 34, 28, 32, 34};
-const UINT8 SpriteTextCHANGE[6] = {35, 36, 28, 37, 27, 30};
-const UINT8 SpriteTextNICE[5] = {37, 38, 35, 30, 39};
+extern const UINT8 SpriteHeart;
+extern const UINT8 SpriteCursor;
+extern const UINT8 SpriteNumbers[10];
+extern const UINT8 SpriteTextGAMEOVER[8];
+extern const UINT8 SpriteTextSTART[5];
+extern const UINT8 SpriteTextCHANGE[6];
+extern const UINT8 SpriteTextNICE[5];
 
 /* Start of tile array. */
 extern const unsigned char Sprites[];
