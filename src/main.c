@@ -1,5 +1,6 @@
 #include <gb/gb.h>
 #include <gb/cgb.h>
+#include "background.h"
 #include "sprites.h"
 #include "utils.h"
 
@@ -151,6 +152,7 @@ void reset_game(void) {
 }
 
 void main(void) {
+    set_bkg_palette(0, 6, &BackgroundPalette[0]);
     set_sprite_data(0, 65, Sprites);
     set_sprite_palette(0, 8, SpritePalette);
     init_sprites();
