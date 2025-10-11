@@ -1,5 +1,6 @@
 #include <gb/gb.h>
 #include <gb/cgb.h>
+#include <rand.h>
 #include "sprites.h"
 
 // Screen constants
@@ -125,6 +126,11 @@ void render_leaves(void) {
     }
 }
 
+UINT8 get_leaf_random_x(void) {
+    // 36 to 90
+    return (rand() % 55) + 36;
+}
+
 void leaves_scroll(void) {
     if (leaves_pos[0][1] > 0) {
         leaves_pos[0][1]--;
@@ -135,14 +141,16 @@ void leaves_scroll(void) {
     if (leaves_pos[2][1] > 0) {
         leaves_pos[2][1]--;
     }
-    if (frame_counter % 60 == 0) {
-        if (leaves_pos[0][1] == 0) {
-            leaves_pos[0][1] = 160;
-        } else if (leaves_pos[1][1] == 0) {
-            leaves_pos[1][1] = 160;
-        } else if (leaves_pos[2][1] == 0) {
-            leaves_pos[2][1] = 160;
-        }
+
+    if (frame_counter == 0) {
+        leaves_pos[0][0] = get_leaf_random_x();
+        leaves_pos[0][1] = 160;
+    } else if (frame_counter == 60) {
+        leaves_pos[1][0] = get_leaf_random_x();
+        leaves_pos[1][1] = 160;
+    } else if (frame_counter == 120) {
+        leaves_pos[2][0] = get_leaf_random_x();
+        leaves_pos[2][1] = 160;
     }
 }
 
