@@ -88,6 +88,13 @@ void player_control(void) {
         return;
     }
 
+    // Slow down
+    if (controller & J_A || controller & J_B) {
+        if (frame_counter % 2 == 0) {
+            return;
+        }
+    }
+
     if (controller & J_RIGHT) {
         if (player_pos[0] < 90) {
             player_pos[0]++;
