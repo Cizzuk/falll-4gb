@@ -2,14 +2,7 @@
 #include <gb/cgb.h>
 #include <rand.h>
 #include "sprites.h"
-
-// Screen constants
-// #define SCREEN_WIDTH 160
-// #define SCREEN_HEIGHT 144
-// #define SCREEN_TOP 16
-// #define SCREEN_BOTTOM (SCREEN_TOP + SCREEN_HEIGHT)
-// #define SCREEN_LEFT 8
-// #define SCREEN_RIGHT (SCREEN_LEFT + SCREEN_WIDTH)
+#include "utils.h"
 
 BOOLEAN is_gaming = TRUE;
 BOOLEAN player_flip = FALSE;
@@ -127,11 +120,6 @@ void render_leaves(void) {
     move_sprite(15, leaves_pos[2][0] + 8, leaves_pos[2][1] + 8);
 }
 
-UINT8 get_leaf_random_x(void) {
-    // 36 to 90
-    return (rand() % 55) + 36;
-}
-
 void leaves_scroll(void) {
     if (leaves_pos[0][1] > 0) {
         leaves_pos[0][1]--;
@@ -144,13 +132,13 @@ void leaves_scroll(void) {
     }
 
     if (frame_counter == 0) {
-        leaves_pos[0][0] = get_leaf_random_x();
+        leaves_pos[0][0] = uint8_random(36, 90);
         leaves_pos[0][1] = 160;
     } else if (frame_counter == 60) {
-        leaves_pos[1][0] = get_leaf_random_x();
+        leaves_pos[1][0] = uint8_random(36, 90);
         leaves_pos[1][1] = 160;
     } else if (frame_counter == 120) {
-        leaves_pos[2][0] = get_leaf_random_x();
+        leaves_pos[2][0] = uint8_random(36, 90);
         leaves_pos[2][1] = 160;
     }
 }
