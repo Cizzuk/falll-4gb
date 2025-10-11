@@ -151,8 +151,8 @@ void reset_game(void) {
 }
 
 void main(void) {
-    set_sprite_data(0, 15, Sprites);
-    set_sprite_palette(0, 7, SpritePalette);
+    set_sprite_data(0, 65, Sprites);
+    set_sprite_palette(0, 8, SpritePalette);
     init_sprites();
 
     DISPLAY_ON;

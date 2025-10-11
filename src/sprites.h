@@ -10,7 +10,7 @@
   Compression          : None.
   Counter              : None.
   Tile size            : 8 x 8
-  Tiles                : 0 to 15
+  Tiles                : 0 to 65
 
   Palette colors       : Included.
   SGB Palette          : None.
@@ -61,7 +61,7 @@
 /* Gameboy Color palette 1 */
 #define SpritesCGBPal1c0 32544
 #define SpritesCGBPal1c1 927
-#define SpritesCGBPal1c2 28607
+#define SpritesCGBPal1c2 25439
 #define SpritesCGBPal1c3 0
 
 /* Gameboy Color palette 2 */
@@ -90,14 +90,14 @@
 
 /* Gameboy Color palette 6 */
 #define SpritesCGBPal6c0 32544
-#define SpritesCGBPal6c1 927
-#define SpritesCGBPal6c2 4447
-#define SpritesCGBPal6c3 0
+#define SpritesCGBPal6c1 32650
+#define SpritesCGBPal6c2 29491
+#define SpritesCGBPal6c3 32767
 
 /* Gameboy Color palette 7 */
 #define SpritesCGBPal7c0 32544
-#define SpritesCGBPal7c1 927
-#define SpritesCGBPal7c2 4447
+#define SpritesCGBPal7c1 32767
+#define SpritesCGBPal7c2 12684
 #define SpritesCGBPal7c3 0
 
 /* CGB palette entries. */
@@ -117,6 +117,56 @@
 #define SpritesCGB13 5
 #define SpritesCGB14 5
 #define SpritesCGB15 5
+#define SpritesCGB16 4
+#define SpritesCGB17 0
+#define SpritesCGB18 0
+#define SpritesCGB19 0
+#define SpritesCGB20 0
+#define SpritesCGB21 0
+#define SpritesCGB22 0
+#define SpritesCGB23 0
+#define SpritesCGB24 0
+#define SpritesCGB25 0
+#define SpritesCGB26 0
+#define SpritesCGB27 0
+#define SpritesCGB28 0
+#define SpritesCGB29 0
+#define SpritesCGB30 0
+#define SpritesCGB31 0
+#define SpritesCGB32 0
+#define SpritesCGB33 0
+#define SpritesCGB34 0
+#define SpritesCGB35 0
+#define SpritesCGB36 0
+#define SpritesCGB37 0
+#define SpritesCGB38 0
+#define SpritesCGB39 0
+#define SpritesCGB40 7
+#define SpritesCGB41 7
+#define SpritesCGB42 7
+#define SpritesCGB43 7
+#define SpritesCGB44 7
+#define SpritesCGB45 7
+#define SpritesCGB46 7
+#define SpritesCGB47 6
+#define SpritesCGB48 6
+#define SpritesCGB49 6
+#define SpritesCGB50 6
+#define SpritesCGB51 6
+#define SpritesCGB52 6
+#define SpritesCGB53 6
+#define SpritesCGB54 6
+#define SpritesCGB55 6
+#define SpritesCGB56 6
+#define SpritesCGB57 6
+#define SpritesCGB58 6
+#define SpritesCGB59 6
+#define SpritesCGB60 6
+#define SpritesCGB61 6
+#define SpritesCGB62 6
+#define SpritesCGB63 6
+#define SpritesCGB64 6
+#define SpritesCGB65 6
 
 /* Sprite palette data. */
 const palette_color_t SpritePalette[32] = {
@@ -129,6 +179,9 @@ const palette_color_t SpritePalette[32] = {
     SpritesCGBPal6c0, SpritesCGBPal6c1, SpritesCGBPal6c2, SpritesCGBPal6c3,
     SpritesCGBPal7c0, SpritesCGBPal7c1, SpritesCGBPal7c2, SpritesCGBPal7c3
 };
+
+/* Sprite numbers (in tiles). */
+const UINT8 SpriteNumbers[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}; //temp
 
 /* Start of tile array. */
 extern const unsigned char Sprites[];
