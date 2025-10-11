@@ -12,7 +12,7 @@
 
 BOOLEAN is_gaming = TRUE;
 BOOLEAN player_flip = FALSE;
-UINT8 leaf_frame = 0;
+UINT8 frame_counter = 0;
 
 // screen has dead zones, left: 8px, top: 16px
 UINT8 player_pos[2] = {63, 32}; // X: 36 - 90
@@ -135,7 +135,7 @@ void leaves_scroll(void) {
     if (leaves_pos[2][1] > 0) {
         leaves_pos[2][1]--;
     }
-    if (leaf_frame % 60 == 0) {
+    if (frame_counter % 60 == 0) {
         if (leaves_pos[0][1] == 0) {
             leaves_pos[0][1] = 160;
         } else if (leaves_pos[1][1] == 0) {
@@ -149,7 +149,7 @@ void leaves_scroll(void) {
 void reset_game(void) {
     is_gaming = TRUE;
     player_flip = FALSE;
-    leaf_frame = 0;
+    frame_counter = 0;
     player_pos[0] = 55;
     player_pos[1] = 32;
 }
@@ -167,10 +167,10 @@ void main(void) {
         if (is_gaming) {
             player_control();
 
-            if (leaf_frame < 179) {
-                leaf_frame++;
+            if (frame_counter < 179) {
+                frame_counter++;
             } else {
-                leaf_frame = 0;
+                frame_counter = 0;
             }
         }
 
