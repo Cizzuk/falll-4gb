@@ -37,13 +37,13 @@ void player_control(void) {
     }
 
     if (controller & J_RIGHT) {
-        if (player_pos[0] < 82) {
+        if (player_pos[0] < 90) {
             player_pos[0]++;
             player_flip = TRUE;
         }
     }
     if (controller & J_LEFT) {
-        if (player_pos[0] > 28) {
+        if (player_pos[0] > 36) {
             player_pos[0]--;
             player_flip = FALSE;
         }
