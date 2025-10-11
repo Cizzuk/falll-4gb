@@ -1,3 +1,7 @@
+# Build
+/build/
+*.gb
+
 # OS generated
 .DS_Store
 .DS_Store?
