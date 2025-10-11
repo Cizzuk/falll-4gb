@@ -1,4 +1,5 @@
 #include <gb/gb.h>
+#include <gb/cgb.h>
 #include "sprites.h"
 
 // Screen constants
@@ -23,6 +24,10 @@ void init_sprites(void) {
     set_sprite_tile(1, 2);
     set_sprite_tile(2, 1);
     set_sprite_tile(3, 3);
+    set_sprite_prop(0, SpritesCGB0);
+    set_sprite_prop(1, SpritesCGB2);
+    set_sprite_prop(2, SpritesCGB1);
+    set_sprite_prop(3, SpritesCGB3);
 
     // Leaves
     // Leaf 1
@@ -30,41 +35,45 @@ void init_sprites(void) {
     set_sprite_tile(5, 4);
     set_sprite_tile(6, 7);
     set_sprite_tile(7, 5);
-    set_sprite_prop(4, S_FLIPX);
-    set_sprite_prop(5, S_FLIPX);
-    set_sprite_prop(6, S_FLIPX);
-    set_sprite_prop(7, S_FLIPX);
+    set_sprite_prop(4, S_FLIPX | SpritesCGB4);
+    set_sprite_prop(5, S_FLIPX | SpritesCGB5);
+    set_sprite_prop(6, S_FLIPX | SpritesCGB6);
+    set_sprite_prop(7, S_FLIPX | SpritesCGB7);
     // Leaf 2
     set_sprite_tile(8, 5);
     set_sprite_tile(9, 7);
     set_sprite_tile(10, 4);
     set_sprite_tile(11, 6);
-    set_sprite_prop(8, S_FLIPY);
-    set_sprite_prop(9, S_FLIPY);
-    set_sprite_prop(10, S_FLIPY);
-    set_sprite_prop(11, S_FLIPY);
+    set_sprite_prop(8, S_FLIPY | SpritesCGB5);
+    set_sprite_prop(9, S_FLIPY | SpritesCGB7);
+    set_sprite_prop(10, S_FLIPY | SpritesCGB6);
+    set_sprite_prop(11, S_FLIPY | SpritesCGB4);
     // Leaf 3
     set_sprite_tile(12, 4);
     set_sprite_tile(13, 6);
     set_sprite_tile(14, 5);
     set_sprite_tile(15, 7);
+    set_sprite_prop(12, SpritesCGB4);
+    set_sprite_prop(13, SpritesCGB6);
+    set_sprite_prop(14, SpritesCGB5);
+    set_sprite_prop(15, SpritesCGB7);
 }
 
 void render_player(void) {
     if (player_flip) {
-        set_sprite_prop(0, S_FLIPX);
-        set_sprite_prop(1, S_FLIPX);
-        set_sprite_prop(2, S_FLIPX);
-        set_sprite_prop(3, S_FLIPX);
+        set_sprite_prop(0, S_FLIPX | SpritesCGB0);
+        set_sprite_prop(1, S_FLIPX | SpritesCGB2);
+        set_sprite_prop(2, S_FLIPX | SpritesCGB1);
+        set_sprite_prop(3, S_FLIPX | SpritesCGB3);
         move_sprite(0, player_pos[0] + 8, player_pos[1]);
         move_sprite(1, player_pos[0], player_pos[1]);
         move_sprite(2, player_pos[0] + 8, player_pos[1] + 8);
         move_sprite(3, player_pos[0], player_pos[1] + 8);
     } else {
-        set_sprite_prop(0, 0);
-        set_sprite_prop(1, 0);
-        set_sprite_prop(2, 0);
-        set_sprite_prop(3, 0);
+        set_sprite_prop(0, SpritesCGB0);
+        set_sprite_prop(1, SpritesCGB2);
+        set_sprite_prop(2, SpritesCGB1);
+        set_sprite_prop(3, SpritesCGB3);
         move_sprite(0, player_pos[0], player_pos[1]);
         move_sprite(1, player_pos[0] + 8, player_pos[1]);
         move_sprite(2, player_pos[0], player_pos[1] + 8);
@@ -147,6 +156,7 @@ void reset_game(void) {
 
 void main(void) {
     set_sprite_data(0, 15, Sprites);
+    set_sprite_palette(0, 7, SpritePalette);
     init_sprites();
 
     DISPLAY_ON;

@@ -1,4 +1,4 @@
-LCC = $${HOME}/gbdk/bin/lcc
+LCC = $${HOME}/gbdk/bin/lcc -Wm-ys -Wm-yc
 SRC = src/
 BUILD = build/
 

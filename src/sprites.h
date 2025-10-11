@@ -117,6 +117,19 @@
 #define SpritesCGB13 5
 #define SpritesCGB14 5
 #define SpritesCGB15 5
+
+/* Sprite palette data. */
+const palette_color_t SpritePalette[32] = {
+    SpritesCGBPal0c0, SpritesCGBPal0c1, SpritesCGBPal0c2, SpritesCGBPal0c3,
+    SpritesCGBPal1c0, SpritesCGBPal1c1, SpritesCGBPal1c2, SpritesCGBPal1c3,
+    SpritesCGBPal2c0, SpritesCGBPal2c1, SpritesCGBPal2c2, SpritesCGBPal2c3,
+    SpritesCGBPal3c0, SpritesCGBPal3c1, SpritesCGBPal3c2, SpritesCGBPal3c3,
+    SpritesCGBPal4c0, SpritesCGBPal4c1, SpritesCGBPal4c2, SpritesCGBPal4c3,
+    SpritesCGBPal5c0, SpritesCGBPal5c1, SpritesCGBPal5c2, SpritesCGBPal5c3,
+    SpritesCGBPal6c0, SpritesCGBPal6c1, SpritesCGBPal6c2, SpritesCGBPal6c3,
+    SpritesCGBPal7c0, SpritesCGBPal7c1, SpritesCGBPal7c2, SpritesCGBPal7c3
+};
+
 /* Start of tile array. */
 extern const unsigned char Sprites[];
 
