@@ -1,6 +1,5 @@
 #include <gb/gb.h>
 #include <gb/cgb.h>
-#include <rand.h>
 #include "sprites.h"
 #include "utils.h"
 
