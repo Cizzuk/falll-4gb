@@ -62,7 +62,7 @@ void main(void) {
     SHOW_BKG;
 
     while (TRUE) {
-        if (!is_gaming) {
+        if (is_gaming) {
             player_control();
 
             if (leaf_frame < 179) {
