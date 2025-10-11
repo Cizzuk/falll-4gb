@@ -213,20 +213,20 @@ void main(void) {
 
     while (TRUE) {
         if (is_gaming) {
-            player_control();
-
             if (frame_counter < 179) {
                 frame_counter++;
             } else {
                 frame_counter = 0;
                 is_first_frame_count = FALSE;
             }
+
+            player_control();
+            leaves_scroll();
+            score_counter();
         }
 
-        leaves_scroll();
         render_player();
         render_leaves();
-        score_counter();
         wait_vbl_done();
     }
 }
