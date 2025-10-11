@@ -4,7 +4,9 @@
 BOOLEAN is_gaming = TRUE;
 BOOLEAN player_flip = FALSE;
 UINT8 leaf_frame = 0;
-UINT8 player_pos[2] = {55, 32}; // X: 28 - 82
+
+// screen has dead zones, left: 8px, top: 16px
+UINT8 player_pos[2] = {63, 32}; // X: 36 - 90
 
 void render_player(void) {
     if (player_flip) {
