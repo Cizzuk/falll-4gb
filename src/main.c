@@ -3,10 +3,17 @@
 #include "background.h"
 #include "sprites.h"
 #include "utils.h"
+#include "ui.h"
 
+// Game state
 BOOLEAN is_gaming = TRUE;
-BOOLEAN player_flip = FALSE;
 UINT8 frame_counter = 0; // counts from 0 to 179
+BOOLEAN is_first_frame_count = TRUE;
+UINT8 score[3] = {0, 0, 0};
+
+// Player state
+UINT8 player_life = 3;
+BOOLEAN player_flip = FALSE;
 
 // screen has dead zones, left: 8px, top: 16px
 UINT8 player_pos[2] = {63, 32}; // X: 36 - 90
@@ -14,64 +21,67 @@ UINT8 leaves_pos[3][2] = {{43, 160}, {63, 0}, {83, 0}};
 
 void init_sprites(void) {
     // Player
-    set_sprite_tile(0, 0);
-    set_sprite_tile(1, 2);
-    set_sprite_tile(2, 1);
-    set_sprite_tile(3, 3);
-    set_sprite_prop(0, SpritesCGB0);
-    set_sprite_prop(1, SpritesCGB2);
-    set_sprite_prop(2, SpritesCGB1);
-    set_sprite_prop(3, SpritesCGB3);
+    set_sprite_tile(SpriteNumPlayerTopLeft, 0);
+    set_sprite_tile(SpriteNumPlayerTopRight, 2);
+    set_sprite_tile(SpriteNumPlayerBottomLeft, 1);
+    set_sprite_tile(SpriteNumPlayerBottomRight, 3);
+    set_sprite_prop(SpriteNumPlayerTopLeft, SpritesCGB0);
+    set_sprite_prop(SpriteNumPlayerTopRight, SpritesCGB2);
+    set_sprite_prop(SpriteNumPlayerBottomLeft, SpritesCGB1);
+    set_sprite_prop(SpriteNumPlayerBottomRight, SpritesCGB3);
 
     // Leaves
     // Leaf 1
-    set_sprite_tile(4, 6);
-    set_sprite_tile(5, 4);
-    set_sprite_tile(6, 7);
-    set_sprite_tile(7, 5);
-    set_sprite_prop(4, S_FLIPX | SpritesCGB4);
-    set_sprite_prop(5, S_FLIPX | SpritesCGB5);
-    set_sprite_prop(6, S_FLIPX | SpritesCGB6);
-    set_sprite_prop(7, S_FLIPX | SpritesCGB7);
+    set_sprite_tile(SpriteNumLeaf1TopLeft, 6);
+    set_sprite_tile(SpriteNumLeaf1TopRight, 4);
+    set_sprite_tile(SpriteNumLeaf1BottomLeft, 7);
+    set_sprite_tile(SpriteNumLeaf1BottomRight, 5);
+    set_sprite_prop(SpriteNumLeaf1TopLeft, S_FLIPX | SpritesCGB4);
+    set_sprite_prop(SpriteNumLeaf1TopRight, S_FLIPX | SpritesCGB5);
+    set_sprite_prop(SpriteNumLeaf1BottomLeft, S_FLIPX | SpritesCGB6);
+    set_sprite_prop(SpriteNumLeaf1BottomRight, S_FLIPX | SpritesCGB7);
     // Leaf 2
-    set_sprite_tile(8, 5);
-    set_sprite_tile(9, 7);
-    set_sprite_tile(10, 4);
-    set_sprite_tile(11, 6);
-    set_sprite_prop(8, S_FLIPY | SpritesCGB5);
-    set_sprite_prop(9, S_FLIPY | SpritesCGB7);
-    set_sprite_prop(10, S_FLIPY | SpritesCGB6);
-    set_sprite_prop(11, S_FLIPY | SpritesCGB4);
+    set_sprite_tile(SpriteNumLeaf2TopLeft, 5);
+    set_sprite_tile(SpriteNumLeaf2TopRight, 7);
+    set_sprite_tile(SpriteNumLeaf2BottomLeft, 4);
+    set_sprite_tile(SpriteNumLeaf2BottomRight, 6);
+    set_sprite_prop(SpriteNumLeaf2TopLeft, S_FLIPY | SpritesCGB5);
+    set_sprite_prop(SpriteNumLeaf2TopRight, S_FLIPY | SpritesCGB7);
+    set_sprite_prop(SpriteNumLeaf2BottomLeft, S_FLIPY | SpritesCGB6);
+    set_sprite_prop(SpriteNumLeaf2BottomRight, S_FLIPY | SpritesCGB4);
     // Leaf 3
-    set_sprite_tile(12, 4);
-    set_sprite_tile(13, 6);
-    set_sprite_tile(14, 5);
-    set_sprite_tile(15, 7);
-    set_sprite_prop(12, SpritesCGB4);
-    set_sprite_prop(13, SpritesCGB6);
-    set_sprite_prop(14, SpritesCGB5);
-    set_sprite_prop(15, SpritesCGB7);
+    set_sprite_tile(SpriteNumLeaf3TopLeft, 4);
+    set_sprite_tile(SpriteNumLeaf3TopRight, 6);
+    set_sprite_tile(SpriteNumLeaf3BottomLeft, 5);
+    set_sprite_tile(SpriteNumLeaf3BottomRight, 7);
+    set_sprite_prop(SpriteNumLeaf3TopLeft, SpritesCGB4);
+    set_sprite_prop(SpriteNumLeaf3TopRight, SpritesCGB6);
+    set_sprite_prop(SpriteNumLeaf3BottomLeft, SpritesCGB5);
+    set_sprite_prop(SpriteNumLeaf3BottomRight, SpritesCGB7);
+
+    // UI
+    render_score(score);
 }
 
 void render_player(void) {
     if (player_flip) {
-        set_sprite_prop(0, S_FLIPX | SpritesCGB0);
-        set_sprite_prop(1, S_FLIPX | SpritesCGB2);
-        set_sprite_prop(2, S_FLIPX | SpritesCGB1);
-        set_sprite_prop(3, S_FLIPX | SpritesCGB3);
-        move_sprite(0, player_pos[0] + 8, player_pos[1]);
-        move_sprite(1, player_pos[0], player_pos[1]);
-        move_sprite(2, player_pos[0] + 8, player_pos[1] + 8);
-        move_sprite(3, player_pos[0], player_pos[1] + 8);
+        set_sprite_prop(SpriteNumPlayerTopLeft, S_FLIPX | SpritesCGB0);
+        set_sprite_prop(SpriteNumPlayerTopRight, S_FLIPX | SpritesCGB2);
+        set_sprite_prop(SpriteNumPlayerBottomLeft, S_FLIPX | SpritesCGB1);
+        set_sprite_prop(SpriteNumPlayerBottomRight, S_FLIPX | SpritesCGB3);
+        move_sprite(SpriteNumPlayerTopLeft, player_pos[0] + 8, player_pos[1]);
+        move_sprite(SpriteNumPlayerTopRight, player_pos[0], player_pos[1]);
+        move_sprite(SpriteNumPlayerBottomLeft, player_pos[0] + 8, player_pos[1] + 8);
+        move_sprite(SpriteNumPlayerBottomRight, player_pos[0], player_pos[1] + 8);
     } else {
-        set_sprite_prop(0, SpritesCGB0);
-        set_sprite_prop(1, SpritesCGB2);
-        set_sprite_prop(2, SpritesCGB1);
-        set_sprite_prop(3, SpritesCGB3);
-        move_sprite(0, player_pos[0], player_pos[1]);
-        move_sprite(1, player_pos[0] + 8, player_pos[1]);
-        move_sprite(2, player_pos[0], player_pos[1] + 8);
-        move_sprite(3, player_pos[0] + 8, player_pos[1] + 8);
+        set_sprite_prop(SpriteNumPlayerTopLeft, SpritesCGB0);
+        set_sprite_prop(SpriteNumPlayerTopRight, SpritesCGB2);
+        set_sprite_prop(SpriteNumPlayerBottomLeft, SpritesCGB1);
+        set_sprite_prop(SpriteNumPlayerBottomRight, SpritesCGB3);
+        move_sprite(SpriteNumPlayerTopLeft, player_pos[0], player_pos[1]);
+        move_sprite(SpriteNumPlayerTopRight, player_pos[0] + 8, player_pos[1]);
+        move_sprite(SpriteNumPlayerBottomLeft, player_pos[0], player_pos[1] + 8);
+        move_sprite(SpriteNumPlayerBottomRight, player_pos[0] + 8, player_pos[1] + 8);
     }
 }
 
@@ -104,20 +114,20 @@ void player_control(void) {
 
 void render_leaves(void) {
     // Leaf 1
-    move_sprite(4, leaves_pos[0][0], leaves_pos[0][1]);
-    move_sprite(5, leaves_pos[0][0] + 8, leaves_pos[0][1]);
-    move_sprite(6, leaves_pos[0][0], leaves_pos[0][1] + 8);
-    move_sprite(7, leaves_pos[0][0] + 8, leaves_pos[0][1] + 8);
+    move_sprite(SpriteNumLeaf1TopLeft, leaves_pos[0][0], leaves_pos[0][1]);
+    move_sprite(SpriteNumLeaf1TopRight, leaves_pos[0][0] + 8, leaves_pos[0][1]);
+    move_sprite(SpriteNumLeaf1BottomLeft, leaves_pos[0][0], leaves_pos[0][1] + 8);
+    move_sprite(SpriteNumLeaf1BottomRight, leaves_pos[0][0] + 8, leaves_pos[0][1] + 8);
     // Leaf 2
-    move_sprite(8, leaves_pos[1][0], leaves_pos[1][1]);
-    move_sprite(9, leaves_pos[1][0] + 8, leaves_pos[1][1]);
-    move_sprite(10, leaves_pos[1][0], leaves_pos[1][1] + 8);
-    move_sprite(11, leaves_pos[1][0] + 8, leaves_pos[1][1] + 8);
+    move_sprite(SpriteNumLeaf2TopLeft, leaves_pos[1][0], leaves_pos[1][1]);
+    move_sprite(SpriteNumLeaf2TopRight, leaves_pos[1][0] + 8, leaves_pos[1][1]);
+    move_sprite(SpriteNumLeaf2BottomLeft, leaves_pos[1][0], leaves_pos[1][1] + 8);
+    move_sprite(SpriteNumLeaf2BottomRight, leaves_pos[1][0] + 8, leaves_pos[1][1] + 8);
     // Leaf 3
-    move_sprite(12, leaves_pos[2][0], leaves_pos[2][1]);
-    move_sprite(13, leaves_pos[2][0] + 8, leaves_pos[2][1]);
-    move_sprite(14, leaves_pos[2][0], leaves_pos[2][1] + 8);
-    move_sprite(15, leaves_pos[2][0] + 8, leaves_pos[2][1] + 8);
+    move_sprite(SpriteNumLeaf3TopLeft, leaves_pos[2][0], leaves_pos[2][1]);
+    move_sprite(SpriteNumLeaf3TopRight, leaves_pos[2][0] + 8, leaves_pos[2][1]);
+    move_sprite(SpriteNumLeaf3BottomLeft, leaves_pos[2][0], leaves_pos[2][1] + 8);
+    move_sprite(SpriteNumLeaf3BottomRight, leaves_pos[2][0] + 8, leaves_pos[2][1] + 8);
 }
 
 void leaves_scroll(void) {
@@ -132,30 +142,70 @@ void leaves_scroll(void) {
     }
 
     if (frame_counter == 0) {
-        leaves_pos[0][0] = uint8_random(36, 90);
+        if (!is_first_frame_count) {
+            leaves_pos[0][0] = uint8_random(36, 90);
+        }
         leaves_pos[0][1] = 160;
     } else if (frame_counter == 60) {
-        leaves_pos[1][0] = uint8_random(36, 90);
+        if (!is_first_frame_count) {
+            leaves_pos[1][0] = uint8_random(36, 90);
+        }
         leaves_pos[1][1] = 160;
     } else if (frame_counter == 120) {
-        leaves_pos[2][0] = uint8_random(36, 90);
+        if (!is_first_frame_count) {
+            leaves_pos[2][0] = uint8_random(36, 90);
+        }
         leaves_pos[2][1] = 160;
+    }
+}
+
+void score_counter(void) {
+    if (is_first_frame_count && frame_counter < 170) {
+        return;
+    }
+
+    if (frame_counter % 60 == 50) {
+        score[0]++;
+        if (score[0] > 99) {
+            score[0] = 0;
+            score[1]++;
+            if (score[1] > 99) {
+                score[1] = 0;
+                score[2]++;
+                if (score[2] > 99) {
+                    score[2] = 100;
+                }
+            }
+        }
+        render_score(score);
     }
 }
 
 void reset_game(void) {
     is_gaming = TRUE;
-    player_flip = FALSE;
     frame_counter = 0;
+    is_first_frame_count = TRUE;
+    score[0] = 0;
+    score[1] = 0;
+    score[2] = 0;
+    player_life = 3;
+    player_flip = FALSE;
     player_pos[0] = 55;
     player_pos[1] = 32;
+    leaves_pos[0][0] = 43;
+    leaves_pos[0][1] = 160;
+    leaves_pos[1][0] = 63;
+    leaves_pos[1][1] = 0;
+    leaves_pos[2][0] = 83;
+    leaves_pos[2][1] = 0;
+    init_sprites();
 }
 
 void main(void) {
     set_bkg_palette(0, 6, &BackgroundPalette[0]);
     set_sprite_data(0, 65, Sprites);
     set_sprite_palette(0, 8, SpritePalette);
-    init_sprites();
+    reset_game();
 
     DISPLAY_ON;
     SHOW_SPRITES;
@@ -169,12 +219,14 @@ void main(void) {
                 frame_counter++;
             } else {
                 frame_counter = 0;
+                is_first_frame_count = FALSE;
             }
         }
 
         leaves_scroll();
         render_player();
         render_leaves();
+        score_counter();
         wait_vbl_done();
     }
 }

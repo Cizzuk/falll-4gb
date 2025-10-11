@@ -44,7 +44,7 @@ const UINT8 SpriteNumbers[10] = {17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 const UINT8 SpriteTextGAMEOVER[8] = {27, 28, 29, 30, 17, 31, 30, 32};
 const UINT8 SpriteTextSTART[5] = {33, 34, 28, 32, 34};
 const UINT8 SpriteTextCHANGE[6] = {35, 36, 28, 37, 27, 30};
-const UINT8 SpriteTextNICE[5] = {37, 38, 35, 30, 39};
+const UINT8 SpriteTextNICE[6] = {37, 38, 35, 30, 39, 39};
 
 /* Start of tile array. */
 const unsigned char Sprites[] =

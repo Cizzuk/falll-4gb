@@ -178,10 +178,40 @@ extern const UINT8 SpriteNumbers[10];
 extern const UINT8 SpriteTextGAMEOVER[8];
 extern const UINT8 SpriteTextSTART[5];
 extern const UINT8 SpriteTextCHANGE[6];
-extern const UINT8 SpriteTextNICE[5];
+extern const UINT8 SpriteTextNICE[6];
 
 /* Start of tile array. */
 extern const unsigned char Sprites[];
+
+/* Sprite number entries. */
+#define SpriteNumPlayerTopLeft 0
+#define SpriteNumPlayerTopRight 1
+#define SpriteNumPlayerBottomLeft 2
+#define SpriteNumPlayerBottomRight 3
+
+#define SpriteNumLeaf1TopLeft 4
+#define SpriteNumLeaf1TopRight 5
+#define SpriteNumLeaf1BottomLeft 6
+#define SpriteNumLeaf1BottomRight 7
+
+#define SpriteNumLeaf2TopLeft 8
+#define SpriteNumLeaf2TopRight 9
+#define SpriteNumLeaf2BottomLeft 10
+#define SpriteNumLeaf2BottomRight 11
+
+#define SpriteNumLeaf3TopLeft 12
+#define SpriteNumLeaf3TopRight 13
+#define SpriteNumLeaf3BottomLeft 14
+#define SpriteNumLeaf3BottomRight 15
+
+#define SpriteNumScoreDigit0 16
+#define SpriteNumScoreDigit1 17
+#define SpriteNumScoreDigit2 18
+#define SpriteNumScoreDigit3 19
+#define SpriteNumScoreDigit4 20
+#define SpriteNumScoreDigit5 21
+
+#define SpriteNumScoreNiceStart SpriteNumScoreDigit0
 
 #endif
 
