@@ -5,6 +5,22 @@
 #include "utils.h"
 #include "ui.h"
 
+#define PLAY_AREA_WIDTH 54U
+#define PLAY_AREA_MIN_X 24U
+#define PLAY_AREA_MAX_X (PLAY_AREA_MIN_X + PLAY_AREA_WIDTH)
+
+#define PLAYER_START_X ((PLAY_AREA_MAX_X - PLAY_AREA_MIN_X) / 2 + PLAY_AREA_MIN_X)
+#define PLAYER_START_Y 32U
+#define PLAYER_INITIAL_LIFE 3U
+
+#define LEAF1_START_X (PLAY_AREA_MIN_X + 8)
+#define LEAF1_START_Y 160U
+#define LEAF2_START_X ((PLAY_AREA_MIN_X + PLAY_AREA_MAX_X) / 2)
+#define LEAF2_START_Y 0U
+#define LEAF3_START_X (PLAY_AREA_MAX_X - 8)
+#define LEAF3_START_Y 0U
+#define LEAF_RESPAWN_Y 160U
+
 // Game state
 BOOLEAN is_gaming = TRUE;
 UINT8 frame_counter = 0; // counts from 0 to 179
@@ -12,12 +28,16 @@ BOOLEAN is_first_frame_count = TRUE;
 UINT8 score[3] = {0, 0, 0};
 
 // Player state
-UINT8 player_life = 3;
+UINT8 player_life = PLAYER_INITIAL_LIFE;
 BOOLEAN player_flip = FALSE;
 
 // screen has dead zones, left: 8px, top: 16px
-UINT8 player_pos[2] = {63, 32}; // X: 36 - 90
-UINT8 leaves_pos[3][2] = {{43, 160}, {63, 0}, {83, 0}};
+UINT8 player_pos[2] = {PLAYER_START_X, PLAYER_START_Y}; // X: 36 - 90
+UINT8 leaves_pos[3][2] = {
+    {LEAF1_START_X, LEAF1_START_Y},
+    {LEAF2_START_X, LEAF2_START_Y},
+    {LEAF3_START_X, LEAF3_START_Y}
+};
 
 void init_sprites(void) {
     // Player
@@ -99,13 +119,13 @@ void player_control(void) {
     }
 
     if (controller & J_RIGHT) {
-        if (player_pos[0] < 90) {
+        if (player_pos[0] < PLAY_AREA_MAX_X) {
             player_pos[0]++;
             player_flip = TRUE;
         }
     }
     if (controller & J_LEFT) {
-        if (player_pos[0] > 36) {
+        if (player_pos[0] > PLAY_AREA_MIN_X) {
             player_pos[0]--;
             player_flip = FALSE;
         }
@@ -143,19 +163,19 @@ void leaves_scroll(void) {
 
     if (frame_counter == 0) {
         if (!is_first_frame_count) {
-            leaves_pos[0][0] = uint8_random(36, 90);
+            leaves_pos[0][0] = uint8_random(PLAY_AREA_MIN_X, PLAY_AREA_MAX_X);
         }
-        leaves_pos[0][1] = 160;
+        leaves_pos[0][1] = LEAF_RESPAWN_Y;
     } else if (frame_counter == 60) {
         if (!is_first_frame_count) {
-            leaves_pos[1][0] = uint8_random(36, 90);
+            leaves_pos[1][0] = uint8_random(PLAY_AREA_MIN_X, PLAY_AREA_MAX_X);
         }
-        leaves_pos[1][1] = 160;
+        leaves_pos[1][1] = LEAF_RESPAWN_Y;
     } else if (frame_counter == 120) {
         if (!is_first_frame_count) {
-            leaves_pos[2][0] = uint8_random(36, 90);
+            leaves_pos[2][0] = uint8_random(PLAY_AREA_MIN_X, PLAY_AREA_MAX_X);
         }
-        leaves_pos[2][1] = 160;
+        leaves_pos[2][1] = LEAF_RESPAWN_Y;
     }
 }
 
@@ -188,16 +208,16 @@ void reset_game(void) {
     score[0] = 0;
     score[1] = 0;
     score[2] = 0;
-    player_life = 3;
+    player_life = PLAYER_INITIAL_LIFE;
     player_flip = FALSE;
-    player_pos[0] = 55;
-    player_pos[1] = 32;
-    leaves_pos[0][0] = 43;
-    leaves_pos[0][1] = 160;
-    leaves_pos[1][0] = 63;
-    leaves_pos[1][1] = 0;
-    leaves_pos[2][0] = 83;
-    leaves_pos[2][1] = 0;
+    player_pos[0] = PLAYER_START_X;
+    player_pos[1] = PLAYER_START_Y;
+    leaves_pos[0][0] = LEAF1_START_X;
+    leaves_pos[0][1] = LEAF1_START_Y;
+    leaves_pos[1][0] = LEAF2_START_X;
+    leaves_pos[1][1] = LEAF2_START_Y;
+    leaves_pos[2][0] = LEAF3_START_X;
+    leaves_pos[2][1] = LEAF3_START_Y;
     init_sprites();
 }
 
