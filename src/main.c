@@ -50,6 +50,14 @@ void player_control(void) {
     }
 }
 
+void reset_game(void) {
+    is_gaming = TRUE;
+    player_flip = FALSE;
+    leaf_frame = 0;
+    player_pos[0] = 55;
+    player_pos[1] = 32;
+}
+
 void main(void) {
     set_sprite_data(0, 15, Sprites);
 
