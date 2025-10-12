@@ -2,11 +2,6 @@
 #include "ui.h"
 #include "sprites.h"
 
-#define UI_SCORE_POS_X 152U
-#define UI_SCORE_POS_Y 32U
-#define UI_LIVES_POS_X 152U
-#define UI_LIVES_POS_Y 40U
-
 UINT8 get_first_digit(UINT8 num) {
     return num % 10;
 }
