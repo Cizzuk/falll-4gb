@@ -305,11 +305,11 @@ void apple_bomb_scroll(void) {
 }
 
 void score_counter(void) {
-    if (is_first_frame_count && frame_counter < 130) {
+    if (is_first_frame_count && frame_counter < 60) {
         return;
     }
 
-    if (frame_counter % 60 == 10) {
+    if (frame_counter % 60 == 40) {
         score[0]++;
         if (score[0] > 99) {
             score[0] = 0;
