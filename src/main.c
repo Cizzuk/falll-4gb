@@ -23,6 +23,9 @@
 #define LEAF3_START_X (PLAY_AREA_MAX_X - 8)
 #define LEAF3_START_Y 0U
 
+#define APPLE_BOMB_START_X 0U
+#define APPLE_BOMB_START_Y 0U
+
 #define PLAYER_HITBOX_WIDTH 16U
 #define PLAYER_HITBOX_HEIGHT 16U
 #define PLAYER_MARGIN_TOP 2U
@@ -68,8 +71,35 @@ UINT8 leaves_pos[3][2] = {
     {LEAF2_START_X, LEAF2_START_Y},
     {LEAF3_START_X, LEAF3_START_Y}
 };
-UINT8 apple_bomb_pos[2] = {0, 0};
+UINT8 apple_bomb_pos[2] = {APPLE_BOMB_START_X, APPLE_BOMB_START_Y};
 UINT8 is_bomb = FALSE;
+
+// Refresh game variables
+void init_game(void) {
+    frame_counter = 0;
+    is_first_frame_count = TRUE;
+    score[0] = 0;
+    score[1] = 0;
+    score[2] = 0;
+    cursor_pos = 0;
+    player_life = PLAYER_INITIAL_LIFE;
+    player_flip = FALSE;
+    player_pos[0] = PLAYER_START_X;
+    player_pos[1] = PLAYER_START_Y;
+    leaves_pos[0][0] = LEAF1_START_X;
+    leaves_pos[0][1] = LEAF1_START_Y;
+    leaves_pos[1][0] = LEAF2_START_X;
+    leaves_pos[1][1] = LEAF2_START_Y;
+    leaves_pos[2][0] = LEAF3_START_X;
+    leaves_pos[2][1] = LEAF3_START_Y;
+    apple_bomb_pos[0] = APPLE_BOMB_START_X;
+    apple_bomb_pos[1] = APPLE_BOMB_START_Y;
+    is_bomb = FALSE;
+    render_player();
+    render_leaves();
+    render_apple_bomb();
+    render_score(score);
+}
 
 void init_sprites(void) {
     // Player
@@ -162,6 +192,8 @@ void player_control(void) {
             player_flip = FALSE;
         }
     }
+
+    render_player();
 }
 
 void render_leaves(void) {
@@ -371,6 +403,7 @@ void update_colliders(void) {
 void show_title_screen(void) {
     scene_mode = 0;
     cursor_pos = 0;
+    init_game();
 }
 
 void update_title_screen(void) {
@@ -396,21 +429,7 @@ void update_title_screen(void) {
 
 void show_gameplay_screen(void) {
     scene_mode = 1;
-    frame_counter = 0;
-    is_first_frame_count = TRUE;
-    score[0] = 0;
-    score[1] = 0;
-    score[2] = 0;
-    player_life = PLAYER_INITIAL_LIFE;
-    player_flip = FALSE;
-    player_pos[0] = PLAYER_START_X;
-    player_pos[1] = PLAYER_START_Y;
-    leaves_pos[0][0] = LEAF1_START_X;
-    leaves_pos[0][1] = LEAF1_START_Y;
-    leaves_pos[1][0] = LEAF2_START_X;
-    leaves_pos[1][1] = LEAF2_START_Y;
-    leaves_pos[2][0] = LEAF3_START_X;
-    leaves_pos[2][1] = LEAF3_START_Y;
+    init_game();
     render_score(score);
 }
 
@@ -432,6 +451,8 @@ void update_gameplay_screen(void) {
     leaves_scroll();
     apple_bomb_scroll();
     score_counter();
+    render_leaves();
+    render_apple_bomb();
     update_colliders();
 }
 
@@ -487,9 +508,6 @@ void main(void) {
             update_gameover_screen();
         }
 
-        render_player();
-        render_leaves();
-        render_apple_bomb();
         wait_vbl_done();
     }
 }
