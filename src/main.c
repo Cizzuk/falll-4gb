@@ -233,7 +233,6 @@ void show_gameplay_screen(void) {
     leaves_pos[1][1] = LEAF2_START_Y;
     leaves_pos[2][0] = LEAF3_START_X;
     leaves_pos[2][1] = LEAF3_START_Y;
-    init_sprites();
 }
 
 void update_gameplay_screen(void) {
@@ -261,10 +260,10 @@ void show_gameover_screen(void) {
 
 void update_gameover_screen(void) {
     // Fall down player
-    if (player_pos[1] < 144) {
-        player_pos[1]++;
+    if (player_pos[1] < LEAF_RESPAWN_Y) {
+        player_pos[1] += 2;
     } else {
-        player_pos[1] = 144;
+        player_pos[1] = LEAF_RESPAWN_Y;
     }
     render_player();
 
@@ -278,6 +277,7 @@ void main(void) {
     set_bkg_palette(0, 6, &BackgroundPalette[0]);
     set_sprite_data(0, 65, Sprites);
     set_sprite_palette(0, 8, SpritePalette);
+    init_sprites();
     show_gameplay_screen();
 
     DISPLAY_ON;
