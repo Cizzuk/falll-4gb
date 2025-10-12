@@ -12,8 +12,8 @@ unsigned char get_second_digit(UINT8 num) {
 }
 
 void render_score(UINT8 score[3]) {
-    // score[0]: 0-99, score[1]: 100-9999, score[2]: 10000-999999
-    if (score[2] > 99) {
+    // Max score is 999999
+    if (score[2] > 99 && score[1] > 99 && score[0] > 99) {
         for (UINT8 i = 0; i < 6; i++) {
             set_sprite_tile(SpriteNumScoreDigit0 + i, SpriteTextNICE[i]);
             move_sprite(SpriteNumScoreDigit0 + i, score_pos[0] - 40 + (i * 8), score_pos[1]);
