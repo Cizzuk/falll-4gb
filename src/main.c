@@ -99,6 +99,7 @@ void init_game(void) {
     render_leaves();
     render_apple_bomb();
     render_score(score);
+    render_lives(player_life);
 }
 
 void init_sprites(void) {
@@ -372,6 +373,7 @@ void update_colliders(void) {
             leaves_pos[i][1] = 0; // Hide leaf
             if (player_life > 0) {
                 player_life--;
+                render_lives(player_life);
             }
         }
     }
@@ -394,6 +396,7 @@ void update_colliders(void) {
                     player_life = PLAYER_INITIAL_LIFE;
                 }
             }
+            render_lives(player_life);
         }
     }
 }
