@@ -53,49 +53,49 @@
 #define BackgroundSGBPal3c3 5344
 
 /* Gameboy Color palette 0 */
-#define BackgroundCGBPal0c0 32544
+#define BackgroundCGBPal0c0 32389
 #define BackgroundCGBPal0c1 5082
 #define BackgroundCGBPal0c2 5760
 #define BackgroundCGBPal0c3 0
 
 /* Gameboy Color palette 1 */
-#define BackgroundCGBPal1c0 32544
+#define BackgroundCGBPal1c0 32389
 #define BackgroundCGBPal1c1 5082
 #define BackgroundCGBPal1c2 5760
 #define BackgroundCGBPal1c3 0
 
 /* Gameboy Color palette 2 */
-#define BackgroundCGBPal2c0 32544
+#define BackgroundCGBPal2c0 32389
 #define BackgroundCGBPal2c1 5082
 #define BackgroundCGBPal2c2 5760
 #define BackgroundCGBPal2c3 0
 
 /* Gameboy Color palette 3 */
-#define BackgroundCGBPal3c0 32544
+#define BackgroundCGBPal3c0 32389
 #define BackgroundCGBPal3c1 5082
 #define BackgroundCGBPal3c2 5760
 #define BackgroundCGBPal3c3 0
 
 /* Gameboy Color palette 4 */
-#define BackgroundCGBPal4c0 32544
+#define BackgroundCGBPal4c0 32389
 #define BackgroundCGBPal4c1 5082
 #define BackgroundCGBPal4c2 5760
 #define BackgroundCGBPal4c3 0
 
 /* Gameboy Color palette 5 */
-#define BackgroundCGBPal5c0 32544
+#define BackgroundCGBPal5c0 32389
 #define BackgroundCGBPal5c1 5082
 #define BackgroundCGBPal5c2 5760
 #define BackgroundCGBPal5c3 0
 
 /* Gameboy Color palette 6 */
-#define BackgroundCGBPal6c0 32544
+#define BackgroundCGBPal6c0 32389
 #define BackgroundCGBPal6c1 5082
 #define BackgroundCGBPal6c2 5760
 #define BackgroundCGBPal6c3 0
 
 /* Gameboy Color palette 7 */
-#define BackgroundCGBPal7c0 32544
+#define BackgroundCGBPal7c0 32389
 #define BackgroundCGBPal7c1 5082
 #define BackgroundCGBPal7c2 5760
 #define BackgroundCGBPal7c3 0

@@ -53,52 +53,52 @@
 #define SpritesSGBPal3c3 5344
 
 /* Gameboy Color palette 0 */
-#define SpritesCGBPal0c0 32544
-#define SpritesCGBPal0c1 927
+#define SpritesCGBPal0c0 32389
+#define SpritesCGBPal0c1 6047
 #define SpritesCGBPal0c2 4447
 #define SpritesCGBPal0c3 0
 
 /* Gameboy Color palette 1 */
-#define SpritesCGBPal1c0 32544
-#define SpritesCGBPal1c1 927
-#define SpritesCGBPal1c2 25439
+#define SpritesCGBPal1c0 32389
+#define SpritesCGBPal1c1 6047
+#define SpritesCGBPal1c2 24382
 #define SpritesCGBPal1c3 0
 
 /* Gameboy Color palette 2 */
-#define SpritesCGBPal2c0 32544
+#define SpritesCGBPal2c0 32389
 #define SpritesCGBPal2c1 5082
 #define SpritesCGBPal2c2 5760
 #define SpritesCGBPal2c3 0
 
 /* Gameboy Color palette 3 */
-#define SpritesCGBPal3c0 32544
+#define SpritesCGBPal3c0 32389
 #define SpritesCGBPal3c1 8834
 #define SpritesCGBPal3c2 10271
 #define SpritesCGBPal3c3 5136
 
 /* Gameboy Color palette 4 */
-#define SpritesCGBPal4c0 32544
+#define SpritesCGBPal4c0 32389
 #define SpritesCGBPal4c1 5456
 #define SpritesCGBPal4c2 10271
 #define SpritesCGBPal4c3 5136
 
 /* Gameboy Color palette 5 */
-#define SpritesCGBPal5c0 32544
+#define SpritesCGBPal5c0 32389
 #define SpritesCGBPal5c1 341
 #define SpritesCGBPal5c2 6342
 #define SpritesCGBPal5c3 0
 
 /* Gameboy Color palette 6 */
-#define SpritesCGBPal6c0 32544
-#define SpritesCGBPal6c1 32650
-#define SpritesCGBPal6c2 29491
-#define SpritesCGBPal6c3 32767
+#define SpritesCGBPal6c0 32389
+#define SpritesCGBPal6c1 32767
+#define SpritesCGBPal6c2 13818
+#define SpritesCGBPal6c3 0
 
 /* Gameboy Color palette 7 */
-#define SpritesCGBPal7c0 32544
-#define SpritesCGBPal7c1 32767
-#define SpritesCGBPal7c2 12684
-#define SpritesCGBPal7c3 0
+#define SpritesCGBPal7c0 32389
+#define SpritesCGBPal7c1 32650
+#define SpritesCGBPal7c2 29491
+#define SpritesCGBPal7c3 32767
 
 /* CGB palette entries. */
 #define SpritesCGB0 0
@@ -141,32 +141,32 @@
 #define SpritesCGB37 0
 #define SpritesCGB38 0
 #define SpritesCGB39 0
-#define SpritesCGB40 7
-#define SpritesCGB41 7
-#define SpritesCGB42 7
-#define SpritesCGB43 7
-#define SpritesCGB44 7
-#define SpritesCGB45 7
-#define SpritesCGB46 7
-#define SpritesCGB47 6
-#define SpritesCGB48 6
-#define SpritesCGB49 6
-#define SpritesCGB50 6
-#define SpritesCGB51 6
-#define SpritesCGB52 6
-#define SpritesCGB53 6
-#define SpritesCGB54 6
-#define SpritesCGB55 6
-#define SpritesCGB56 6
-#define SpritesCGB57 6
-#define SpritesCGB58 6
-#define SpritesCGB59 6
-#define SpritesCGB60 6
-#define SpritesCGB61 6
-#define SpritesCGB62 6
-#define SpritesCGB63 6
-#define SpritesCGB64 6
-#define SpritesCGB65 6
+#define SpritesCGB40 0
+#define SpritesCGB41 6
+#define SpritesCGB42 6
+#define SpritesCGB43 6
+#define SpritesCGB44 6
+#define SpritesCGB45 6
+#define SpritesCGB46 6
+#define SpritesCGB47 7
+#define SpritesCGB48 7
+#define SpritesCGB49 7
+#define SpritesCGB50 7
+#define SpritesCGB51 7
+#define SpritesCGB52 7
+#define SpritesCGB53 7
+#define SpritesCGB54 7
+#define SpritesCGB55 7
+#define SpritesCGB56 7
+#define SpritesCGB57 7
+#define SpritesCGB58 7
+#define SpritesCGB59 7
+#define SpritesCGB60 7
+#define SpritesCGB61 7
+#define SpritesCGB62 7
+#define SpritesCGB63 7
+#define SpritesCGB64 7
+#define SpritesCGB65 7
 
 /* Sprite palette data. */
 extern const unsigned short SpritePalette[32];
