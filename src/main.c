@@ -418,6 +418,7 @@ void show_gameplay_screen(void) {
     init_game();
     init_ui();
     render_score(score);
+    render_lives(player_life);
 }
 
 void update_gameplay_screen(void) {
