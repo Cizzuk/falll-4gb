@@ -1,5 +1,5 @@
-#ifndef MAIN_H_INCLUDED
-#define MAIN_H_INCLUDED
+#ifndef __Main_h_INCLUDE
+#define __Main_h_INCLUDE
 
 #include <gb/gb.h>
 
