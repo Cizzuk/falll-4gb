@@ -5,8 +5,7 @@
 #define WorldHeight 32
 #define WorldBank 0
 
-/* World palette data. */
-extern const unsigned char WorldPalette[20];
+extern unsigned char WorldPalette[WorldWidth];
 
 extern const unsigned char World[];
 

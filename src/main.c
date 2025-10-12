@@ -33,12 +33,17 @@ UINT8 background_scroll_y = 0U;
 
 void init_vram(void) {
     // Load background data
-    set_bkg_data(0, 64, Background);
+    set_bkg_data(0, 80, Background);
     set_bkg_palette(0, 8, BackgroundPalette);
     VBK_REG = 0;
     set_bkg_tiles(0, 0, WorldWidth, WorldHeight, World);
     VBK_REG = 1;
     for (UINT8 row = 0; row < WorldHeight; ++row) {
+        // Apply a single random palette to the current background row.
+        UINT8 palette_id = uint8_random(1U, 4U);
+        for (UINT8 col = 0; col < WorldWidth; ++col) {
+            WorldPalette[col] = palette_id;
+        }
         set_bkg_tiles(0, row, WorldWidth, 1, WorldPalette);
     }
     VBK_REG = 0;
@@ -281,8 +286,11 @@ void apple_bomb_scroll(void) {
 }
 
 void background_scroll(void) {
-    // Here it overflows and reset to 0 automatically
-    background_scroll_y++;
+    if (background_scroll_y >= UINT8_MAX) {
+        background_scroll_y = 0U;
+    } else {
+        background_scroll_y++;
+    }
     move_bkg(0U, background_scroll_y);
 }
 
