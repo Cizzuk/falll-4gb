@@ -56,6 +56,7 @@ extern UINT8 player_pos[2];
 extern UINT8 leaves_pos[3][2];
 extern UINT8 apple_bomb_pos[2];
 
+void init_vram(void);
 void init_game(void);
 void init_sprites(void);
 void render_player(void);

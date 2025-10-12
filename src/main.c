@@ -3,6 +3,7 @@
 #include "main.h"
 #include "background.h"
 #include "sprites.h"
+#include "world.h"
 #include "utils.h"
 #include "ui.h"
 
@@ -28,6 +29,23 @@ UINT8 leaves_pos[3][2] = {
 };
 UINT8 apple_bomb_pos[2] = {APPLE_BOMB_START_X, APPLE_BOMB_START_Y};
 UINT8 is_bomb = FALSE;
+
+void init_vram(void) {
+    // Load background data
+    set_bkg_data(0, 64, Background);
+    set_bkg_palette(0, 8, BackgroundPalette);
+    VBK_REG = 0;
+    set_bkg_tiles(0, 0, 20, 18, World);
+    VBK_REG = 1;
+    for (UINT8 row = 0; row < 18U; ++row) {
+        set_bkg_tiles(0, row, 20, 1, WorldPalette);
+    }
+    VBK_REG = 0;
+
+    // Load sprite data
+    set_sprite_data(0, 22, Sprites);
+    set_sprite_palette(0, 8, SpritePalette);
+}
 
 // Refresh game variables
 void init_game(void) {
@@ -445,15 +463,17 @@ void update_gameover_screen(void) {
 }
 
 void main(void) {
-    set_bkg_palette(0, 6, &BackgroundPalette[0]);
-    set_sprite_data(0, 65, Sprites);
-    set_sprite_palette(0, 8, SpritePalette);
+    // Initialize
+    init_vram();
+    init_ui();
     init_sprites();
     show_gameplay_screen();
 
-    DISPLAY_ON;
-    SHOW_SPRITES;
+    // Show All
     SHOW_BKG;
+    SHOW_WIN;
+    SHOW_SPRITES;
+    DISPLAY_ON;
 
     while (TRUE) {
         if (scene_mode == 0) {
