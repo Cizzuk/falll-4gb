@@ -16,13 +16,13 @@ UINT8 get_second_digit(UINT8 num) {
 
 void render_score(UINT8 score[3]) {
     // Max score is 999999
-    if (score[2] > 99 && score[1] > 99 && score[0] > 99) {
+    if (score[2] > 99) {
         for (UINT8 i = 0; i < 6; i++) {
-            set_sprite_tile(SpriteNumScoreDigit0 + i, SpriteTextNICE[i]);
-            move_sprite(SpriteNumScoreDigit0 + i, UI_SCORE_POS_X - 40 + (i * 8), UI_SCORE_POS_Y);
+            set_sprite_tile(SpriteNumScoreDigit0 + i, SpriteTextNICE[5 - i]);
         }
         return;
     }
+    
     // First digit
     set_sprite_tile(SpriteNumScoreDigit0, SpriteNumbers[get_first_digit(score[0])]);
     move_sprite(SpriteNumScoreDigit0, UI_SCORE_POS_X, UI_SCORE_POS_Y);

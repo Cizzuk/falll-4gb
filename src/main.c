@@ -318,6 +318,7 @@ void score_counter(void) {
                 score[1] = 0;
                 score[2]++;
                 if (score[2] > 99) {
+                    // Limit Score
                     score[2] = 100;
                 }
             }
