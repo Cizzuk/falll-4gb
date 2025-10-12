@@ -48,14 +48,14 @@
 
 /* Gameboy Color palette 3 */
 #define SpritesCGBPal3c0 32389
-#define SpritesCGBPal3c1 8834
-#define SpritesCGBPal3c2 10271
+#define SpritesCGBPal3c1 10271
+#define SpritesCGBPal3c2 8834
 #define SpritesCGBPal3c3 5136
 
 /* Gameboy Color palette 4 */
 #define SpritesCGBPal4c0 32389
-#define SpritesCGBPal4c1 5456
-#define SpritesCGBPal4c2 10271
+#define SpritesCGBPal4c1 10271
+#define SpritesCGBPal4c2 5456
 #define SpritesCGBPal4c3 5136
 
 /* Gameboy Color palette 5 */
