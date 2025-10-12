@@ -183,7 +183,7 @@ void render_leaves(void) {
 }
 
 void leaves_scroll(void) {
-    UINT8 speed = 1;
+    UINT8 speed = 2;
 
     if (leaves_pos[0][1] > 0) {
         leaves_pos[0][1] -= speed;
@@ -264,12 +264,10 @@ void apple_bomb_scroll(void) {
     }
 
     // Gravity
-    if (apple_bomb_pos[1] > 0) {
-        if (frame_counter % 2 == 0) {
-            apple_bomb_pos[1] -= 2;
-        } else {
-            apple_bomb_pos[1] -= 1;
-        }
+    if (frame_counter % 2 == 0 && apple_bomb_pos[1] > 1) {
+        apple_bomb_pos[1] -= 2;
+    } else if (apple_bomb_pos[1] > 0) {
+        apple_bomb_pos[1] -= 1;
     }
 }
 
@@ -413,6 +411,7 @@ void show_gameplay_screen(void) {
     leaves_pos[1][1] = LEAF2_START_Y;
     leaves_pos[2][0] = LEAF3_START_X;
     leaves_pos[2][1] = LEAF3_START_Y;
+    render_score(score);
 }
 
 void update_gameplay_screen(void) {
@@ -430,10 +429,10 @@ void update_gameplay_screen(void) {
     }
 
     player_control();
-    update_colliders();
     leaves_scroll();
     apple_bomb_scroll();
     score_counter();
+    update_colliders();
 }
 
 void show_gameover_screen(void) {
@@ -450,6 +449,12 @@ void show_gameover_screen(void) {
 }
 
 void update_gameover_screen(void) {
+    // Wait for input to restart
+    if (joypad() & J_START || joypad() & J_A || joypad() & J_B) {
+        show_title_screen();
+        return;
+    }
+
     // Fall down player
     if (player_pos[1] < SCREEN_BOTTOM) {
         player_pos[1] += 2;
@@ -457,11 +462,6 @@ void update_gameover_screen(void) {
         player_pos[1] = SCREEN_BOTTOM;
     }
     render_player();
-
-    // Wait for input to restart
-    if (joypad() & J_START || joypad() & J_A || joypad() & J_B) {
-        show_title_screen();
-    }
 }
 
 void main(void) {
