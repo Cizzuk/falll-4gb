@@ -214,7 +214,24 @@ void show_title_screen(void) {
 }
 
 void update_title_screen(void) {
+    UINT8 controller = joypad();
+    if (controller & J_UP && controller & J_DOWN) {
+        return;
+    }
 
+    // Move cursor
+    if ((controller & J_SELECT) || (controller & J_UP) || (controller & J_DOWN)) {
+        cursor_pos = 1 - cursor_pos;
+    }
+
+    // Select option
+    if (controller & J_START || controller & J_A || controller & J_B) {
+        if (cursor_pos == 0) {
+            show_gameplay_screen();
+        } else {
+            dog_mode = !dog_mode;
+        }
+    }
 }
 
 void show_gameplay_screen(void) {
