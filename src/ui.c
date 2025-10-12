@@ -14,9 +14,13 @@ static const UINT8 ui_tile_overflow[UI_SCORE_DIGITS] = {
 static void set_ui_tile(UINT8 column, UINT8 row, UINT8 tile, UINT8 palette) {
     VBK_REG = 0;
     set_win_tile_xy(column, row, tile);
-    VBK_REG = 1;
-    set_win_tile_xy(column, row, palette & 0x07U);
-    VBK_REG = 0;
+
+    // Set palette if on CGB hardware
+    if (_cpu == CGB_TYPE) {
+        VBK_REG = 1;
+        set_win_tile_xy(column, row, palette & 0x07U);
+        VBK_REG = 0;
+    }
 }
 
 static void clear_row(UINT8 row) {

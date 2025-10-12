@@ -32,25 +32,27 @@ UINT8 is_bomb = FALSE;
 UINT8 background_scroll_y = 0U;
 
 void init_vram(void) {
-    // Load background data
     set_bkg_data(0, 80, Background);
-    set_bkg_palette(0, 8, BackgroundPalette);
+    set_sprite_data(0, 22, Sprites);
+    
     VBK_REG = 0;
     set_bkg_tiles(0, 0, WorldWidth, WorldHeight, World);
-    VBK_REG = 1;
-    for (UINT8 row = 0; row < WorldHeight; ++row) {
-        // Apply a single random palette to the current background row.
-        UINT8 palette_id = uint8_random(1U, 4U);
-        for (UINT8 col = 0; col < WorldWidth; ++col) {
-            WorldPalette[col] = palette_id;
-        }
-        set_bkg_tiles(0, row, WorldWidth, 1, WorldPalette);
-    }
-    VBK_REG = 0;
 
-    // Load sprite data
-    set_sprite_data(0, 22, Sprites);
-    set_sprite_palette(0, 8, SpritePalette);
+    // Set palettes if on CGB hardware
+    if (_cpu == CGB_TYPE) {
+        set_bkg_palette(0, 8, BackgroundPalette);
+        set_sprite_palette(0, 8, SpritePalette);
+        VBK_REG = 1;
+        for (UINT8 row = 0; row < WorldHeight; ++row) {
+            // Attribute map is only available on CGB hardware.
+            UINT8 palette_id = uint8_random(1U, 4U);
+            for (UINT8 col = 0; col < WorldWidth; ++col) {
+                WorldPalette[col] = palette_id;
+            }
+            set_bkg_tiles(0, row, WorldWidth, 1, WorldPalette);
+        }
+        VBK_REG = 0;
+    }
 }
 
 // Refresh game variables
