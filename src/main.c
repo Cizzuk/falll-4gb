@@ -416,6 +416,7 @@ void update_title_screen(void) {
 void show_gameplay_screen(void) {
     scene_mode = 1;
     init_game();
+    init_ui();
     render_score(score);
 }
 
