@@ -50,34 +50,32 @@ void render_score(UINT8 score[3]) {
         return;
     }
 
-    // Extract digits
-    UINT8 digits[UI_SCORE_DIGITS];
-    digits[0] = get_first_digit(score[0]);
-    digits[1] = get_second_digit(score[0]);
-    digits[2] = get_first_digit(score[1]);
-    digits[3] = get_second_digit(score[1]);
-    digits[4] = get_first_digit(score[2]);
-    digits[5] = get_second_digit(score[2]);
-
-    BOOLEAN has_value = FALSE;
-    for (INT8 i = (INT8)UI_SCORE_DIGITS - 1; i >= 0; --i) {
-        if (!has_value) {
-            if ((digits[i] == 0U) && (i != 0)) {
-                continue;
-            }
-            has_value = TRUE;
+    for (UINT8 i = 0; i < UI_SCORE_DIGITS; ++i) {
+        UINT8 column = UI_SCORE_RIGHT_COLUMN - i;
+        UINT8 tile;
+        if (i == 0U) {
+            tile = get_first_digit(score[0]) + UI_TILE_DIGIT_START;
+        } else if (i == 1U) {
+            tile = get_second_digit(score[0]) + UI_TILE_DIGIT_START;
+        } else if (i == 2U) {
+            tile = get_first_digit(score[1]) + UI_TILE_DIGIT_START;
+        } else if (i == 3U) {
+            tile = get_second_digit(score[1]) + UI_TILE_DIGIT_START;
+        } else if (i == 4U) {
+            tile = get_first_digit(score[2]) + UI_TILE_DIGIT_START;
+        } else { // i == 5U
+            tile = get_second_digit(score[2]) + UI_TILE_DIGIT_START;
         }
-
-        UINT8 column = UI_SCORE_RIGHT_COLUMN - (UINT8)i;
-        set_ui_tile(column, UI_SCORE_ROW, UI_TILE_DIGIT_START + digits[i], UI_ATTR_DEFAULT);
+        set_ui_tile(column, UI_SCORE_ROW, tile, UI_ATTR_DEFAULT);
     }
 }
 
 void render_lives(UINT8 lives) {
     for (UINT8 i = 0; i < UI_MAX_LIVES; ++i) {
-        UINT8 column = UI_LIVES_RIGHT_COLUMN - i;
-        UINT8 tile = (i < lives) ? UI_TILE_HEART : UI_TILE_BLANK;
-        UINT8 palette = (i < lives) ? UI_ATTR_LIFE : UI_ATTR_DEFAULT;
-        set_ui_tile(column, UI_LIVES_ROW, tile, palette);
+        if (i < lives) {
+            set_ui_tile(i, UI_LIVES_ROW, UI_TILE_HEART, UI_ATTR_LIFE);
+        } else {
+            set_ui_tile(i, UI_LIVES_ROW, UI_TILE_BLANK, UI_ATTR_DEFAULT);
+        }
     }
 }

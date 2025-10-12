@@ -5,7 +5,7 @@
 
 #define SCREEN_BOTTOM 160U
 #define PLAY_AREA_WIDTH 56U
-#define PLAY_AREA_MIN_X 20U
+#define PLAY_AREA_MIN_X 16U
 #define PLAY_AREA_MAX_X (PLAY_AREA_MIN_X + PLAY_AREA_WIDTH)
 
 #define UI_TILE_BLANK 0U
@@ -27,7 +27,7 @@
 #define UI_TILE_TEXT_EXCL 24U
 
 #define UI_ATTR_DEFAULT 0U
-#define UI_ATTR_LIFE 4U
+#define UI_ATTR_LIFE 5U
 
 #define UI_WINDOW_TILE_WIDTH 7U
 #define UI_WINDOW_X (7U + (20U - UI_WINDOW_TILE_WIDTH) * 8U)
@@ -39,7 +39,6 @@
 
 #define UI_MAX_LIVES 3U
 #define UI_LIVES_ROW 3U
-#define UI_LIVES_RIGHT_COLUMN UI_SCORE_RIGHT_COLUMN
 
 extern void init_ui(void);
 extern void render_score(UINT8 score[3]);
