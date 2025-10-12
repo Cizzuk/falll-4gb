@@ -6,5 +6,5 @@
 // #define SPRITE_SIZE 8
 
 extern UINT8 uint8_random(UINT8 min, UINT8 max);
-extern BOOLEAN check_collision(INT16 a_left, INT16 a_top, INT16 a_right, INT16 a_bottom,
-                                  INT16 b_left, INT16 b_top, INT16 b_right, INT16 b_bottom);
+extern BOOLEAN check_collision(UINT8 a_left, UINT8 a_top, UINT8 a_right, UINT8 a_bottom,
+                               UINT8 b_left, UINT8 b_top, UINT8 b_right, UINT8 b_bottom);

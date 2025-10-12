@@ -55,7 +55,6 @@ UINT8 frame_counter = 0; // counts from 0 to 179
 BOOLEAN is_first_frame_count = TRUE;
 UINT8 score[3] = {0, 0, 0};
 
-
 // Title screen state
 UINT8 cursor_pos = 0; // 0: Start, 1: Change
 
@@ -304,10 +303,10 @@ void update_colliders(void) {
     UINT8 player_margin_right;
     UINT8 player_margin_top;
     UINT8 player_margin_bottom;
-    INT16 player_left;
-    INT16 player_right;
-    INT16 player_top;
-    INT16 player_bottom;
+    UINT8 player_left;
+    UINT8 player_right;
+    UINT8 player_top;
+    UINT8 player_bottom;
 
     // Update player Hitbox
     if (dog_mode) {
@@ -326,17 +325,17 @@ void update_colliders(void) {
         player_margin_bottom = PLAYER_MARGIN_BOTTOM;
     }
 
-    player_left = (INT16)player_pos[0] + player_margin_left;
-    player_right = (INT16)player_pos[0] + player_hitbox_width - 1 - player_margin_right;
-    player_top = (INT16)player_pos[1] + player_margin_top;
-    player_bottom = (INT16)player_pos[1] + player_hitbox_height - 1 - player_margin_bottom;
+    player_left = (player_pos[0] + player_margin_left);
+    player_right = (player_pos[0] + player_hitbox_width - 1 - player_margin_right);
+    player_top = (player_pos[1] + player_margin_top);
+    player_bottom = (player_pos[1] + player_hitbox_height - 1 - player_margin_bottom);
 
     // Check leaves
     for (UINT8 i = 0; i < 3; i++) {
-        INT16 leaf_left = (INT16)leaves_pos[i][0] + LEAF_MARGIN;
-        INT16 leaf_right = (INT16)leaves_pos[i][0] + LEAF_HITBOX_WIDTH - 1 - LEAF_MARGIN;
-        INT16 leaf_top = (INT16)leaves_pos[i][1] + LEAF_MARGIN;
-        INT16 leaf_bottom = (INT16)leaves_pos[i][1] + LEAF_HITBOX_HEIGHT - 1 - LEAF_MARGIN;
+    UINT8 leaf_left = (leaves_pos[i][0] + LEAF_MARGIN);
+    UINT8 leaf_right = (leaves_pos[i][0] + LEAF_HITBOX_WIDTH - 1 - LEAF_MARGIN);
+    UINT8 leaf_top = (leaves_pos[i][1] + LEAF_MARGIN);
+    UINT8 leaf_bottom = (leaves_pos[i][1] + LEAF_HITBOX_HEIGHT - 1 - LEAF_MARGIN);
 
         if (check_collision(player_left, player_top, player_right, player_bottom,
                             leaf_left, leaf_top, leaf_right, leaf_bottom)) {
@@ -349,10 +348,10 @@ void update_colliders(void) {
 
     // Check apple/bomb
     {
-        INT16 apple_left = (INT16)apple_bomb_pos[0] + APPLE_BOMB_MARGIN_LEFT;
-        INT16 apple_right = (INT16)apple_bomb_pos[0] + APPLE_BOMB_HITBOX_WIDTH - 1 - APPLE_BOMB_MARGIN_RIGHT;
-        INT16 apple_top = (INT16)apple_bomb_pos[1] + APPLE_BOMB_MARGIN_TOP;
-        INT16 apple_bottom = (INT16)apple_bomb_pos[1] + APPLE_BOMB_HITBOX_HEIGHT - 1 - APPLE_BOMB_MARGIN_BOTTOM;
+    UINT8 apple_left = (apple_bomb_pos[0] + APPLE_BOMB_MARGIN_LEFT);
+    UINT8 apple_right = (apple_bomb_pos[0] + APPLE_BOMB_HITBOX_WIDTH - 1 - APPLE_BOMB_MARGIN_RIGHT);
+    UINT8 apple_top = (apple_bomb_pos[1] + APPLE_BOMB_MARGIN_TOP);
+    UINT8 apple_bottom = (apple_bomb_pos[1] + APPLE_BOMB_HITBOX_HEIGHT - 1 - APPLE_BOMB_MARGIN_BOTTOM);
 
         if (check_collision(player_left, player_top, player_right, player_bottom,
                             apple_left, apple_top, apple_right, apple_bottom)) {
