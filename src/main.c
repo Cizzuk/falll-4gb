@@ -5,6 +5,8 @@
 #include "utils.h"
 #include "ui.h"
 
+#define SCREEN_BOTTOM 160U
+
 #define PLAY_AREA_WIDTH 54U
 #define PLAY_AREA_MIN_X 24U
 #define PLAY_AREA_MAX_X (PLAY_AREA_MIN_X + PLAY_AREA_WIDTH)
@@ -19,7 +21,6 @@
 #define LEAF2_START_Y 0U
 #define LEAF3_START_X (PLAY_AREA_MAX_X - 8)
 #define LEAF3_START_Y 0U
-#define LEAF_RESPAWN_Y 160U
 
 // Game state
 unsigned char scene_mode = 0; // 0: title, 1: gameplay, 2: gameover
@@ -169,17 +170,17 @@ void leaves_scroll(void) {
         if (!is_first_frame_count) {
             leaves_pos[0][0] = uint8_random(PLAY_AREA_MIN_X, PLAY_AREA_MAX_X);
         }
-        leaves_pos[0][1] = LEAF_RESPAWN_Y;
+        leaves_pos[0][1] = SCREEN_BOTTOM;
     } else if (frame_counter == 60) {
         if (!is_first_frame_count) {
             leaves_pos[1][0] = uint8_random(PLAY_AREA_MIN_X, PLAY_AREA_MAX_X);
         }
-        leaves_pos[1][1] = LEAF_RESPAWN_Y;
+        leaves_pos[1][1] = SCREEN_BOTTOM;
     } else if (frame_counter == 120) {
         if (!is_first_frame_count) {
             leaves_pos[2][0] = uint8_random(PLAY_AREA_MIN_X, PLAY_AREA_MAX_X);
         }
-        leaves_pos[2][1] = LEAF_RESPAWN_Y;
+        leaves_pos[2][1] = SCREEN_BOTTOM;
     }
 }
 
@@ -252,18 +253,18 @@ void show_gameover_screen(void) {
     scene_mode = 2;
     render_score(score);
     // Hide leaves
-    leaves_pos[0][1] = LEAF_RESPAWN_Y;
-    leaves_pos[1][1] = LEAF_RESPAWN_Y;
-    leaves_pos[2][1] = LEAF_RESPAWN_Y;
+    leaves_pos[0][1] = SCREEN_BOTTOM;
+    leaves_pos[1][1] = SCREEN_BOTTOM;
+    leaves_pos[2][1] = SCREEN_BOTTOM;
     render_leaves();
 }
 
 void update_gameover_screen(void) {
     // Fall down player
-    if (player_pos[1] < LEAF_RESPAWN_Y) {
+    if (player_pos[1] < SCREEN_BOTTOM) {
         player_pos[1] += 2;
     } else {
-        player_pos[1] = LEAF_RESPAWN_Y;
+        player_pos[1] = SCREEN_BOTTOM;
     }
     render_player();
 
