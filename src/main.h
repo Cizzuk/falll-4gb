@@ -1,0 +1,37 @@
+#ifndef MAIN_H_INCLUDED
+#define MAIN_H_INCLUDED
+
+#include <gb/gb.h>
+
+extern unsigned char scene_mode;
+extern BOOLEAN dog_mode;
+extern UINT8 frame_counter;
+extern BOOLEAN is_first_frame_count;
+extern UINT8 score[3];
+
+extern unsigned char cursor_pos;
+
+extern UINT8 player_life;
+extern BOOLEAN player_flip;
+extern UINT8 player_pos[2];
+extern UINT8 leaves_pos[3][2];
+extern UINT8 apple_bomb_pos[2];
+
+void init_sprites(void);
+void render_player(void);
+void player_control(void);
+void render_leaves(void);
+void leaves_scroll(void);
+void summon_apple_bomb(BOOLEAN is_bomb);
+void render_apple_bomb(void);
+void apple_bomb_scroll(void);
+void score_counter(void);
+
+void show_title_screen(void);
+void update_title_screen(void);
+void show_gameplay_screen(void);
+void update_gameplay_screen(void);
+void show_gameover_screen(void);
+void update_gameover_screen(void);
+
+#endif

@@ -1,5 +1,6 @@
 #include <gb/gb.h>
 #include <gb/cgb.h>
+#include "main.h"
 #include "background.h"
 #include "sprites.h"
 #include "utils.h"
@@ -36,13 +37,13 @@ unsigned char cursor_pos = 0; // 0: Start, 1: Change
 UINT8 player_life = PLAYER_INITIAL_LIFE;
 BOOLEAN player_flip = FALSE;
 
-// screen has dead zones, left: 8px, top: 16px
-UINT8 player_pos[2] = {PLAYER_START_X, PLAYER_START_Y}; // X: 36 - 90
+UINT8 player_pos[2] = {PLAYER_START_X, PLAYER_START_Y};
 UINT8 leaves_pos[3][2] = {
     {LEAF1_START_X, LEAF1_START_Y},
     {LEAF2_START_X, LEAF2_START_Y},
     {LEAF3_START_X, LEAF3_START_Y}
 };
+UINT8 apple_bomb_pos[2] = {0, 0};
 
 void init_sprites(void) {
     // Player
@@ -184,12 +185,64 @@ void leaves_scroll(void) {
     }
 }
 
-void score_counter(void) {
-    if (is_first_frame_count && frame_counter < 170) {
+void summon_apple_bomb(BOOLEAN is_bomb) {
+    if (is_bomb) {
+        // Bomb
+        set_sprite_tile(SpriteNumAppleBombTopLeft, 12);
+        set_sprite_tile(SpriteNumAppleBombTopRight, 14);
+        set_sprite_tile(SpriteNumAppleBombBottomLeft, 13);
+        set_sprite_tile(SpriteNumAppleBombBottomRight, 15);
+        set_sprite_prop(SpriteNumAppleBombTopLeft, SpritesCGB12);
+        set_sprite_prop(SpriteNumAppleBombTopRight, SpritesCGB14);
+        set_sprite_prop(SpriteNumAppleBombBottomLeft, SpritesCGB13);
+        set_sprite_prop(SpriteNumAppleBombBottomRight, SpritesCGB15);
+    } else {
+        // Apple
+        set_sprite_tile(SpriteNumAppleBombTopLeft, 8);
+        set_sprite_tile(SpriteNumAppleBombTopRight, 10);
+        set_sprite_tile(SpriteNumAppleBombBottomLeft, 9);
+        set_sprite_tile(SpriteNumAppleBombBottomRight, 11);
+        set_sprite_prop(SpriteNumAppleBombTopLeft, SpritesCGB8);
+        set_sprite_prop(SpriteNumAppleBombTopRight, SpritesCGB10);
+        set_sprite_prop(SpriteNumAppleBombBottomLeft, SpritesCGB9);
+        set_sprite_prop(SpriteNumAppleBombBottomRight, SpritesCGB11);
+    }
+    apple_bomb_pos[0] = uint8_random(PLAY_AREA_MIN_X, PLAY_AREA_MAX_X);
+    apple_bomb_pos[1] = SCREEN_BOTTOM;
+}
+
+void render_apple_bomb(void) {
+    move_sprite(SpriteNumAppleBombTopLeft, apple_bomb_pos[0], apple_bomb_pos[1]);
+    move_sprite(SpriteNumAppleBombTopRight, apple_bomb_pos[0] + 8, apple_bomb_pos[1]);
+    move_sprite(SpriteNumAppleBombBottomLeft, apple_bomb_pos[0], apple_bomb_pos[1] + 8);
+    move_sprite(SpriteNumAppleBombBottomRight, apple_bomb_pos[0] + 8, apple_bomb_pos[1] + 8);
+}
+
+void apple_bomb_scroll(void) {
+    // Ignore first 10 points
+    if (score[0] < 10 && score[1] <= 0 && score[2] <= 0) {
         return;
     }
 
-    if (frame_counter % 60 == 50) {
+    // Summon apple or bomb
+    if (score[0] % 10 == 0 ) {
+        summon_apple_bomb(FALSE);
+    } else if (score[0] % 10 == 5) {
+        summon_apple_bomb(TRUE);
+    }
+
+    // Gravity
+    if (apple_bomb_pos[1] > 0) {
+        apple_bomb_pos[1]--;
+    }
+}
+
+void score_counter(void) {
+    if (is_first_frame_count && frame_counter < 150) {
+        return;
+    }
+
+    if (frame_counter % 60 == 30) {
         score[0]++;
         if (score[0] > 99) {
             score[0] = 0;
@@ -254,6 +307,12 @@ void show_gameplay_screen(void) {
 }
 
 void update_gameplay_screen(void) {
+    // Check game over
+    if (player_life <= 0) {
+        show_gameover_screen();
+        return;
+    }
+
     if (frame_counter < 179) {
         frame_counter++;
     } else {
@@ -263,6 +322,7 @@ void update_gameplay_screen(void) {
 
     player_control();
     leaves_scroll();
+    apple_bomb_scroll();
     score_counter();
 }
 
@@ -274,6 +334,9 @@ void show_gameover_screen(void) {
     leaves_pos[1][1] = SCREEN_BOTTOM;
     leaves_pos[2][1] = SCREEN_BOTTOM;
     render_leaves();
+    // Hide apple/bomb
+    apple_bomb_pos[1] = SCREEN_BOTTOM;
+    render_apple_bomb();
 }
 
 void update_gameover_screen(void) {
@@ -316,6 +379,7 @@ void main(void) {
 
         render_player();
         render_leaves();
+        render_apple_bomb();
         wait_vbl_done();
     }
 }

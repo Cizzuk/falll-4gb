@@ -211,6 +211,11 @@ extern const unsigned char Sprites[];
 #define SpriteNumScoreDigit4 20
 #define SpriteNumScoreDigit5 21
 
+#define SpriteNumAppleBombTopLeft 22
+#define SpriteNumAppleBombTopRight 23
+#define SpriteNumAppleBombBottomLeft 24
+#define SpriteNumAppleBombBottomRight 25
+
 #define SpriteNumScoreNiceStart SpriteNumScoreDigit0
 
 #endif
