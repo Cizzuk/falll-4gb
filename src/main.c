@@ -44,6 +44,7 @@ UINT8 leaves_pos[3][2] = {
     {LEAF3_START_X, LEAF3_START_Y}
 };
 UINT8 apple_bomb_pos[2] = {0, 0};
+UINT8 is_bomb = FALSE;
 
 void init_sprites(void) {
     // Player
@@ -185,7 +186,7 @@ void leaves_scroll(void) {
     }
 }
 
-void summon_apple_bomb(BOOLEAN is_bomb) {
+void summon_apple_bomb(void) {
     if (is_bomb) {
         // Bomb
         set_sprite_tile(SpriteNumAppleBombTopLeft, 12);
@@ -226,9 +227,11 @@ void apple_bomb_scroll(void) {
 
     // Summon apple or bomb
     if (score[0] % 10 == 0 ) {
-        summon_apple_bomb(FALSE);
+        is_bomb = FALSE;
+        summon_apple_bomb();
     } else if (score[0] % 10 == 5) {
-        summon_apple_bomb(TRUE);
+        is_bomb = TRUE;
+        summon_apple_bomb();
     }
 
     // Gravity

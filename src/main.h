@@ -22,7 +22,7 @@ void render_player(void);
 void player_control(void);
 void render_leaves(void);
 void leaves_scroll(void);
-void summon_apple_bomb(BOOLEAN is_bomb);
+void summon_apple_bomb(void);
 void render_apple_bomb(void);
 void apple_bomb_scroll(void);
 void score_counter(void);
