@@ -22,10 +22,14 @@
 #define LEAF_RESPAWN_Y 160U
 
 // Game state
-BOOLEAN is_gaming = TRUE;
+unsigned char scene_mode = 0; // 0: title, 1: gaming, 2: game over
+BOOLEAN dog_mode = FALSE;
 UINT8 frame_counter = 0; // counts from 0 to 179
 BOOLEAN is_first_frame_count = TRUE;
 UINT8 score[3] = {0, 0, 0};
+
+// Title screen state
+unsigned char cursor_pos = 0; // 0: Start, 1: Change
 
 // Player state
 UINT8 player_life = PLAYER_INITIAL_LIFE;
@@ -201,8 +205,20 @@ void score_counter(void) {
     }
 }
 
-void reset_game(void) {
-    is_gaming = TRUE;
+void show_title_screen(void) {
+    scene_mode = 0;
+    cursor_pos = 0;
+    // TODO
+}
+
+void show_game_over_screen(void) {
+    scene_mode = 2;
+    render_score(score);
+    // TODO
+}
+
+void start_game(void) {
+    scene_mode = 1;
     frame_counter = 0;
     is_first_frame_count = TRUE;
     score[0] = 0;
@@ -225,14 +241,17 @@ void main(void) {
     set_bkg_palette(0, 6, &BackgroundPalette[0]);
     set_sprite_data(0, 65, Sprites);
     set_sprite_palette(0, 8, SpritePalette);
-    reset_game();
+    start_game();
 
     DISPLAY_ON;
     SHOW_SPRITES;
     SHOW_BKG;
 
     while (TRUE) {
-        if (is_gaming) {
+        if (scene_mode == 0) {
+            // Title screen
+        } else if (scene_mode == 1) {
+            // Gaming
             if (frame_counter < 179) {
                 frame_counter++;
             } else {
@@ -243,6 +262,11 @@ void main(void) {
             player_control();
             leaves_scroll();
             score_counter();
+        } else if (scene_mode == 2) {
+            // Game over
+            if (joypad() & J_START || joypad() & J_A || joypad() & J_B) {
+                show_title_screen();
+            }
         }
 
         render_player();
