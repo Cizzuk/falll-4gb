@@ -26,6 +26,7 @@ void summon_apple_bomb(void);
 void render_apple_bomb(void);
 void apple_bomb_scroll(void);
 void score_counter(void);
+void update_colliders(void);
 
 void show_title_screen(void);
 void update_title_screen(void);

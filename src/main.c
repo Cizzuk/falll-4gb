@@ -23,6 +23,31 @@
 #define LEAF3_START_X (PLAY_AREA_MAX_X - 8)
 #define LEAF3_START_Y 0U
 
+#define PLAYER_HITBOX_WIDTH 16U
+#define PLAYER_HITBOX_HEIGHT 16U
+#define PLAYER_MARGIN_TOP 2U
+#define PLAYER_MARGIN_LEFT 2U
+#define PLAYER_MARGIN_RIGHT 2U
+#define PLAYER_MARGIN_BOTTOM 0U
+
+#define DOG_HITBOX_WIDTH 24U
+#define DOG_HITBOX_HEIGHT 24U
+#define DOG_MARGIN_TOP 6U
+#define DOG_MARGIN_LEFT 0U
+#define DOG_MARGIN_RIGHT 1U
+#define DOG_MARGIN_BOTTOM 4U
+
+#define LEAF_HITBOX_WIDTH 16U
+#define LEAF_HITBOX_HEIGHT 16U
+#define LEAF_MARGIN 2U
+
+#define APPLE_BOMB_HITBOX_WIDTH 16U
+#define APPLE_BOMB_HITBOX_HEIGHT 16U
+#define APPLE_BOMB_MARGIN_TOP 4U
+#define APPLE_BOMB_MARGIN_LEFT 2U
+#define APPLE_BOMB_MARGIN_RIGHT 4U
+#define APPLE_BOMB_MARGIN_BOTTOM 1U
+
 // Game state
 unsigned char scene_mode = 0; // 0: title, 1: gameplay, 2: gameover
 BOOLEAN dog_mode = FALSE;
@@ -262,6 +287,79 @@ void score_counter(void) {
     }
 }
 
+// Colliders
+void update_colliders(void) {
+    UINT8 player_hitbox_width;
+    UINT8 player_hitbox_height;
+    UINT8 player_margin_left;
+    UINT8 player_margin_right;
+    UINT8 player_margin_top;
+    UINT8 player_margin_bottom;
+    INT16 player_left;
+    INT16 player_right;
+    INT16 player_top;
+    INT16 player_bottom;
+
+    // Update player Hitbox
+    if (dog_mode) {
+        player_hitbox_width = DOG_HITBOX_WIDTH;
+        player_hitbox_height = DOG_HITBOX_HEIGHT;
+        player_margin_left = DOG_MARGIN_LEFT;
+        player_margin_right = DOG_MARGIN_RIGHT;
+        player_margin_top = DOG_MARGIN_TOP;
+        player_margin_bottom = DOG_MARGIN_BOTTOM;
+    } else {
+        player_hitbox_width = PLAYER_HITBOX_WIDTH;
+        player_hitbox_height = PLAYER_HITBOX_HEIGHT;
+        player_margin_left = PLAYER_MARGIN_LEFT;
+        player_margin_right = PLAYER_MARGIN_RIGHT;
+        player_margin_top = PLAYER_MARGIN_TOP;
+        player_margin_bottom = PLAYER_MARGIN_BOTTOM;
+    }
+
+    player_left = (INT16)player_pos[0] + player_margin_left;
+    player_right = (INT16)player_pos[0] + player_hitbox_width - 1 - player_margin_right;
+    player_top = (INT16)player_pos[1] + player_margin_top;
+    player_bottom = (INT16)player_pos[1] + player_hitbox_height - 1 - player_margin_bottom;
+
+    // Check leaves
+    for (UINT8 i = 0; i < 3; i++) {
+        INT16 leaf_left = (INT16)leaves_pos[i][0] + LEAF_MARGIN;
+        INT16 leaf_right = (INT16)leaves_pos[i][0] + LEAF_HITBOX_WIDTH - 1 - LEAF_MARGIN;
+        INT16 leaf_top = (INT16)leaves_pos[i][1] + LEAF_MARGIN;
+        INT16 leaf_bottom = (INT16)leaves_pos[i][1] + LEAF_HITBOX_HEIGHT - 1 - LEAF_MARGIN;
+
+        if (check_collision(player_left, player_top, player_right, player_bottom,
+                            leaf_left, leaf_top, leaf_right, leaf_bottom)) {
+            leaves_pos[i][1] = 0; // Hide leaf
+            if (player_life > 0) {
+                player_life--;
+            }
+        }
+    }
+
+    // Check apple/bomb
+    {
+        INT16 apple_left = (INT16)apple_bomb_pos[0] + APPLE_BOMB_MARGIN_LEFT;
+        INT16 apple_right = (INT16)apple_bomb_pos[0] + APPLE_BOMB_HITBOX_WIDTH - 1 - APPLE_BOMB_MARGIN_RIGHT;
+        INT16 apple_top = (INT16)apple_bomb_pos[1] + APPLE_BOMB_MARGIN_TOP;
+        INT16 apple_bottom = (INT16)apple_bomb_pos[1] + APPLE_BOMB_HITBOX_HEIGHT - 1 - APPLE_BOMB_MARGIN_BOTTOM;
+
+        if (check_collision(player_left, player_top, player_right, player_bottom,
+                            apple_left, apple_top, apple_right, apple_bottom)) {
+            apple_bomb_pos[1] = 0; // Hide apple/bomb
+            if (is_bomb) {
+                player_life = 0;
+            } else {
+                player_life++;
+                if (player_life > PLAYER_INITIAL_LIFE) {
+                    player_life = PLAYER_INITIAL_LIFE;
+                }
+            }
+        }
+    }
+}
+
 /* ====== Scene Manager ====== */
 
 void show_title_screen(void) {
@@ -324,6 +422,7 @@ void update_gameplay_screen(void) {
     }
 
     player_control();
+    update_colliders();
     leaves_scroll();
     apple_bomb_scroll();
     score_counter();
