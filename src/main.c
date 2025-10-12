@@ -22,7 +22,7 @@
 #define LEAF_RESPAWN_Y 160U
 
 // Game state
-unsigned char scene_mode = 0; // 0: title, 1: gaming, 2: game over
+unsigned char scene_mode = 0; // 0: title, 1: gameplay, 2: gameover
 BOOLEAN dog_mode = FALSE;
 UINT8 frame_counter = 0; // counts from 0 to 179
 BOOLEAN is_first_frame_count = TRUE;
@@ -205,19 +205,18 @@ void score_counter(void) {
     }
 }
 
+/* ====== Scene Manager ====== */
+
 void show_title_screen(void) {
     scene_mode = 0;
     cursor_pos = 0;
-    // TODO
 }
 
-void show_game_over_screen(void) {
-    scene_mode = 2;
-    render_score(score);
-    // TODO
+void update_title_screen(void) {
+
 }
 
-void start_game(void) {
+void show_gameplay_screen(void) {
     scene_mode = 1;
     frame_counter = 0;
     is_first_frame_count = TRUE;
@@ -237,11 +236,49 @@ void start_game(void) {
     init_sprites();
 }
 
+void update_gameplay_screen(void) {
+    if (frame_counter < 179) {
+        frame_counter++;
+    } else {
+        frame_counter = 0;
+        is_first_frame_count = FALSE;
+    }
+
+    player_control();
+    leaves_scroll();
+    score_counter();
+}
+
+void show_gameover_screen(void) {
+    scene_mode = 2;
+    render_score(score);
+    // Hide leaves
+    leaves_pos[0][1] = LEAF_RESPAWN_Y;
+    leaves_pos[1][1] = LEAF_RESPAWN_Y;
+    leaves_pos[2][1] = LEAF_RESPAWN_Y;
+    render_leaves();
+}
+
+void update_gameover_screen(void) {
+    // Fall down player
+    if (player_pos[1] < 144) {
+        player_pos[1]++;
+    } else {
+        player_pos[1] = 144;
+    }
+    render_player();
+
+    // Wait for input to restart
+    if (joypad() & J_START || joypad() & J_A || joypad() & J_B) {
+        show_title_screen();
+    }
+}
+
 void main(void) {
     set_bkg_palette(0, 6, &BackgroundPalette[0]);
     set_sprite_data(0, 65, Sprites);
     set_sprite_palette(0, 8, SpritePalette);
-    start_game();
+    show_gameplay_screen();
 
     DISPLAY_ON;
     SHOW_SPRITES;
@@ -250,23 +287,13 @@ void main(void) {
     while (TRUE) {
         if (scene_mode == 0) {
             // Title screen
+            update_title_screen();
         } else if (scene_mode == 1) {
             // Gaming
-            if (frame_counter < 179) {
-                frame_counter++;
-            } else {
-                frame_counter = 0;
-                is_first_frame_count = FALSE;
-            }
-
-            player_control();
-            leaves_scroll();
-            score_counter();
+            update_gameplay_screen();
         } else if (scene_mode == 2) {
             // Game over
-            if (joypad() & J_START || joypad() & J_A || joypad() & J_B) {
-                show_title_screen();
-            }
+            update_gameover_screen();
         }
 
         render_player();
