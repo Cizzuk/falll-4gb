@@ -49,14 +49,15 @@
 #define APPLE_BOMB_MARGIN_BOTTOM 1U
 
 // Game state
-unsigned char scene_mode = 0; // 0: title, 1: gameplay, 2: gameover
+UINT8 scene_mode = 0; // 0: title, 1: gameplay, 2: gameover
 BOOLEAN dog_mode = FALSE;
 UINT8 frame_counter = 0; // counts from 0 to 179
 BOOLEAN is_first_frame_count = TRUE;
 UINT8 score[3] = {0, 0, 0};
 
+
 // Title screen state
-unsigned char cursor_pos = 0; // 0: Start, 1: Change
+UINT8 cursor_pos = 0; // 0: Start, 1: Change
 
 // Player state
 UINT8 player_life = PLAYER_INITIAL_LIFE;
@@ -183,14 +184,16 @@ void render_leaves(void) {
 }
 
 void leaves_scroll(void) {
+    UINT8 speed = 1;
+
     if (leaves_pos[0][1] > 0) {
-        leaves_pos[0][1]--;
+        leaves_pos[0][1] -= speed;
     }
     if (leaves_pos[1][1] > 0) {
-        leaves_pos[1][1]--;
+        leaves_pos[1][1] -= speed;
     }
     if (leaves_pos[2][1] > 0) {
-        leaves_pos[2][1]--;
+        leaves_pos[2][1] -= speed;
     }
 
     if (frame_counter == 0) {
@@ -251,26 +254,32 @@ void apple_bomb_scroll(void) {
     }
 
     // Summon apple or bomb
-    if (score[0] % 10 == 0 ) {
-        is_bomb = FALSE;
-        summon_apple_bomb();
-    } else if (score[0] % 10 == 5) {
-        is_bomb = TRUE;
-        summon_apple_bomb();
+    if (frame_counter % 60 == 30) {
+        if (score[0] % 10 == 0) {
+            is_bomb = FALSE;
+            summon_apple_bomb();
+        } else if (score[0] % 10 == 5) {
+            is_bomb = TRUE;
+            summon_apple_bomb();
+        }
     }
 
     // Gravity
     if (apple_bomb_pos[1] > 0) {
-        apple_bomb_pos[1]--;
+        if (frame_counter % 2 == 0) {
+            apple_bomb_pos[1] -= 2;
+        } else {
+            apple_bomb_pos[1] -= 1;
+        }
     }
 }
 
 void score_counter(void) {
-    if (is_first_frame_count && frame_counter < 150) {
+    if (is_first_frame_count && frame_counter < 130) {
         return;
     }
 
-    if (frame_counter % 60 == 30) {
+    if (frame_counter % 60 == 10) {
         score[0]++;
         if (score[0] > 99) {
             score[0] = 0;

@@ -3,13 +3,13 @@
 
 #include <gb/gb.h>
 
-extern unsigned char scene_mode;
+extern UINT8 scene_mode;
 extern BOOLEAN dog_mode;
 extern UINT8 frame_counter;
 extern BOOLEAN is_first_frame_count;
 extern UINT8 score[3];
 
-extern unsigned char cursor_pos;
+extern UINT8 cursor_pos;
 
 extern UINT8 player_life;
 extern BOOLEAN player_flip;
