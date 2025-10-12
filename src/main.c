@@ -29,16 +29,17 @@ UINT8 leaves_pos[3][2] = {
 };
 UINT8 apple_bomb_pos[2] = {APPLE_BOMB_START_X, APPLE_BOMB_START_Y};
 UINT8 is_bomb = FALSE;
+UINT8 background_scroll_y = 0U;
 
 void init_vram(void) {
     // Load background data
     set_bkg_data(0, 64, Background);
     set_bkg_palette(0, 8, BackgroundPalette);
     VBK_REG = 0;
-    set_bkg_tiles(0, 0, 20, 18, World);
+    set_bkg_tiles(0, 0, WorldWidth, WorldHeight, World);
     VBK_REG = 1;
-    for (UINT8 row = 0; row < 18U; ++row) {
-        set_bkg_tiles(0, row, 20, 1, WorldPalette);
+    for (UINT8 row = 0; row < WorldHeight; ++row) {
+        set_bkg_tiles(0, row, WorldWidth, 1, WorldPalette);
     }
     VBK_REG = 0;
 
@@ -68,6 +69,8 @@ void init_game(void) {
     apple_bomb_pos[0] = APPLE_BOMB_START_X;
     apple_bomb_pos[1] = APPLE_BOMB_START_Y;
     is_bomb = FALSE;
+    background_scroll_y = 0U;
+    move_bkg(0U, 0U);
     render_player();
     render_leaves();
     render_apple_bomb();
@@ -277,6 +280,12 @@ void apple_bomb_scroll(void) {
     }
 }
 
+void background_scroll(void) {
+    // Here it overflows and reset to 0 automatically
+    background_scroll_y++;
+    move_bkg(0U, background_scroll_y);
+}
+
 void score_counter(void) {
     if (is_first_frame_count && frame_counter < 60) {
         return;
@@ -430,6 +439,7 @@ void update_gameplay_screen(void) {
     score_counter();
     render_leaves();
     render_apple_bomb();
+    background_scroll();
     update_colliders();
 }
 
