@@ -302,7 +302,7 @@ void player_control(void) {
         return;
     }
 
-    BOOLEAN is_slow = (controller & J_A || controller & J_B);
+    BOOLEAN is_slow = (controller & (J_A | J_B));
 
     if (dog_mode) {
         BOOLEAN is_fast = (!is_slow && frame_counter % 3 == 0);
@@ -328,7 +328,7 @@ void player_control(void) {
     } else {
         // Slow down
         if (is_slow) {
-            if (frame_counter % 2 == 0) {
+            if (frame_counter % 2) {
                 return;
             }
         }
@@ -456,7 +456,7 @@ void apple_bomb_scroll(void) {
     }
 
     // Gravity
-    if (frame_counter % 2 == 0 && apple_bomb_pos[1] > 1) {
+    if (frame_counter % 2 && apple_bomb_pos[1] > 1) {
         apple_bomb_pos[1] -= 2;
     } else if (apple_bomb_pos[1] > 0) {
         apple_bomb_pos[1] -= 1;
@@ -464,11 +464,7 @@ void apple_bomb_scroll(void) {
 }
 
 void background_scroll(void) {
-    if (background_scroll_y >= UINT8_MAX) {
-        background_scroll_y = 0U;
-    } else {
-        background_scroll_y++;
-    }
+    background_scroll_y++;
     move_bkg(0U, background_scroll_y);
 }
 
@@ -570,7 +566,7 @@ void update_title_screen(void) {
     }
 
     // Select option
-    if (prev_controller == 0 && (controller & J_START || controller & J_A || controller & J_B)) {
+    if (!controller && (prev_controller & (J_START | J_A | J_B))) {
         if (cursor_pos) {
             dog_mode = !dog_mode;
             init_player();
@@ -581,16 +577,8 @@ void update_title_screen(void) {
     }
 
     // Create random seed
-    if (rand_timer >= UINT8_MAX) {
-        rand_timer = 0;
-    } else {
-        rand_timer++;
-    }
-    if (rand_timer % 2 == 0) {
-        rand_controller ^= (controller << (rand_timer % 8));
-    } else {
-        rand_controller |= (controller >> (rand_timer % 8));
-    }
+    rand_timer++;
+    rand_controller += (controller * rand_timer);
 }
 
 void show_gameplay_screen(void) {
@@ -615,7 +603,7 @@ void update_gameplay_screen(void) {
     }
 
     // Exit to title screen
-    if (prev_controller == 0 && (joypad() & J_START)) {
+    if (!prev_controller && (joypad() & J_START)) {
         show_title_screen();
         return;
     }
@@ -654,7 +642,7 @@ void update_gameover_screen(void) {
 
     // Second, wait for input to restart
     UINT8 controller = joypad();
-    if (prev_controller == 0 && (controller & J_START || controller & J_A || controller & J_B)) {
+    if (!controller && (prev_controller & (J_START | J_A | J_B))) {
         show_title_screen();
     }
 }
