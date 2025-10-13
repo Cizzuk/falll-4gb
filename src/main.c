@@ -299,23 +299,48 @@ void player_control(void) {
         return;
     }
 
-    // Slow down
-    if (controller & J_A || controller & J_B) {
-        if (frame_counter % 2 == 0) {
-            return;
-        }
-    }
+    BOOLEAN is_slow = (controller & J_A || controller & J_B);
 
-    if (controller & J_RIGHT) {
-        if (player_pos[0] < player_move_max_x) {
-            player_pos[0]++;
-            player_flip = TRUE;
+    if (dog_mode) {
+        BOOLEAN is_fast = (!is_slow && frame_counter % 3 == 0);
+
+        if (controller & J_RIGHT) {
+            if (player_pos[0] < player_move_max_x) {
+                if (is_fast && player_pos[0] < (player_move_max_x - 1)) {
+                    player_pos[0] += 2;
+                } else {
+                    player_pos[0]++;
+                }
+            }
         }
-    }
-    if (controller & J_LEFT) {
-        if (player_pos[0] > player_move_min_x) {
-            player_pos[0]--;
-            player_flip = FALSE;
+        if (controller & J_LEFT) {
+            if (player_pos[0] > player_move_min_x) {
+                if (is_fast && player_pos[0] > (player_move_min_x + 1)) {
+                    player_pos[0] -= 2;
+                } else {
+                    player_pos[0]--;
+                }
+            }
+        }
+    } else {
+        // Slow down
+        if (is_slow) {
+            if (frame_counter % 2 == 0) {
+                return;
+            }
+        }
+
+        if (controller & J_RIGHT) {
+            if (player_pos[0] < player_move_max_x) {
+                player_pos[0]++;
+                player_flip = TRUE;
+            }
+        }
+        if (controller & J_LEFT) {
+            if (player_pos[0] > player_move_min_x) {
+                player_pos[0]--;
+                player_flip = FALSE;
+            }
         }
     }
 
