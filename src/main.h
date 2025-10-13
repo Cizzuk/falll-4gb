@@ -65,6 +65,15 @@
 #define APPLE_BOMB_MARGIN_RIGHT 4U
 #define APPLE_BOMB_MARGIN_BOTTOM 1U
 
+#define LEAF_SPEED_INITIAL 2U
+#define LEAF_SPEED_STAGE_INTERVAL 20U
+#define LEAF_SPEED_MAX 6U
+
+// Calculate the score at which the leaf speed will reach its maximum
+#define LEAF_SPEED_ACCEL_RAW ((LEAF_SPEED_MAX - LEAF_SPEED_INITIAL) * LEAF_SPEED_STAGE_INTERVAL * 3U)
+// Cap to UINT8 max value if overflow
+#define LEAF_SPEED_ACCEL_LIMIT ((LEAF_SPEED_ACCEL_RAW > 255U) ? 255U : (UINT8)LEAF_SPEED_ACCEL_RAW)
+
 extern UINT8 rand_timer;
 extern UINT8 rand_controller;
 extern UINT8 prev_controller;
@@ -106,6 +115,7 @@ void init_player(void);
 void render_player(void);
 void player_control(void);
 void render_leaves(void);
+UINT8 leaves_speed_calc(void);
 void leaves_scroll(void);
 void summon_apple_bomb(void);
 void render_apple_bomb(void);
