@@ -139,8 +139,8 @@ void render_score(UINT8 score[3]) {
     // If score is 1M, show NICE!!
     if (score[2] > 99U) {
         for (UINT8 i = 0; i < UI_SCORE_DIGITS; ++i) {
-            UINT8 column = UI_SCORE_COLUMN + (UI_SCORE_DIGITS - 1U - i);
-            UINT8 tile = ui_tile_overflow[UI_SCORE_DIGITS - 1U - i];
+            const UINT8 column = UI_SCORE_COLUMN + (UI_SCORE_DIGITS - 1U - i);
+            const UINT8 tile = ui_tile_overflow[UI_SCORE_DIGITS - 1U - i];
             set_ui_tile(column, UI_SCORE_ROW, tile, UI_ATTR_DEFAULT);
         }
         return;
@@ -148,7 +148,8 @@ void render_score(UINT8 score[3]) {
 
     // Score display per digit
     for (UINT8 i = 0; i < UI_SCORE_DIGITS; ++i) {
-        UINT8 column = UI_SCORE_COLUMN + (UI_SCORE_DIGITS - 1U - i);
+        const UINT8 column = UI_SCORE_COLUMN + (UI_SCORE_DIGITS - 1U - i);
+        
         UINT8 tile;
         if (i == 0U) {
             tile = get_first_digit(score[0]) + UI_TILE_DIGIT_START;

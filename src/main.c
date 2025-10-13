@@ -74,7 +74,7 @@ void init_bkg_attr(void) {
         for (UINT8 row = 0; row < WorldHeight; row++) {
             // Randomize specific columns
             for (UINT8 i = 0; i < WORLD_ATTR_RANDOM_COL_COUNT; i++) {
-                UINT8 random_col = WorldAttrRandomColumns[i];
+                const UINT8 random_col = WorldAttrRandomColumns[i];
                 row_palette[random_col] = uint8_random(WORLD_ATTR_RANDOM_PALETTE_MIN, WORLD_ATTR_RANDOM_PALETTE_MAX);
             }
             set_bkg_tiles(0, row, WorldWidth, 1, row_palette);
@@ -297,15 +297,15 @@ void render_player(void) {
 }
 
 void player_control(void) {
-    UINT8 controller = joypad();
+    const UINT8 controller = joypad();
     if (controller & J_RIGHT && controller & J_LEFT) {
         return;
     }
 
-    BOOLEAN is_slow = (controller & (J_A | J_B));
+    const BOOLEAN is_slow = (controller & (J_A | J_B));
 
     if (dog_mode) {
-        BOOLEAN is_fast = (!is_slow && frame_counter % 3 == 0);
+        const BOOLEAN is_fast = (!is_slow && frame_counter % 3 == 0);
 
         if (controller & J_RIGHT) {
             if (player_pos[0] < player_move_max_x) {
@@ -389,10 +389,10 @@ UINT8 leaves_speed_calc(void) {
     }
 
     {
-        UINT8 stage = real_score / LEAF_SPEED_STAGE_INTERVAL;
+        const UINT8 stage = real_score / LEAF_SPEED_STAGE_INTERVAL;
+        const UINT8 pattern = stage & 3U; // 0, 1, 2, 3
+        const UINT8 modulo = frame_counter & 3U;
         UINT8 speed = LEAF_SPEED_INITIAL + (stage >> 2); // Increase speed every 4 stages
-        UINT8 pattern = stage & 3U; // 0, 1, 2, 3
-        UINT8 modulo = frame_counter & 3U;
 
         // Boost speed based on pattern
         // if pattern is 0, no boost
@@ -418,7 +418,7 @@ UINT8 leaves_speed_calc(void) {
 }
 
 void leaves_scroll(void) {
-    UINT8 speed = leaves_speed_calc();
+    const UINT8 speed = leaves_speed_calc();
 
     if (leaves_pos[0][1] > 0 + speed) {
         leaves_pos[0][1] -= speed;
@@ -542,17 +542,17 @@ void score_counter(void) {
 
 // Colliders
 void update_colliders(void) {
-    UINT8 player_left = (player_pos[0] + player_hitbox_margin_left);
-    UINT8 player_right = (player_pos[0] + player_hitbox_width - player_hitbox_margin_right);
-    UINT8 player_top = (player_pos[1] + player_hitbox_margin_top);
-    UINT8 player_bottom = (player_pos[1] + player_hitbox_height - player_hitbox_margin_bottom);
+    const UINT8 player_left = (player_pos[0] + player_hitbox_margin_left);
+    const UINT8 player_right = (player_pos[0] + player_hitbox_width - player_hitbox_margin_right);
+    const UINT8 player_top = (player_pos[1] + player_hitbox_margin_top);
+    const UINT8 player_bottom = (player_pos[1] + player_hitbox_height - player_hitbox_margin_bottom);
 
     // Check leaves
     for (UINT8 i = 0; i < 3; i++) {
-        UINT8 leaf_left = (leaves_pos[i][0] + LEAF_MARGIN);
-        UINT8 leaf_right = (leaves_pos[i][0] + LEAF_HITBOX_WIDTH - LEAF_MARGIN);
-        UINT8 leaf_top = (leaves_pos[i][1] + LEAF_MARGIN);
-        UINT8 leaf_bottom = (leaves_pos[i][1] + LEAF_HITBOX_HEIGHT - LEAF_MARGIN);
+        const UINT8 leaf_left = (leaves_pos[i][0] + LEAF_MARGIN);
+        const UINT8 leaf_right = (leaves_pos[i][0] + LEAF_HITBOX_WIDTH - LEAF_MARGIN);
+        const UINT8 leaf_top = (leaves_pos[i][1] + LEAF_MARGIN);
+        const UINT8 leaf_bottom = (leaves_pos[i][1] + LEAF_HITBOX_HEIGHT - LEAF_MARGIN);
 
         if (check_collision(player_left, player_top, player_right, player_bottom,
                             leaf_left, leaf_top, leaf_right, leaf_bottom)) {
@@ -566,10 +566,10 @@ void update_colliders(void) {
 
     // Check apple/bomb
     {
-        UINT8 apple_left = (apple_bomb_pos[0] + APPLE_BOMB_MARGIN_LEFT);
-        UINT8 apple_right = (apple_bomb_pos[0] + APPLE_BOMB_HITBOX_WIDTH - APPLE_BOMB_MARGIN_RIGHT);
-        UINT8 apple_top = (apple_bomb_pos[1] + APPLE_BOMB_MARGIN_TOP);
-        UINT8 apple_bottom = (apple_bomb_pos[1] + APPLE_BOMB_HITBOX_HEIGHT - APPLE_BOMB_MARGIN_BOTTOM);
+        const UINT8 apple_left = (apple_bomb_pos[0] + APPLE_BOMB_MARGIN_LEFT);
+        const UINT8 apple_right = (apple_bomb_pos[0] + APPLE_BOMB_HITBOX_WIDTH - APPLE_BOMB_MARGIN_RIGHT);
+        const UINT8 apple_top = (apple_bomb_pos[1] + APPLE_BOMB_MARGIN_TOP);
+        const UINT8 apple_bottom = (apple_bomb_pos[1] + APPLE_BOMB_HITBOX_HEIGHT - APPLE_BOMB_MARGIN_BOTTOM);
 
         if (check_collision(player_left, player_top, player_right, player_bottom,
                             apple_left, apple_top, apple_right, apple_bottom)) {
@@ -598,7 +598,7 @@ void show_title_screen(void) {
 }
 
 void update_title_screen(void) {
-    UINT8 controller = joypad();
+    const UINT8 controller = joypad();
 
     // Move cursor
     if (!(prev_controller & J_SELECT) && (controller & J_SELECT)) {
@@ -690,7 +690,7 @@ void update_gameover_screen(void) {
     }
 
     // Second, wait for input to restart
-    UINT8 controller = joypad();
+    const UINT8 controller = joypad();
     if (!controller && (prev_controller & (J_START | J_A | J_B))) {
         show_title_screen();
     }
