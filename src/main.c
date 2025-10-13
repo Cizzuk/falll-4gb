@@ -10,6 +10,7 @@
 
 // Game state
 UINT8 rand_timer = 0;
+UINT8 rand_controller = 0;
 UINT8 prev_controller = 0;
 UINT8 scene_mode = 0; // 0: title, 1: gameplay, 2: gameover
 BOOLEAN dog_mode = FALSE;
@@ -552,13 +553,6 @@ void show_title_screen(void) {
 }
 
 void update_title_screen(void) {
-    // Increment random timer
-    if (rand_timer >= UINT8_MAX) {
-        rand_timer = 0;
-    } else {
-        rand_timer++;
-    }
-
     UINT8 controller = joypad();
 
     // Move cursor
@@ -582,13 +576,26 @@ void update_title_screen(void) {
             init_player();
         } else {
             show_gameplay_screen();
+            return;
         }
+    }
+
+    // Create random seed
+    if (rand_timer >= UINT8_MAX) {
+        rand_timer = 0;
+    } else {
+        rand_timer++;
+    }
+    if (rand_timer % 2 == 0) {
+        rand_controller ^= (controller << (rand_timer % 8));
+    } else {
+        rand_controller |= (controller >> (rand_timer % 8));
     }
 }
 
 void show_gameplay_screen(void) {
     scene_mode = 1;
-    initrand(rand_timer);
+    initrand((UINT16)rand_timer | (UINT16)rand_controller << 8);
     init_game();
     init_ui_gameplay(score, player_life);
 }
