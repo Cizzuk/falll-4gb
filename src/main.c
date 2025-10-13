@@ -363,10 +363,10 @@ void update_colliders(void) {
 
     // Check leaves
     for (UINT8 i = 0; i < 3; i++) {
-    UINT8 leaf_left = (leaves_pos[i][0] + LEAF_MARGIN);
-    UINT8 leaf_right = (leaves_pos[i][0] + LEAF_HITBOX_WIDTH - 1 - LEAF_MARGIN);
-    UINT8 leaf_top = (leaves_pos[i][1] + LEAF_MARGIN);
-    UINT8 leaf_bottom = (leaves_pos[i][1] + LEAF_HITBOX_HEIGHT - 1 - LEAF_MARGIN);
+        UINT8 leaf_left = (leaves_pos[i][0] + LEAF_MARGIN);
+        UINT8 leaf_right = (leaves_pos[i][0] + LEAF_HITBOX_WIDTH - 1 - LEAF_MARGIN);
+        UINT8 leaf_top = (leaves_pos[i][1] + LEAF_MARGIN);
+        UINT8 leaf_bottom = (leaves_pos[i][1] + LEAF_HITBOX_HEIGHT - 1 - LEAF_MARGIN);
 
         if (check_collision(player_left, player_top, player_right, player_bottom,
                             leaf_left, leaf_top, leaf_right, leaf_bottom)) {
@@ -380,10 +380,10 @@ void update_colliders(void) {
 
     // Check apple/bomb
     {
-    UINT8 apple_left = (apple_bomb_pos[0] + APPLE_BOMB_MARGIN_LEFT);
-    UINT8 apple_right = (apple_bomb_pos[0] + APPLE_BOMB_HITBOX_WIDTH - 1 - APPLE_BOMB_MARGIN_RIGHT);
-    UINT8 apple_top = (apple_bomb_pos[1] + APPLE_BOMB_MARGIN_TOP);
-    UINT8 apple_bottom = (apple_bomb_pos[1] + APPLE_BOMB_HITBOX_HEIGHT - 1 - APPLE_BOMB_MARGIN_BOTTOM);
+        UINT8 apple_left = (apple_bomb_pos[0] + APPLE_BOMB_MARGIN_LEFT);
+        UINT8 apple_right = (apple_bomb_pos[0] + APPLE_BOMB_HITBOX_WIDTH - 1 - APPLE_BOMB_MARGIN_RIGHT);
+        UINT8 apple_top = (apple_bomb_pos[1] + APPLE_BOMB_MARGIN_TOP);
+        UINT8 apple_bottom = (apple_bomb_pos[1] + APPLE_BOMB_HITBOX_HEIGHT - 1 - APPLE_BOMB_MARGIN_BOTTOM);
 
         if (check_collision(player_left, player_top, player_right, player_bottom,
                             apple_left, apple_top, apple_right, apple_bottom)) {
