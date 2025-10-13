@@ -111,34 +111,34 @@ extern const unsigned char Sprites[];
 #define SpriteNumPlayer0_1 1
 #define SpriteNumPlayer0_2 2
 #define SpriteNumPlayer0_3 3
-#define SpriteNumPlayer1_0 20
-#define SpriteNumPlayer1_1 21
-#define SpriteNumPlayer1_2 22
-#define SpriteNumPlayer1_3 23
-#define SpriteNumPlayer2_0 24
-#define SpriteNumPlayer2_1 25
-#define SpriteNumPlayer2_2 26
-#define SpriteNumPlayer2_3 27
+#define SpriteNumPlayer1_0 4
+#define SpriteNumPlayer1_1 5
+#define SpriteNumPlayer1_2 6
+#define SpriteNumPlayer1_3 7
+#define SpriteNumPlayer2_0 8
+#define SpriteNumPlayer2_1 9
+#define SpriteNumPlayer2_2 10
+#define SpriteNumPlayer2_3 11
 
-#define SpriteNumLeaf1TopLeft 4
-#define SpriteNumLeaf1TopRight 5
-#define SpriteNumLeaf1BottomLeft 6
-#define SpriteNumLeaf1BottomRight 7
+#define SpriteNumLeaf1TopLeft 12
+#define SpriteNumLeaf1TopRight 13
+#define SpriteNumLeaf1BottomLeft 14
+#define SpriteNumLeaf1BottomRight 15
 
-#define SpriteNumLeaf2TopLeft 8
-#define SpriteNumLeaf2TopRight 9
-#define SpriteNumLeaf2BottomLeft 10
-#define SpriteNumLeaf2BottomRight 11
+#define SpriteNumLeaf2TopLeft 16
+#define SpriteNumLeaf2TopRight 17
+#define SpriteNumLeaf2BottomLeft 18
+#define SpriteNumLeaf2BottomRight 19
 
-#define SpriteNumLeaf3TopLeft 12
-#define SpriteNumLeaf3TopRight 13
-#define SpriteNumLeaf3BottomLeft 14
-#define SpriteNumLeaf3BottomRight 15
+#define SpriteNumLeaf3TopLeft 20
+#define SpriteNumLeaf3TopRight 21
+#define SpriteNumLeaf3BottomLeft 22
+#define SpriteNumLeaf3BottomRight 23
 
-#define SpriteNumAppleBombTopLeft 16
-#define SpriteNumAppleBombTopRight 17
-#define SpriteNumAppleBombBottomLeft 18
-#define SpriteNumAppleBombBottomRight 19
+#define SpriteNumAppleBombTopLeft 24
+#define SpriteNumAppleBombTopRight 25
+#define SpriteNumAppleBombBottomLeft 26
+#define SpriteNumAppleBombBottomRight 27
 
 #endif
 
