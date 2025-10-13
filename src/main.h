@@ -6,6 +6,7 @@
 #define TILE_SIZE 8U
 
 #define PLAYER_START_Y 32U
+#define DOG_START_Y 28U
 #define PLAYER_INITIAL_LIFE 3U
 
 #define PLAYER_PIXEL_WIDTH 16U

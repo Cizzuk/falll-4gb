@@ -153,9 +153,10 @@ void init_player(void) {
     UINT8 collision_max;
 
     player_flip = FALSE;
-    player_pos[1] = PLAYER_START_Y;
 
     if (dog_mode) {
+        player_pos[1] = DOG_START_Y;
+
         player_visual_width = DOG_PIXEL_WIDTH;
         player_visual_height = DOG_PIXEL_HEIGHT;
         player_visual_margin_left = DOG_VISUAL_MARGIN_LEFT;
@@ -198,6 +199,8 @@ void init_player(void) {
         set_sprite_prop(SpriteNumPlayer2_2, S_FLIPX | SpritesCGB21);
         set_sprite_prop(SpriteNumPlayer2_3, S_FLIPX | SpritesCGB18);
     } else {
+        player_pos[1] = PLAYER_START_Y;
+
         player_visual_width = PLAYER_PIXEL_WIDTH;
         player_visual_height = PLAYER_PIXEL_HEIGHT;
         player_visual_margin_left = PLAYER_VISUAL_MARGIN_LEFT;
