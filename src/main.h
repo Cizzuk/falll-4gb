@@ -4,6 +4,7 @@
 #include <gb/gb.h>
 
 #define PLAYER_START_X ((PLAY_AREA_MAX_X - PLAY_AREA_MIN_X) / 2 + PLAY_AREA_MIN_X)
+#define PLAYER_START_X_DOG ((PLAY_AREA_MAX_X - PLAY_AREA_MIN_X) / 2 + PLAY_AREA_MIN_X - 8U)
 #define PLAYER_START_Y 32U
 #define PLAYER_INITIAL_LIFE 3U
 
@@ -24,12 +25,12 @@
 #define PLAYER_MARGIN_RIGHT 2U
 #define PLAYER_MARGIN_BOTTOM 0U
 
-#define DOG_HITBOX_WIDTH 24U
+#define DOG_HITBOX_WIDTH 32U
 #define DOG_HITBOX_HEIGHT 24U
 #define DOG_MARGIN_TOP 6U
-#define DOG_MARGIN_LEFT 0U
+#define DOG_MARGIN_LEFT 2U
 #define DOG_MARGIN_RIGHT 1U
-#define DOG_MARGIN_BOTTOM 4U
+#define DOG_MARGIN_BOTTOM 2U
 
 #define LEAF_HITBOX_WIDTH 16U
 #define LEAF_HITBOX_HEIGHT 16U
@@ -63,6 +64,7 @@ void init_vram(void);
 void init_bkg_attr(void);
 void init_game(void);
 void init_sprites(void);
+void init_player(void);
 void render_player(void);
 void player_control(void);
 void render_leaves(void);

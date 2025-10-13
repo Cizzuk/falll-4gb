@@ -107,10 +107,18 @@ extern const unsigned short SpritePalette[32];
 extern const unsigned char Sprites[];
 
 /* Sprite number entries. */
-#define SpriteNumPlayerTopLeft 0
-#define SpriteNumPlayerTopRight 1
-#define SpriteNumPlayerBottomLeft 2
-#define SpriteNumPlayerBottomRight 3
+#define SpriteNumPlayer0_0 0
+#define SpriteNumPlayer0_1 1
+#define SpriteNumPlayer0_2 2
+#define SpriteNumPlayer0_3 3
+#define SpriteNumPlayer1_0 20
+#define SpriteNumPlayer1_1 21
+#define SpriteNumPlayer1_2 22
+#define SpriteNumPlayer1_3 23
+#define SpriteNumPlayer2_0 24
+#define SpriteNumPlayer2_1 25
+#define SpriteNumPlayer2_2 26
+#define SpriteNumPlayer2_3 27
 
 #define SpriteNumLeaf1TopLeft 4
 #define SpriteNumLeaf1TopRight 5
@@ -127,21 +135,10 @@ extern const unsigned char Sprites[];
 #define SpriteNumLeaf3BottomLeft 14
 #define SpriteNumLeaf3BottomRight 15
 
-#define SpriteNumScoreDigit0 16
-#define SpriteNumScoreDigit1 17
-#define SpriteNumScoreDigit2 18
-#define SpriteNumScoreDigit3 19
-#define SpriteNumScoreDigit4 20
-#define SpriteNumScoreDigit5 21
-
-#define SpriteNumAppleBombTopLeft 22
-#define SpriteNumAppleBombTopRight 23
-#define SpriteNumAppleBombBottomLeft 24
-#define SpriteNumAppleBombBottomRight 25
-
-#define SpriteNumHeart1 26
-#define SpriteNumHeart2 27
-#define SpriteNumHeart3 28
+#define SpriteNumAppleBombTopLeft 16
+#define SpriteNumAppleBombTopRight 17
+#define SpriteNumAppleBombBottomLeft 18
+#define SpriteNumAppleBombBottomRight 19
 
 #define SpriteNumScoreNiceStart SpriteNumScoreDigit0
 

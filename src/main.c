@@ -76,7 +76,11 @@ void init_game(void) {
     cursor_pos = FALSE;
     player_life = PLAYER_INITIAL_LIFE;
     player_flip = FALSE;
-    player_pos[0] = PLAYER_START_X;
+    if (dog_mode) {
+        player_pos[0] = PLAYER_START_X_DOG;
+    } else {
+        player_pos[0] = PLAYER_START_X;
+    }
     player_pos[1] = PLAYER_START_Y;
     leaves_pos[0][0] = LEAF1_START_X;
     leaves_pos[0][1] = LEAF1_START_Y;
@@ -95,15 +99,7 @@ void init_game(void) {
 }
 
 void init_sprites(void) {
-    // Player
-    set_sprite_tile(SpriteNumPlayerTopLeft, 0);
-    set_sprite_tile(SpriteNumPlayerTopRight, 2);
-    set_sprite_tile(SpriteNumPlayerBottomLeft, 1);
-    set_sprite_tile(SpriteNumPlayerBottomRight, 3);
-    set_sprite_prop(SpriteNumPlayerTopLeft, SpritesCGB0);
-    set_sprite_prop(SpriteNumPlayerTopRight, SpritesCGB2);
-    set_sprite_prop(SpriteNumPlayerBottomLeft, SpritesCGB1);
-    set_sprite_prop(SpriteNumPlayerBottomRight, SpritesCGB3);
+    init_player();
 
     // Leaves
     // Leaf 1
@@ -133,28 +129,92 @@ void init_sprites(void) {
     set_sprite_prop(SpriteNumLeaf3TopRight, SpritesCGB6);
     set_sprite_prop(SpriteNumLeaf3BottomLeft, SpritesCGB5);
     set_sprite_prop(SpriteNumLeaf3BottomRight, SpritesCGB7);
+}
 
+void init_player(void) {
+    if (dog_mode) {
+        player_pos[0] = PLAYER_START_X_DOG;
+        set_sprite_tile(SpriteNumPlayer0_0, 16);
+        set_sprite_tile(SpriteNumPlayer0_1, 19);
+        set_sprite_tile(SpriteNumPlayer0_2, 19);
+        set_sprite_tile(SpriteNumPlayer0_3, 16);
+        set_sprite_tile(SpriteNumPlayer1_0, 17);
+        set_sprite_tile(SpriteNumPlayer1_1, 20);
+        set_sprite_tile(SpriteNumPlayer1_2, 20);
+        set_sprite_tile(SpriteNumPlayer1_3, 17);
+        set_sprite_tile(SpriteNumPlayer2_0, 18);
+        set_sprite_tile(SpriteNumPlayer2_1, 21);
+        set_sprite_tile(SpriteNumPlayer2_2, 21);
+        set_sprite_tile(SpriteNumPlayer2_3, 18);
+        set_sprite_prop(SpriteNumPlayer0_0, SpritesCGB16);
+        set_sprite_prop(SpriteNumPlayer0_1, SpritesCGB19);
+        set_sprite_prop(SpriteNumPlayer0_2, S_FLIPX | SpritesCGB19);
+        set_sprite_prop(SpriteNumPlayer0_3, S_FLIPX | SpritesCGB16);
+        set_sprite_prop(SpriteNumPlayer1_0, SpritesCGB17);
+        set_sprite_prop(SpriteNumPlayer1_1, SpritesCGB20);
+        set_sprite_prop(SpriteNumPlayer1_2, S_FLIPX | SpritesCGB20);
+        set_sprite_prop(SpriteNumPlayer1_3, S_FLIPX | SpritesCGB17);
+        set_sprite_prop(SpriteNumPlayer2_0, SpritesCGB18);
+        set_sprite_prop(SpriteNumPlayer2_1, SpritesCGB21);
+        set_sprite_prop(SpriteNumPlayer2_2, S_FLIPX | SpritesCGB21);
+        set_sprite_prop(SpriteNumPlayer2_3, S_FLIPX | SpritesCGB18);
+    } else {
+        player_pos[0] = PLAYER_START_X;
+        set_sprite_tile(SpriteNumPlayer0_0, 0);
+        set_sprite_tile(SpriteNumPlayer0_1, 2);
+        set_sprite_tile(SpriteNumPlayer0_2, 1);
+        set_sprite_tile(SpriteNumPlayer0_3, 3);
+        set_sprite_prop(SpriteNumPlayer0_0, SpritesCGB0);
+        set_sprite_prop(SpriteNumPlayer0_1, SpritesCGB2);
+        set_sprite_prop(SpriteNumPlayer0_2, SpritesCGB1);
+        set_sprite_prop(SpriteNumPlayer0_3, SpritesCGB3);
+        // Hide unused sprites
+        move_sprite(SpriteNumPlayer1_0, 0, 0);
+        move_sprite(SpriteNumPlayer1_1, 0, 0);
+        move_sprite(SpriteNumPlayer1_2, 0, 0);
+        move_sprite(SpriteNumPlayer1_3, 0, 0);
+        move_sprite(SpriteNumPlayer2_0, 0, 0);
+        move_sprite(SpriteNumPlayer2_1, 0, 0);
+        move_sprite(SpriteNumPlayer2_2, 0, 0);
+        move_sprite(SpriteNumPlayer2_3, 0, 0);
+    }
+    render_player();
 }
 
 void render_player(void) {
-    if (player_flip) {
-        set_sprite_prop(SpriteNumPlayerTopLeft, S_FLIPX | SpritesCGB0);
-        set_sprite_prop(SpriteNumPlayerTopRight, S_FLIPX | SpritesCGB2);
-        set_sprite_prop(SpriteNumPlayerBottomLeft, S_FLIPX | SpritesCGB1);
-        set_sprite_prop(SpriteNumPlayerBottomRight, S_FLIPX | SpritesCGB3);
-        move_sprite(SpriteNumPlayerTopLeft, player_pos[0] + 8, player_pos[1]);
-        move_sprite(SpriteNumPlayerTopRight, player_pos[0], player_pos[1]);
-        move_sprite(SpriteNumPlayerBottomLeft, player_pos[0] + 8, player_pos[1] + 8);
-        move_sprite(SpriteNumPlayerBottomRight, player_pos[0], player_pos[1] + 8);
+    if (dog_mode) {
+        move_sprite(SpriteNumPlayer0_0, player_pos[0], player_pos[1]);
+        move_sprite(SpriteNumPlayer0_1, player_pos[0] + 8, player_pos[1]);
+        move_sprite(SpriteNumPlayer0_2, player_pos[0] + 15, player_pos[1]);
+        move_sprite(SpriteNumPlayer0_3, player_pos[0] + 23, player_pos[1]);
+        move_sprite(SpriteNumPlayer1_0, player_pos[0], player_pos[1] + 8);
+        move_sprite(SpriteNumPlayer1_1, player_pos[0] + 8, player_pos[1] + 8);
+        move_sprite(SpriteNumPlayer1_2, player_pos[0] + 15, player_pos[1] + 8);
+        move_sprite(SpriteNumPlayer1_3, player_pos[0] + 23, player_pos[1] + 8);
+        move_sprite(SpriteNumPlayer2_0, player_pos[0], player_pos[1] + 16);
+        move_sprite(SpriteNumPlayer2_1, player_pos[0] + 8, player_pos[1] + 16);
+        move_sprite(SpriteNumPlayer2_2, player_pos[0] + 15, player_pos[1] + 16);
+        move_sprite(SpriteNumPlayer2_3, player_pos[0] + 23, player_pos[1] + 16);
     } else {
-        set_sprite_prop(SpriteNumPlayerTopLeft, SpritesCGB0);
-        set_sprite_prop(SpriteNumPlayerTopRight, SpritesCGB2);
-        set_sprite_prop(SpriteNumPlayerBottomLeft, SpritesCGB1);
-        set_sprite_prop(SpriteNumPlayerBottomRight, SpritesCGB3);
-        move_sprite(SpriteNumPlayerTopLeft, player_pos[0], player_pos[1]);
-        move_sprite(SpriteNumPlayerTopRight, player_pos[0] + 8, player_pos[1]);
-        move_sprite(SpriteNumPlayerBottomLeft, player_pos[0], player_pos[1] + 8);
-        move_sprite(SpriteNumPlayerBottomRight, player_pos[0] + 8, player_pos[1] + 8);
+        if (player_flip) {
+            set_sprite_prop(SpriteNumPlayer0_0, S_FLIPX | SpritesCGB0);
+            set_sprite_prop(SpriteNumPlayer0_1, S_FLIPX | SpritesCGB2);
+            set_sprite_prop(SpriteNumPlayer0_2, S_FLIPX | SpritesCGB1);
+            set_sprite_prop(SpriteNumPlayer0_3, S_FLIPX | SpritesCGB3);
+            move_sprite(SpriteNumPlayer0_0, player_pos[0] + 8, player_pos[1]);
+            move_sprite(SpriteNumPlayer0_1, player_pos[0], player_pos[1]);
+            move_sprite(SpriteNumPlayer0_2, player_pos[0] + 8, player_pos[1] + 8);
+            move_sprite(SpriteNumPlayer0_3, player_pos[0], player_pos[1] + 8);
+        } else {
+            set_sprite_prop(SpriteNumPlayer0_0, SpritesCGB0);
+            set_sprite_prop(SpriteNumPlayer0_1, SpritesCGB2);
+            set_sprite_prop(SpriteNumPlayer0_2, SpritesCGB1);
+            set_sprite_prop(SpriteNumPlayer0_3, SpritesCGB3);
+            move_sprite(SpriteNumPlayer0_0, player_pos[0], player_pos[1]);
+            move_sprite(SpriteNumPlayer0_1, player_pos[0] + 8, player_pos[1]);
+            move_sprite(SpriteNumPlayer0_2, player_pos[0], player_pos[1] + 8);
+            move_sprite(SpriteNumPlayer0_3, player_pos[0] + 8, player_pos[1] + 8);
+        }
     }
 }
 
@@ -171,14 +231,25 @@ void player_control(void) {
         }
     }
 
+    UINT8 play_area_max;
+    UINT8 play_area_min;
+
+    if (dog_mode) {
+        play_area_max = PLAY_AREA_MAX_X - (DOG_HITBOX_WIDTH - PLAYER_HITBOX_WIDTH) + 3U;
+        play_area_min = PLAY_AREA_MIN_X - 2U;
+    } else {
+        play_area_max = PLAY_AREA_MAX_X;
+        play_area_min = PLAY_AREA_MIN_X;
+    }
+
     if (controller & J_RIGHT) {
-        if (player_pos[0] < PLAY_AREA_MAX_X) {
+        if (player_pos[0] < play_area_max) {
             player_pos[0]++;
             player_flip = TRUE;
         }
     }
     if (controller & J_LEFT) {
-        if (player_pos[0] > PLAY_AREA_MIN_X) {
+        if (player_pos[0] > play_area_min) {
             player_pos[0]--;
             player_flip = FALSE;
         }
@@ -432,6 +503,7 @@ void update_title_screen(void) {
     if (prev_controller == 0 && (controller & J_START || controller & J_A || controller & J_B)) {
         if (cursor_pos) {
             dog_mode = !dog_mode;
+            init_player();
         } else {
             show_gameplay_screen();
         }
