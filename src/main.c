@@ -92,8 +92,6 @@ void init_game(void) {
     render_player();
     render_leaves();
     render_apple_bomb();
-    render_score(score);
-    render_lives(player_life);
 }
 
 void init_sprites(void) {
@@ -136,8 +134,6 @@ void init_sprites(void) {
     set_sprite_prop(SpriteNumLeaf3BottomLeft, SpritesCGB5);
     set_sprite_prop(SpriteNumLeaf3BottomRight, SpritesCGB7);
 
-    // UI
-    render_score(score);
 }
 
 void render_player(void) {
@@ -411,6 +407,7 @@ void show_title_screen(void) {
     scene_mode = 0;
     cursor_pos = FALSE;
     init_game();
+    init_ui_title();
     init_bkg_attr();
 }
 
@@ -421,14 +418,17 @@ void update_title_screen(void) {
     }
 
     // Move cursor
-    if ((controller & J_SELECT)) {
-        cursor_pos = !cursor_pos;
-    }
-    if (controller & J_UP) {
-        cursor_pos = FALSE;
-    }
-    if (controller & J_DOWN) {
-        cursor_pos = TRUE;
+    if (controller & J_SELECT || controller & J_UP || controller & J_DOWN) {
+        if (controller & J_SELECT) {
+            cursor_pos = !cursor_pos;
+        }
+        if (controller & J_UP) {
+            cursor_pos = FALSE;
+        }
+        if (controller & J_DOWN) {
+            cursor_pos = TRUE;
+        }
+        render_title_menu(cursor_pos);
     }
 
     // Select option
@@ -444,9 +444,7 @@ void update_title_screen(void) {
 void show_gameplay_screen(void) {
     scene_mode = 1;
     init_game();
-    init_ui();
-    render_score(score);
-    render_lives(player_life);
+    init_ui_gameplay(score, player_life);
 }
 
 void update_gameplay_screen(void) {
@@ -484,6 +482,7 @@ void show_gameover_screen(void) {
     // Hide apple/bomb
     apple_bomb_pos[1] = SCREEN_BOTTOM;
     render_apple_bomb();
+    render_gameover();
 }
 
 void update_gameover_screen(void) {
@@ -506,7 +505,7 @@ void main(void) {
     
     // Initialize
     init_vram();
-    init_ui();
+    init_window();
     init_sprites();
     show_title_screen();
     prev_controller = joypad();
