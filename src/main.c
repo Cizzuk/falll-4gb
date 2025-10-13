@@ -390,7 +390,7 @@ UINT8 leaves_speed_calc(void) {
 
     {
         UINT8 stage = real_score / LEAF_SPEED_STAGE_INTERVAL;
-        UINT8 base_speed = LEAF_SPEED_INITIAL + (stage / 4); // Increase speed every 4 stages
+        UINT8 speed = LEAF_SPEED_INITIAL + (stage >> 2); // Increase speed every 4 stages
         UINT8 pattern = stage & 3U; // 0, 1, 2, 3
         UINT8 modulo = frame_counter & 3U;
 
@@ -399,21 +399,21 @@ UINT8 leaves_speed_calc(void) {
         if (pattern == 1U) {
             // 1 boost per 4f
             if (modulo == 0U) {
-                base_speed++;
+                speed++;
             }
         } else if (pattern == 2U) {
             // 2 boosts per 4f
             if ((modulo == 0U) || (modulo == 2U)) {
-                base_speed++;
+                speed++;
             }
         } else if (pattern == 3U) {
             // 3 boosts per 4f
             if (modulo != 3U) {
-                base_speed++;
+                speed++;
             }
         }
 
-        return base_speed;
+        return speed;
     }
 }
 
