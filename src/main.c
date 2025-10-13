@@ -368,14 +368,20 @@ void render_leaves(void) {
 void leaves_scroll(void) {
     UINT8 speed = 2;
 
-    if (leaves_pos[0][1] > 0) {
+    if (leaves_pos[0][1] > 0 + speed) {
         leaves_pos[0][1] -= speed;
+    } else if (leaves_pos[0][1] > 0) {
+        leaves_pos[0][1] = 0;
     }
-    if (leaves_pos[1][1] > 0) {
+    if (leaves_pos[1][1] > 0 + speed) {
         leaves_pos[1][1] -= speed;
+    } else if (leaves_pos[1][1] > 0) {
+        leaves_pos[1][1] = 0;
     }
-    if (leaves_pos[2][1] > 0) {
+    if (leaves_pos[2][1] > 0 + speed) {
         leaves_pos[2][1] -= speed;
+    } else if (leaves_pos[2][1] > 0) {
+        leaves_pos[2][1] = 0;
     }
 
     if (frame_counter == 0) {
