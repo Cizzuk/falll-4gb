@@ -36,7 +36,7 @@
 
 /* Gameboy Color palette 1 */
 #define BackgroundCGBPal1c0 32767
-#define BackgroundCGBPal1c1 8834
+#define BackgroundCGBPal1c1 32767
 #define BackgroundCGBPal1c2 10271
 #define BackgroundCGBPal1c3 5136
 
@@ -71,10 +71,10 @@
 #define BackgroundCGBPal6c3 32767
 
 /* Gameboy Color palette 7 */
-#define BackgroundCGBPal7c0 32389
+#define BackgroundCGBPal7c0 32767
 #define BackgroundCGBPal7c1 32767
-#define BackgroundCGBPal7c2 15855
-#define BackgroundCGBPal7c3 0
+#define BackgroundCGBPal7c2 32767
+#define BackgroundCGBPal7c3 32767
 
 /* CGB palette entries. */
 #define BackgroundCGB0 0

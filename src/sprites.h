@@ -30,14 +30,14 @@
 
 /* Gameboy Color palette 0 */
 #define SpritesCGBPal0c0 32389
-#define SpritesCGBPal0c1 6047
+#define SpritesCGBPal0c1 6111
 #define SpritesCGBPal0c2 4447
 #define SpritesCGBPal0c3 0
 
 /* Gameboy Color palette 1 */
 #define SpritesCGBPal1c0 32389
-#define SpritesCGBPal1c1 6047
-#define SpritesCGBPal1c2 24382
+#define SpritesCGBPal1c1 6111
+#define SpritesCGBPal1c2 26527
 #define SpritesCGBPal1c3 0
 
 /* Gameboy Color palette 2 */
@@ -67,7 +67,7 @@
 /* Gameboy Color palette 6 */
 #define SpritesCGBPal6c0 32389
 #define SpritesCGBPal6c1 32767
-#define SpritesCGBPal6c2 13818
+#define SpritesCGBPal6c2 16957
 #define SpritesCGBPal6c3 0
 
 /* Gameboy Color palette 7 */
