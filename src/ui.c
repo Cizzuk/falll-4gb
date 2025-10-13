@@ -88,11 +88,11 @@ static void set_ui_text(UINT8 start_column, UINT8 row, const UINT8 *tiles, UINT8
     }
 }
 
-static UINT8 get_first_digit(UINT8 num) {
+inline static UINT8 get_first_digit(UINT8 num) {
     return num % 10U;
 }
 
-static UINT8 get_second_digit(UINT8 num) {
+inline static UINT8 get_second_digit(UINT8 num) {
     return num / 10U;
 }
 
