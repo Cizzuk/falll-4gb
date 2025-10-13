@@ -77,9 +77,9 @@ void render_score(UINT8 score[3]) {
 void render_lives(UINT8 lives) {
     for (UINT8 i = 0; i < UI_MAX_LIVES; ++i) {
         if (i < lives) {
-            set_ui_tile(i, UI_LIVES_ROW, UI_TILE_HEART, UI_ATTR_LIFE);
+            set_ui_tile(UI_LIVES_COLUMN + i, UI_LIVES_ROW, UI_TILE_HEART, UI_ATTR_LIFE);
         } else {
-            set_ui_tile(i, UI_LIVES_ROW, UI_TILE_BLANK, UI_ATTR_DEFAULT);
+            set_ui_tile(UI_LIVES_COLUMN + i, UI_LIVES_ROW, UI_TILE_BLANK, UI_ATTR_DEFAULT);
         }
     }
 }

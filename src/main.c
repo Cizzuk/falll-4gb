@@ -42,14 +42,22 @@ void init_vram(void) {
     if (_cpu == CGB_TYPE) {
         set_bkg_palette(0, 8, BackgroundPalette);
         set_sprite_palette(0, 8, SpritePalette);
+
         VBK_REG = 1;
-        for (UINT8 row = 0; row < WorldHeight; ++row) {
-            // Attribute map is only available on CGB hardware.
-            UINT8 palette_id = uint8_random(1U, 4U);
-            for (UINT8 col = 0; col < WorldWidth; ++col) {
-                WorldPalette[col] = palette_id;
+        // Copy world palette
+        UINT8 row_palette[WorldWidth];
+        for (UINT8 col = 0; col < WorldWidth; col++) {
+            row_palette[col] = WorldPalette[col];
+        }
+
+        // Apply palette per row
+        for (UINT8 row = 0; row < WorldHeight; row++) {
+            // Randomize specific columns
+            for (UINT8 i = 0; i < WORLD_ATTR_RANDOM_COL_COUNT; i++) {
+                UINT8 random_col = WorldAttrRandomColumns[i];
+                row_palette[random_col] = uint8_random(WORLD_ATTR_RANDOM_PALETTE_MIN, WORLD_ATTR_RANDOM_PALETTE_MAX);
             }
-            set_bkg_tiles(0, row, WorldWidth, 1, WorldPalette);
+            set_bkg_tiles(0, row, WorldWidth, 1, row_palette);
         }
         VBK_REG = 0;
     }
@@ -485,11 +493,13 @@ void update_gameover_screen(void) {
 }
 
 void main(void) {
+    DISPLAY_OFF;
+    
     // Initialize
     init_vram();
     init_ui();
     init_sprites();
-    show_gameplay_screen();
+    show_title_screen();
 
     // Show All
     SHOW_BKG;

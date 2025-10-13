@@ -27,9 +27,9 @@
 #define UI_TILE_TEXT_EXCL 24U
 
 #define UI_ATTR_DEFAULT 0U
-#define UI_ATTR_LIFE 5U
+#define UI_ATTR_LIFE 1U
 
-#define UI_WINDOW_TILE_WIDTH 7U
+#define UI_WINDOW_TILE_WIDTH 8U
 #define UI_WINDOW_X (7U + (20U - UI_WINDOW_TILE_WIDTH) * 8U)
 #define UI_WINDOW_Y 0U
 
@@ -39,6 +39,7 @@
 
 #define UI_MAX_LIVES 3U
 #define UI_LIVES_ROW 3U
+#define UI_LIVES_COLUMN 1U
 
 extern void init_ui(void);
 extern void render_score(UINT8 score[3]);
