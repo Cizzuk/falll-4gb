@@ -8,6 +8,7 @@
 #include "ui.h"
 
 // Game state
+UINT8 prev_controller = 0;
 UINT8 scene_mode = 0; // 0: title, 1: gameplay, 2: gameover
 BOOLEAN dog_mode = FALSE;
 UINT8 frame_counter = 0; // counts from 0 to 179
@@ -424,7 +425,7 @@ void update_title_screen(void) {
     }
 
     // Select option
-    if (controller & J_START || controller & J_A || controller & J_B) {
+    if (prev_controller == 0 && (controller & J_START || controller & J_A || controller & J_B)) {
         if (cursor_pos == 0) {
             show_gameplay_screen();
         } else {
@@ -479,19 +480,18 @@ void show_gameover_screen(void) {
 }
 
 void update_gameover_screen(void) {
-    // Wait for input to restart
-    if (joypad() & J_START || joypad() & J_A || joypad() & J_B) {
-        show_title_screen();
+    // First, fall down player
+    if (player_pos[1] < SCREEN_BOTTOM) {
+        player_pos[1] += 3;
+        render_player();
         return;
     }
 
-    // Fall down player
-    if (player_pos[1] < SCREEN_BOTTOM) {
-        player_pos[1] += 2;
-    } else {
-        player_pos[1] = SCREEN_BOTTOM;
+    // Second, wait for input to restart
+    UINT8 controller = joypad();
+    if (prev_controller == 0 && (controller & J_START || controller & J_A || controller & J_B)) {
+        show_title_screen();
     }
-    render_player();
 }
 
 void main(void) {
@@ -502,6 +502,7 @@ void main(void) {
     init_ui();
     init_sprites();
     show_title_screen();
+    prev_controller = joypad();
 
     // Show All
     SHOW_BKG;
@@ -521,6 +522,7 @@ void main(void) {
             update_gameover_screen();
         }
 
+        prev_controller = joypad();
         wait_vbl_done();
     }
 }

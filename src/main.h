@@ -42,6 +42,7 @@
 #define APPLE_BOMB_MARGIN_RIGHT 4U
 #define APPLE_BOMB_MARGIN_BOTTOM 1U
 
+extern UINT8 prev_controller;
 extern UINT8 scene_mode;
 extern BOOLEAN dog_mode;
 extern UINT8 frame_counter;
