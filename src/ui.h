@@ -26,6 +26,10 @@
 #define UI_TILE_TEXT_I 23U
 #define UI_TILE_TEXT_EXCL 24U
 
+#define UI_TILE_TITLE_F 27U
+#define UI_TILE_TITLE_A 28U
+#define UI_TILE_TITLE_L 29U
+
 #define UI_ATTR_DEFAULT 0U
 #define UI_ATTR_LIFE 1U
 
