@@ -413,21 +413,18 @@ void show_title_screen(void) {
 
 void update_title_screen(void) {
     UINT8 controller = joypad();
-    if (controller & J_UP && controller & J_DOWN) {
-        return;
-    }
 
     // Move cursor
-    if (controller & J_SELECT || controller & J_UP || controller & J_DOWN) {
-        if (controller & J_SELECT) {
-            cursor_pos = !cursor_pos;
-        }
-        if (controller & J_UP) {
-            cursor_pos = FALSE;
-        }
-        if (controller & J_DOWN) {
-            cursor_pos = TRUE;
-        }
+    if (!(prev_controller & J_SELECT) && (controller & J_SELECT)) {
+        cursor_pos = !cursor_pos;
+        render_title_menu(cursor_pos);
+    }
+    if (!(prev_controller & J_UP) && (controller & J_UP)) {
+        cursor_pos = FALSE;
+        render_title_menu(cursor_pos);
+    }
+    if (!(prev_controller & J_DOWN) && (controller & J_DOWN)) {
+        cursor_pos = TRUE;
         render_title_menu(cursor_pos);
     }
 
@@ -459,6 +456,12 @@ void update_gameplay_screen(void) {
     } else {
         frame_counter = 0;
         is_first_frame_count = FALSE;
+    }
+
+    // Exit to title screen
+    if (prev_controller == 0 && (joypad() & J_START)) {
+        show_title_screen();
+        return;
     }
 
     player_control();
