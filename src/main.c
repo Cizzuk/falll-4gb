@@ -32,17 +32,18 @@ UINT8 is_bomb = FALSE;
 UINT8 background_scroll_y = 0U;
 
 void init_vram(void) {
+    VBK_REG = 0;
     set_bkg_data(0, 80, Background);
     set_sprite_data(0, 22, Sprites);
-    
-    VBK_REG = 0;
+    set_bkg_palette(0, 8, BackgroundPalette);
+    set_sprite_palette(0, 8, SpritePalette);
     set_bkg_tiles(0, 0, WorldWidth, WorldHeight, World);
+    init_bkg_attr();
+}
 
+void init_bkg_attr(void) {
     // Set palettes if on CGB hardware
     if (_cpu == CGB_TYPE) {
-        set_bkg_palette(0, 8, BackgroundPalette);
-        set_sprite_palette(0, 8, SpritePalette);
-
         VBK_REG = 1;
         // Copy world palette
         UINT8 row_palette[WorldWidth];
@@ -408,6 +409,7 @@ void show_title_screen(void) {
     scene_mode = 0;
     cursor_pos = 0;
     init_game();
+    init_bkg_attr();
 }
 
 void update_title_screen(void) {

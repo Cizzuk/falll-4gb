@@ -59,6 +59,7 @@ extern UINT8 is_bomb;
 extern UINT8 background_scroll_y;
 
 void init_vram(void);
+void init_bkg_attr(void);
 void init_game(void);
 void init_sprites(void);
 void render_player(void);
