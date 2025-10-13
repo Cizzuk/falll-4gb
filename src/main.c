@@ -421,8 +421,14 @@ void update_title_screen(void) {
     }
 
     // Move cursor
-    if ((controller & J_SELECT) || (controller & J_UP) || (controller & J_DOWN)) {
+    if ((controller & J_SELECT)) {
         cursor_pos = !cursor_pos;
+    }
+    if (controller & J_UP) {
+        cursor_pos = FALSE;
+    }
+    if (controller & J_DOWN) {
+        cursor_pos = TRUE;
     }
 
     // Select option
