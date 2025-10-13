@@ -49,7 +49,7 @@ extern UINT8 frame_counter;
 extern BOOLEAN is_first_frame_count;
 extern UINT8 score[3];
 
-extern UINT8 cursor_pos;
+extern BOOLEAN cursor_pos;
 
 extern UINT8 player_life;
 extern BOOLEAN player_flip;

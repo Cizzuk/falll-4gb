@@ -16,7 +16,8 @@ BOOLEAN is_first_frame_count = TRUE;
 UINT8 score[3] = {0, 0, 0};
 
 // Title screen state
-UINT8 cursor_pos = 0; // 0: Start, 1: Change
+// Temporary, only 2 options
+BOOLEAN cursor_pos = FALSE; // F: Start, T: Change
 
 // Player state
 UINT8 player_life = PLAYER_INITIAL_LIFE;
@@ -72,7 +73,7 @@ void init_game(void) {
     score[0] = 0;
     score[1] = 0;
     score[2] = 0;
-    cursor_pos = 0;
+    cursor_pos = FALSE;
     player_life = PLAYER_INITIAL_LIFE;
     player_flip = FALSE;
     player_pos[0] = PLAYER_START_X;
@@ -408,7 +409,7 @@ void update_colliders(void) {
 
 void show_title_screen(void) {
     scene_mode = 0;
-    cursor_pos = 0;
+    cursor_pos = FALSE;
     init_game();
     init_bkg_attr();
 }
@@ -421,15 +422,15 @@ void update_title_screen(void) {
 
     // Move cursor
     if ((controller & J_SELECT) || (controller & J_UP) || (controller & J_DOWN)) {
-        cursor_pos = 1 - cursor_pos;
+        cursor_pos = !cursor_pos;
     }
 
     // Select option
     if (prev_controller == 0 && (controller & J_START || controller & J_A || controller & J_B)) {
-        if (cursor_pos == 0) {
-            show_gameplay_screen();
-        } else {
+        if (cursor_pos) {
             dog_mode = !dog_mode;
+        } else {
+            show_gameplay_screen();
         }
     }
 }
