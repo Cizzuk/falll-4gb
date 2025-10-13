@@ -3,10 +3,42 @@
 
 #include <gb/gb.h>
 
-#define PLAYER_START_X ((PLAY_AREA_MAX_X - PLAY_AREA_MIN_X) / 2 + PLAY_AREA_MIN_X)
-#define PLAYER_START_X_DOG ((PLAY_AREA_MAX_X - PLAY_AREA_MIN_X) / 2 + PLAY_AREA_MIN_X - 8U)
+#define TILE_SIZE 8U
+
 #define PLAYER_START_Y 32U
 #define PLAYER_INITIAL_LIFE 3U
+
+#define PLAYER_PIXEL_WIDTH 16U
+#define PLAYER_PIXEL_HEIGHT 16U
+#define PLAYER_VISUAL_MARGIN_TOP 1U
+#define PLAYER_VISUAL_MARGIN_LEFT 2U
+#define PLAYER_VISUAL_MARGIN_RIGHT 2U
+#define PLAYER_VISUAL_MARGIN_BOTTOM 0U
+
+#define PLAYER_COLLISION_MARGIN_TOP (PLAYER_VISUAL_MARGIN_TOP + 5U)
+#define PLAYER_COLLISION_MARGIN_LEFT (PLAYER_VISUAL_MARGIN_LEFT + 1U)
+#define PLAYER_COLLISION_MARGIN_RIGHT (PLAYER_VISUAL_MARGIN_RIGHT + 1U)
+#define PLAYER_COLLISION_MARGIN_BOTTOM (PLAYER_VISUAL_MARGIN_BOTTOM + 1U)
+
+#define DOG_PIXEL_WIDTH 32U
+#define DOG_PIXEL_HEIGHT 24U
+#define DOG_VISUAL_MARGIN_LEFT 0U
+#define DOG_VISUAL_MARGIN_RIGHT 1U
+#define DOG_VISUAL_MARGIN_TOP 0U
+#define DOG_VISUAL_MARGIN_BOTTOM 0U
+
+#define DOG_COLLISION_MARGIN_TOP (DOG_VISUAL_MARGIN_TOP + 12U)
+#define DOG_COLLISION_MARGIN_LEFT (DOG_VISUAL_MARGIN_LEFT + 2U)
+#define DOG_COLLISION_MARGIN_RIGHT (DOG_VISUAL_MARGIN_RIGHT + 1U)
+#define DOG_COLLISION_MARGIN_BOTTOM (DOG_VISUAL_MARGIN_BOTTOM + 2U)
+
+#define PLAY_COLUMN_MIN 2U
+#define PLAY_COLUMN_MAX 10U
+#define PLAY_COLUMN_EXTRA_DOG 3U
+#define PLAY_BOUND_LEFT (PLAY_COLUMN_MIN * TILE_SIZE)
+#define PLAY_BOUND_RIGHT ((PLAY_COLUMN_MAX * TILE_SIZE) + TILE_SIZE)
+#define PLAY_BOUND_LEFT_DOG (PLAY_BOUND_LEFT - PLAY_COLUMN_EXTRA_DOG)
+#define PLAY_BOUND_RIGHT_DOG (PLAY_BOUND_RIGHT + PLAY_COLUMN_EXTRA_DOG)
 
 #define LEAF1_START_X (PLAY_AREA_MIN_X + 8)
 #define LEAF1_START_Y 160U
@@ -15,26 +47,15 @@
 #define LEAF3_START_X (PLAY_AREA_MAX_X - 8)
 #define LEAF3_START_Y 0U
 
-#define APPLE_BOMB_START_X 0U
-#define APPLE_BOMB_START_Y 0U
-
-#define PLAYER_HITBOX_WIDTH 16U
-#define PLAYER_HITBOX_HEIGHT 16U
-#define PLAYER_MARGIN_TOP 2U
-#define PLAYER_MARGIN_LEFT 2U
-#define PLAYER_MARGIN_RIGHT 2U
-#define PLAYER_MARGIN_BOTTOM 0U
-
-#define DOG_HITBOX_WIDTH 32U
-#define DOG_HITBOX_HEIGHT 24U
-#define DOG_MARGIN_TOP 6U
-#define DOG_MARGIN_LEFT 2U
-#define DOG_MARGIN_RIGHT 1U
-#define DOG_MARGIN_BOTTOM 2U
+#define FALL_ITEM_RANDOM_MIN_X PLAY_AREA_MIN_X + 4
+#define FALL_ITEM_RANDOM_MAX_X PLAY_AREA_MAX_X - 4
 
 #define LEAF_HITBOX_WIDTH 16U
 #define LEAF_HITBOX_HEIGHT 16U
 #define LEAF_MARGIN 2U
+
+#define APPLE_BOMB_START_X 0U
+#define APPLE_BOMB_START_Y 0U
 
 #define APPLE_BOMB_HITBOX_WIDTH 16U
 #define APPLE_BOMB_HITBOX_HEIGHT 16U
@@ -55,6 +76,20 @@ extern BOOLEAN cursor_pos;
 extern UINT8 player_life;
 extern BOOLEAN player_flip;
 extern UINT8 player_pos[2];
+extern UINT8 player_visual_width;
+extern UINT8 player_visual_height;
+extern UINT8 player_visual_margin_left;
+extern UINT8 player_visual_margin_right;
+extern UINT8 player_visual_margin_top;
+extern UINT8 player_visual_margin_bottom;
+extern UINT8 player_hitbox_width;
+extern UINT8 player_hitbox_height;
+extern UINT8 player_hitbox_margin_left;
+extern UINT8 player_hitbox_margin_right;
+extern UINT8 player_hitbox_margin_top;
+extern UINT8 player_hitbox_margin_bottom;
+extern UINT8 player_move_min_x;
+extern UINT8 player_move_max_x;
 extern UINT8 leaves_pos[3][2];
 extern UINT8 apple_bomb_pos[2];
 extern UINT8 is_bomb;

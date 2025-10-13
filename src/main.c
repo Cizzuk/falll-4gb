@@ -16,14 +16,28 @@ BOOLEAN is_first_frame_count = TRUE;
 UINT8 score[3] = {0, 0, 0};
 
 // Title screen state
-// Temporary, only 2 options
 BOOLEAN cursor_pos = FALSE; // F: Start, T: Change
 
 // Player state
 UINT8 player_life = PLAYER_INITIAL_LIFE;
 BOOLEAN player_flip = FALSE;
+UINT8 player_pos[2] = {0U, PLAYER_START_Y};
+UINT8 player_visual_width = PLAYER_PIXEL_WIDTH;
+UINT8 player_visual_height = PLAYER_PIXEL_HEIGHT;
+UINT8 player_visual_margin_left = PLAYER_VISUAL_MARGIN_LEFT;
+UINT8 player_visual_margin_right = PLAYER_VISUAL_MARGIN_RIGHT;
+UINT8 player_visual_margin_top = PLAYER_VISUAL_MARGIN_TOP;
+UINT8 player_visual_margin_bottom = PLAYER_VISUAL_MARGIN_BOTTOM;
+UINT8 player_hitbox_width = PLAYER_PIXEL_WIDTH;
+UINT8 player_hitbox_height = PLAYER_PIXEL_HEIGHT;
+UINT8 player_hitbox_margin_left = PLAYER_COLLISION_MARGIN_LEFT;
+UINT8 player_hitbox_margin_right = PLAYER_COLLISION_MARGIN_RIGHT;
+UINT8 player_hitbox_margin_top = PLAYER_COLLISION_MARGIN_TOP;
+UINT8 player_hitbox_margin_bottom = PLAYER_COLLISION_MARGIN_BOTTOM;
+UINT8 player_move_min_x = PLAY_BOUND_LEFT - PLAYER_VISUAL_MARGIN_LEFT;
+UINT8 player_move_max_x = PLAY_BOUND_RIGHT - (PLAYER_PIXEL_WIDTH - PLAYER_VISUAL_MARGIN_RIGHT);
 
-UINT8 player_pos[2] = {PLAYER_START_X, PLAYER_START_Y};
+// Falling items state
 UINT8 leaves_pos[3][2] = {
     {LEAF1_START_X, LEAF1_START_Y},
     {LEAF2_START_X, LEAF2_START_Y},
@@ -68,34 +82,31 @@ void init_bkg_attr(void) {
 
 // Refresh game variables
 void init_game(void) {
+    // Game state
     frame_counter = 0;
     is_first_frame_count = TRUE;
     score[0] = 0;
     score[1] = 0;
     score[2] = 0;
-    cursor_pos = FALSE;
+    // Player state
     player_life = PLAYER_INITIAL_LIFE;
-    player_flip = FALSE;
-    if (dog_mode) {
-        player_pos[0] = PLAYER_START_X_DOG;
-    } else {
-        player_pos[0] = PLAYER_START_X;
-    }
-    player_pos[1] = PLAYER_START_Y;
+    init_player();
+    // Leaves state
     leaves_pos[0][0] = LEAF1_START_X;
     leaves_pos[0][1] = LEAF1_START_Y;
     leaves_pos[1][0] = LEAF2_START_X;
     leaves_pos[1][1] = LEAF2_START_Y;
     leaves_pos[2][0] = LEAF3_START_X;
     leaves_pos[2][1] = LEAF3_START_Y;
+    render_leaves();
+    // Apple/Bomb state
     apple_bomb_pos[0] = APPLE_BOMB_START_X;
     apple_bomb_pos[1] = APPLE_BOMB_START_Y;
     is_bomb = FALSE;
+    render_apple_bomb();
+    // Background state
     background_scroll_y = 0U;
     move_bkg(0U, 0U);
-    render_player();
-    render_leaves();
-    render_apple_bomb();
 }
 
 void init_sprites(void) {
@@ -132,8 +143,36 @@ void init_sprites(void) {
 }
 
 void init_player(void) {
+    UINT8 field_left;
+    UINT8 field_right;
+    UINT8 visual_min;
+    UINT8 collision_min;
+    UINT8 visual_offset;
+    UINT8 collision_offset;
+    UINT8 visual_max;
+    UINT8 collision_max;
+
+    player_flip = FALSE;
+    player_pos[1] = PLAYER_START_Y;
+
     if (dog_mode) {
-        player_pos[0] = PLAYER_START_X_DOG;
+        player_visual_width = DOG_PIXEL_WIDTH;
+        player_visual_height = DOG_PIXEL_HEIGHT;
+        player_visual_margin_left = DOG_VISUAL_MARGIN_LEFT;
+        player_visual_margin_right = DOG_VISUAL_MARGIN_RIGHT;
+        player_visual_margin_top = DOG_VISUAL_MARGIN_TOP;
+        player_visual_margin_bottom = DOG_VISUAL_MARGIN_BOTTOM;
+
+        player_hitbox_width = DOG_PIXEL_WIDTH;
+        player_hitbox_height = DOG_PIXEL_HEIGHT;
+        player_hitbox_margin_left = DOG_COLLISION_MARGIN_LEFT;
+        player_hitbox_margin_right = DOG_COLLISION_MARGIN_RIGHT;
+        player_hitbox_margin_top = DOG_COLLISION_MARGIN_TOP;
+        player_hitbox_margin_bottom = DOG_COLLISION_MARGIN_BOTTOM;
+
+        field_left = PLAY_BOUND_LEFT_DOG;
+        field_right = PLAY_BOUND_RIGHT_DOG;
+
         set_sprite_tile(SpriteNumPlayer0_0, 16);
         set_sprite_tile(SpriteNumPlayer0_1, 19);
         set_sprite_tile(SpriteNumPlayer0_2, 19);
@@ -159,7 +198,23 @@ void init_player(void) {
         set_sprite_prop(SpriteNumPlayer2_2, S_FLIPX | SpritesCGB21);
         set_sprite_prop(SpriteNumPlayer2_3, S_FLIPX | SpritesCGB18);
     } else {
-        player_pos[0] = PLAYER_START_X;
+        player_visual_width = PLAYER_PIXEL_WIDTH;
+        player_visual_height = PLAYER_PIXEL_HEIGHT;
+        player_visual_margin_left = PLAYER_VISUAL_MARGIN_LEFT;
+        player_visual_margin_right = PLAYER_VISUAL_MARGIN_RIGHT;
+        player_visual_margin_top = PLAYER_VISUAL_MARGIN_TOP;
+        player_visual_margin_bottom = PLAYER_VISUAL_MARGIN_BOTTOM;
+
+        player_hitbox_width = PLAYER_PIXEL_WIDTH;
+        player_hitbox_height = PLAYER_PIXEL_HEIGHT;
+        player_hitbox_margin_left = PLAYER_COLLISION_MARGIN_LEFT;
+        player_hitbox_margin_right = PLAYER_COLLISION_MARGIN_RIGHT;
+        player_hitbox_margin_top = PLAYER_COLLISION_MARGIN_TOP;
+        player_hitbox_margin_bottom = PLAYER_COLLISION_MARGIN_BOTTOM;
+
+        field_left = PLAY_BOUND_LEFT;
+        field_right = PLAY_BOUND_RIGHT;
+
         set_sprite_tile(SpriteNumPlayer0_0, 0);
         set_sprite_tile(SpriteNumPlayer0_1, 2);
         set_sprite_tile(SpriteNumPlayer0_2, 1);
@@ -168,6 +223,7 @@ void init_player(void) {
         set_sprite_prop(SpriteNumPlayer0_1, SpritesCGB2);
         set_sprite_prop(SpriteNumPlayer0_2, SpritesCGB1);
         set_sprite_prop(SpriteNumPlayer0_3, SpritesCGB3);
+
         // Hide unused sprites
         move_sprite(SpriteNumPlayer1_0, 0, 0);
         move_sprite(SpriteNumPlayer1_1, 0, 0);
@@ -178,6 +234,22 @@ void init_player(void) {
         move_sprite(SpriteNumPlayer2_2, 0, 0);
         move_sprite(SpriteNumPlayer2_3, 0, 0);
     }
+
+    // Calculate movement bounds
+    // Left bound
+    visual_min = field_left - player_visual_margin_left;
+    collision_min = field_left - player_hitbox_margin_left;
+    player_move_min_x = (visual_min > collision_min) ? visual_min : collision_min;
+    // Right bound
+    visual_offset = player_visual_width - player_visual_margin_right;
+    collision_offset = player_hitbox_width - player_hitbox_margin_right;
+    visual_max = field_right - visual_offset;
+    collision_max = field_right - collision_offset;
+    player_move_max_x = (visual_max < collision_max) ? visual_max : collision_max;
+
+    // Calculate starting position (centered)
+    player_pos[0] = player_move_min_x + ((player_move_max_x - player_move_min_x) / 2U);
+
     render_player();
 }
 
@@ -231,25 +303,14 @@ void player_control(void) {
         }
     }
 
-    UINT8 play_area_max;
-    UINT8 play_area_min;
-
-    if (dog_mode) {
-        play_area_max = PLAY_AREA_MAX_X - (DOG_HITBOX_WIDTH - PLAYER_HITBOX_WIDTH) + 3U;
-        play_area_min = PLAY_AREA_MIN_X - 2U;
-    } else {
-        play_area_max = PLAY_AREA_MAX_X;
-        play_area_min = PLAY_AREA_MIN_X;
-    }
-
     if (controller & J_RIGHT) {
-        if (player_pos[0] < play_area_max) {
+        if (player_pos[0] < player_move_max_x) {
             player_pos[0]++;
             player_flip = TRUE;
         }
     }
     if (controller & J_LEFT) {
-        if (player_pos[0] > play_area_min) {
+        if (player_pos[0] > player_move_min_x) {
             player_pos[0]--;
             player_flip = FALSE;
         }
@@ -291,17 +352,17 @@ void leaves_scroll(void) {
 
     if (frame_counter == 0) {
         if (!is_first_frame_count) {
-            leaves_pos[0][0] = uint8_random(PLAY_AREA_MIN_X, PLAY_AREA_MAX_X);
+            leaves_pos[0][0] = uint8_random(FALL_ITEM_RANDOM_MIN_X, FALL_ITEM_RANDOM_MAX_X);
         }
         leaves_pos[0][1] = SCREEN_BOTTOM;
     } else if (frame_counter == 60) {
         if (!is_first_frame_count) {
-            leaves_pos[1][0] = uint8_random(PLAY_AREA_MIN_X, PLAY_AREA_MAX_X);
+            leaves_pos[1][0] = uint8_random(FALL_ITEM_RANDOM_MIN_X, FALL_ITEM_RANDOM_MAX_X);
         }
         leaves_pos[1][1] = SCREEN_BOTTOM;
     } else if (frame_counter == 120) {
         if (!is_first_frame_count) {
-            leaves_pos[2][0] = uint8_random(PLAY_AREA_MIN_X, PLAY_AREA_MAX_X);
+            leaves_pos[2][0] = uint8_random(FALL_ITEM_RANDOM_MIN_X, FALL_ITEM_RANDOM_MAX_X);
         }
         leaves_pos[2][1] = SCREEN_BOTTOM;
     }
@@ -329,7 +390,7 @@ void summon_apple_bomb(void) {
         set_sprite_prop(SpriteNumAppleBombBottomLeft, SpritesCGB9);
         set_sprite_prop(SpriteNumAppleBombBottomRight, SpritesCGB11);
     }
-    apple_bomb_pos[0] = uint8_random(PLAY_AREA_MIN_X, PLAY_AREA_MAX_X);
+    apple_bomb_pos[0] = uint8_random(FALL_ITEM_RANDOM_MIN_X, FALL_ITEM_RANDOM_MAX_X);
     apple_bomb_pos[1] = SCREEN_BOTTOM;
 }
 
@@ -399,45 +460,17 @@ void score_counter(void) {
 
 // Colliders
 void update_colliders(void) {
-    UINT8 player_hitbox_width;
-    UINT8 player_hitbox_height;
-    UINT8 player_margin_left;
-    UINT8 player_margin_right;
-    UINT8 player_margin_top;
-    UINT8 player_margin_bottom;
-    UINT8 player_left;
-    UINT8 player_right;
-    UINT8 player_top;
-    UINT8 player_bottom;
-
-    // Update player Hitbox
-    if (dog_mode) {
-        player_hitbox_width = DOG_HITBOX_WIDTH;
-        player_hitbox_height = DOG_HITBOX_HEIGHT;
-        player_margin_left = DOG_MARGIN_LEFT;
-        player_margin_right = DOG_MARGIN_RIGHT;
-        player_margin_top = DOG_MARGIN_TOP;
-        player_margin_bottom = DOG_MARGIN_BOTTOM;
-    } else {
-        player_hitbox_width = PLAYER_HITBOX_WIDTH;
-        player_hitbox_height = PLAYER_HITBOX_HEIGHT;
-        player_margin_left = PLAYER_MARGIN_LEFT;
-        player_margin_right = PLAYER_MARGIN_RIGHT;
-        player_margin_top = PLAYER_MARGIN_TOP;
-        player_margin_bottom = PLAYER_MARGIN_BOTTOM;
-    }
-
-    player_left = (player_pos[0] + player_margin_left);
-    player_right = (player_pos[0] + player_hitbox_width - 1 - player_margin_right);
-    player_top = (player_pos[1] + player_margin_top);
-    player_bottom = (player_pos[1] + player_hitbox_height - 1 - player_margin_bottom);
+    UINT8 player_left = (player_pos[0] + player_hitbox_margin_left);
+    UINT8 player_right = (player_pos[0] + player_hitbox_width - player_hitbox_margin_right);
+    UINT8 player_top = (player_pos[1] + player_hitbox_margin_top);
+    UINT8 player_bottom = (player_pos[1] + player_hitbox_height - player_hitbox_margin_bottom);
 
     // Check leaves
     for (UINT8 i = 0; i < 3; i++) {
         UINT8 leaf_left = (leaves_pos[i][0] + LEAF_MARGIN);
-        UINT8 leaf_right = (leaves_pos[i][0] + LEAF_HITBOX_WIDTH - 1 - LEAF_MARGIN);
+        UINT8 leaf_right = (leaves_pos[i][0] + LEAF_HITBOX_WIDTH - LEAF_MARGIN);
         UINT8 leaf_top = (leaves_pos[i][1] + LEAF_MARGIN);
-        UINT8 leaf_bottom = (leaves_pos[i][1] + LEAF_HITBOX_HEIGHT - 1 - LEAF_MARGIN);
+        UINT8 leaf_bottom = (leaves_pos[i][1] + LEAF_HITBOX_HEIGHT - LEAF_MARGIN);
 
         if (check_collision(player_left, player_top, player_right, player_bottom,
                             leaf_left, leaf_top, leaf_right, leaf_bottom)) {
@@ -452,9 +485,9 @@ void update_colliders(void) {
     // Check apple/bomb
     {
         UINT8 apple_left = (apple_bomb_pos[0] + APPLE_BOMB_MARGIN_LEFT);
-        UINT8 apple_right = (apple_bomb_pos[0] + APPLE_BOMB_HITBOX_WIDTH - 1 - APPLE_BOMB_MARGIN_RIGHT);
+        UINT8 apple_right = (apple_bomb_pos[0] + APPLE_BOMB_HITBOX_WIDTH - APPLE_BOMB_MARGIN_RIGHT);
         UINT8 apple_top = (apple_bomb_pos[1] + APPLE_BOMB_MARGIN_TOP);
-        UINT8 apple_bottom = (apple_bomb_pos[1] + APPLE_BOMB_HITBOX_HEIGHT - 1 - APPLE_BOMB_MARGIN_BOTTOM);
+        UINT8 apple_bottom = (apple_bomb_pos[1] + APPLE_BOMB_HITBOX_HEIGHT - APPLE_BOMB_MARGIN_BOTTOM);
 
         if (check_collision(player_left, player_top, player_right, player_bottom,
                             apple_left, apple_top, apple_right, apple_bottom)) {

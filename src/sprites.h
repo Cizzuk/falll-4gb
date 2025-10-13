@@ -140,8 +140,6 @@ extern const unsigned char Sprites[];
 #define SpriteNumAppleBombBottomLeft 18
 #define SpriteNumAppleBombBottomRight 19
 
-#define SpriteNumScoreNiceStart SpriteNumScoreDigit0
-
 #endif
 
 /* End of SPRITES.H */
