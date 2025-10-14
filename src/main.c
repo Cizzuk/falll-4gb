@@ -629,10 +629,6 @@ void update_title_screen(void) {
             return;
         }
     }
-
-    // Create random seed
-    rand_timer++;
-    rand_controller += (controller * rand_timer);
 }
 
 void show_gameplay_screen(void) {
@@ -651,6 +647,7 @@ void update_gameplay_screen(void) {
 
     if (frame_counter < 179) {
         frame_counter++;
+        initrand((UINT16)rand_timer | (UINT16)rand_controller << 8);
     } else {
         frame_counter = 0;
         is_first_frame_count = FALSE;
@@ -718,6 +715,13 @@ void main(void) {
     DISPLAY_ON;
 
     while (TRUE) {
+        const UINT8 controller = joypad();
+
+        // Create random seed
+        rand_timer++;
+        rand_controller += ~controller;
+
+        // Update scene
         if (scene_mode == 0) {
             // Title screen
             update_title_screen();
@@ -729,7 +733,10 @@ void main(void) {
             update_gameover_screen();
         }
 
-        prev_controller = joypad();
+        // Store previous controller state
+        prev_controller = controller;
+
+        // Wait for next frame
         wait_vbl_done();
     }
 }
