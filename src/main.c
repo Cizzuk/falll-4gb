@@ -377,7 +377,7 @@ UINT8 leaves_speed_calc(void) {
     } else {
         if (score[1] > 2U) {
             real_score = UINT8_MAX;
-        } else (score[1] == 1U) {
+        } else if (score[1] == 1U) {
             real_score += 100U;
         } else if (score[1] == 2U) {
             if (score[0] > 55) {
