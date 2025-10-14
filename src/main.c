@@ -499,7 +499,7 @@ void apple_bomb_scroll(void) {
     }
 
     // Summon apple or bomb
-    if (frame_counter % 60 == 30) {
+    if (frame_counter % 60 == 25) {
         if (score[0] % 10 == 0) {
             is_bomb = FALSE;
             summon_apple_bomb();
@@ -510,7 +510,7 @@ void apple_bomb_scroll(void) {
     }
 
     // Gravity
-    if (frame_counter % 2 && apple_bomb_pos[1] > 1) {
+    if (frame_counter % 3 && apple_bomb_pos[1] > 1) {
         apple_bomb_pos[1] -= 2;
     } else if (apple_bomb_pos[1] > 0) {
         apple_bomb_pos[1] -= 1;
