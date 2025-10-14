@@ -373,14 +373,20 @@ UINT8 leaves_speed_calc(void) {
     if (score[2] > 0U) {
         return LEAF_SPEED_MAX;
     }
-    if (score[1] > LEAF_SPEED_ACCEL_LIMIT / 100U) {
+    if (score[1] > 2U) {
         return LEAF_SPEED_MAX;
     }
 
-    // Calculate real score
+    // Calculate real score for speed
     UINT8 real_score = score[0];
-    if (score[1] > 0U) {
-        real_score += (UINT8)(score[1] * 100U);
+    if (score[1] == 1U) {
+        real_score += 100U;
+    } else if (score[1] == 2U) {
+        if (score[0] > 55) {
+            real_score += 200U;
+        } else {
+            real_score = 255U;
+        }
     }
 
     // Max speed reached
