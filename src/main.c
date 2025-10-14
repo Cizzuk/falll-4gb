@@ -441,17 +441,17 @@ void leaves_scroll(void) {
         leaves_pos[2][1] = 0;
     }
 
-    if (frame_counter == 0) {
+    if (frame_counter == 59) {
         if (!is_first_frame_count) {
             leaves_pos[0][0] = uint8_random(FALL_ITEM_RANDOM_MIN_X, FALL_ITEM_RANDOM_MAX_X);
         }
         leaves_pos[0][1] = SCREEN_BOTTOM;
-    } else if (frame_counter == 60) {
+    } else if (frame_counter == 119) {
         if (!is_first_frame_count) {
             leaves_pos[1][0] = uint8_random(FALL_ITEM_RANDOM_MIN_X, FALL_ITEM_RANDOM_MAX_X);
         }
         leaves_pos[1][1] = SCREEN_BOTTOM;
-    } else if (frame_counter == 120) {
+    } else if (frame_counter == 179) {
         if (!is_first_frame_count) {
             leaves_pos[2][0] = uint8_random(FALL_ITEM_RANDOM_MIN_X, FALL_ITEM_RANDOM_MAX_X);
         }
@@ -523,7 +523,7 @@ void background_scroll(void) {
 }
 
 void score_counter(void) {
-    if (is_first_frame_count && frame_counter < 60) {
+    if (is_first_frame_count && frame_counter < 120) {
         return;
     }
 
