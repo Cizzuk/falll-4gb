@@ -66,7 +66,7 @@
 #define APPLE_BOMB_MARGIN_BOTTOM 1U
 
 #define LEAF_SPEED_INITIAL 2U
-#define LEAF_SPEED_STAGE_INTERVAL 20U
+#define LEAF_SPEED_STAGE_INTERVAL 15U
 #define LEAF_SPEED_MAX 6U
 
 // Calculate the score at which the leaf speed will reach its maximum
