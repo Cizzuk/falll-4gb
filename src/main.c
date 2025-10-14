@@ -563,7 +563,7 @@ void update_colliders(void) {
                             leaf_left, leaf_top, leaf_right, leaf_bottom)) {
             leaves_pos[i][1] = 0; // Hide leaf
             if (player_life > 0) {
-                //player_life--;
+                player_life--;
                 render_lives(player_life);
             }
         }
@@ -580,7 +580,7 @@ void update_colliders(void) {
                             apple_left, apple_top, apple_right, apple_bottom)) {
             apple_bomb_pos[1] = 0; // Hide apple/bomb
             if (is_bomb) {
-                //player_life = 0;
+                player_life = 0;
             } else {
                 player_life++;
                 if (player_life > PLAYER_INITIAL_LIFE) {
