@@ -1,4 +1,6 @@
-LCC = $${HOME}/gbdk/bin/lcc -Wm-ys -Wm-yc
+LCCFLAGS = -Wm-yc -Wm-ynFALLLL
+LCC = $${HOME}/gbdk/bin/lcc $(LCCFLAGS)
+
 SRC = src/
 BUILD = build/
 
