@@ -8,7 +8,7 @@ BUILD = build/
 
 all:
 	@mkdir -p build
-	$(LCC) -o $(BUILD)/falll.gb $(SRC)/*.c
+	$(LCC) -o $(BUILD)/FALLLL.gb $(SRC)/*.c
 
 clean:
 	rm -r $(BUILD)
