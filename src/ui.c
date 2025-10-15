@@ -72,19 +72,19 @@ static void set_ui_tile(UINT8 column, UINT8 row, UINT8 tile, UINT8 palette) {
 }
 
 static void clear_row(UINT8 row) {
-    for (UINT8 column = 0; column < UI_WINDOW_TILE_WIDTH; ++column) {
+    for (UINT8 column = 0; column < UI_WINDOW_TILE_WIDTH; column++) {
         set_ui_tile(column, row, UI_TILE_BLANK, UI_ATTR_DEFAULT);
     }
 }
 
 static void clear_all_rows(void) {
-    for (UINT8 row = 0; row < 18U; ++row) {
+    for (UINT8 row = 0; row < 18U; row++) {
         clear_row(row);
     }
 }
 
 static void set_ui_text(UINT8 start_column, UINT8 row, const UINT8 *tiles, UINT8 length, UINT8 palette) {
-    for (UINT8 i = 0; i < length; ++i) {
+    for (UINT8 i = 0; i < length; i++) {
         set_ui_tile(start_column + i, row, tiles[i], palette);
     }
 }
@@ -118,12 +118,10 @@ void render_title_menu(BOOLEAN cursor_pos) {
     }
 
     // START section
-    clear_row(UI_MENU_START_ROW);
     set_ui_tile(UI_MENU_CURSOR_COLUMN, UI_MENU_START_ROW, start_cursor_tile, UI_ATTR_DEFAULT);
     set_ui_text(UI_MENU_TEXT_COLUMN, UI_MENU_START_ROW, ui_menu_start_text, (UINT8)sizeof(ui_menu_start_text), UI_ATTR_DEFAULT);
 
     // CHANGE section
-    clear_row(UI_MENU_CHANGE_ROW);
     set_ui_tile(UI_MENU_CURSOR_COLUMN, UI_MENU_CHANGE_ROW, change_cursor_tile, UI_ATTR_DEFAULT);
     set_ui_text(UI_MENU_TEXT_COLUMN, UI_MENU_CHANGE_ROW, ui_menu_change_text, (UINT8)sizeof(ui_menu_change_text), UI_ATTR_DEFAULT);
 }
@@ -131,7 +129,7 @@ void render_title_menu(BOOLEAN cursor_pos) {
 void render_score(UINT8 score[3]) {
     // If score is 1M, show NICE!!
     if (score[2] > 99U) {
-        for (UINT8 i = 0; i < UI_SCORE_DIGITS; ++i) {
+        for (UINT8 i = 0; i < UI_SCORE_DIGITS; i++) {
             const UINT8 column = UI_SCORE_COLUMN + (UI_SCORE_DIGITS - 1U - i);
             const UINT8 tile = ui_tile_overflow[UI_SCORE_DIGITS - 1U - i];
             set_ui_tile(column, UI_SCORE_ROW, tile, UI_ATTR_DEFAULT);
@@ -140,7 +138,7 @@ void render_score(UINT8 score[3]) {
     }
 
     // Score display per digit
-    for (UINT8 i = 0; i < UI_SCORE_DIGITS; ++i) {
+    for (UINT8 i = 0; i < UI_SCORE_DIGITS; i++) {
         const UINT8 column = UI_SCORE_COLUMN + (UI_SCORE_DIGITS - 1U - i);
         
         UINT8 tile;
@@ -162,7 +160,7 @@ void render_score(UINT8 score[3]) {
 }
 
 void render_lives(UINT8 lives) {
-    for (UINT8 i = 0; i < UI_MAX_LIVES; ++i) {
+    for (UINT8 i = 0; i < UI_MAX_LIVES; i++) {
         if (i < lives) {
             set_ui_tile(UI_LIVES_COLUMN + i, UI_LIVES_ROW, UI_TILE_HEART, UI_ATTR_LIFE);
         } else {
