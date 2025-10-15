@@ -71,6 +71,12 @@ static void set_ui_tile(UINT8 column, UINT8 row, UINT8 tile, UINT8 palette) {
     }
 }
 
+static void set_ui_text(UINT8 start_column, UINT8 row, const UINT8 *tiles, UINT8 length, UINT8 palette) {
+    for (UINT8 i = 0; i < length; i++) {
+        set_ui_tile(start_column + i, row, tiles[i], palette);
+    }
+}
+
 static void clear_row(UINT8 row) {
     for (UINT8 column = 0; column < UI_WINDOW_TILE_WIDTH; column++) {
         set_ui_tile(column, row, UI_TILE_BLANK, UI_ATTR_DEFAULT);
@@ -78,19 +84,13 @@ static void clear_row(UINT8 row) {
 }
 
 static void clear_all_rows(void) {
-    for (UINT8 row = 0; row < 18U; row++) {
+    for (UINT8 row = 0; row < UI_WINDOW_TILE_HEIGHT; row++) {
         clear_row(row);
     }
 }
 
-static void set_ui_text(UINT8 start_column, UINT8 row, const UINT8 *tiles, UINT8 length, UINT8 palette) {
-    for (UINT8 i = 0; i < length; i++) {
-        set_ui_tile(start_column + i, row, tiles[i], palette);
-    }
-}
-
 void init_window(void) {
-    fill_win_rect(0U, 0U, 20U, 18U, UI_TILE_BLANK);
+    fill_win_rect(0U, 0U, UI_WINDOW_TILE_WIDTH, UI_WINDOW_TILE_HEIGHT, UI_TILE_BLANK);
     move_win(UI_WINDOW_X, UI_WINDOW_Y);
 }
 
