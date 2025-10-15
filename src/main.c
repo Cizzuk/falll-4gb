@@ -602,21 +602,23 @@ void show_title_screen(void) {
     init_bkg_attr();
 }
 
-void update_title_screen(void) {
+inline void update_title_screen(void) {
     const UINT8 controller = joypad();
 
     // Move cursor
-    if (!(prev_controller & J_SELECT) && (controller & J_SELECT)) {
-        cursor_pos = !cursor_pos;
-        render_title_menu(cursor_pos);
-    }
-    if (!(prev_controller & J_UP) && (controller & J_UP)) {
-        cursor_pos = FALSE;
-        render_title_menu(cursor_pos);
-    }
-    if (!(prev_controller & J_DOWN) && (controller & J_DOWN)) {
-        cursor_pos = TRUE;
-        render_title_menu(cursor_pos);
+    if (controller) {
+        if (!(prev_controller & J_SELECT) && (controller & J_SELECT)) {
+            cursor_pos = !cursor_pos;
+            render_title_menu(cursor_pos);
+        }
+        if (!(prev_controller & J_UP) && (controller & J_UP)) {
+            cursor_pos = FALSE;
+            render_title_menu(cursor_pos);
+        }
+        if (!(prev_controller & J_DOWN) && (controller & J_DOWN)) {
+            cursor_pos = TRUE;
+            render_title_menu(cursor_pos);
+        }
     }
 
     // Select option
@@ -638,10 +640,16 @@ void show_gameplay_screen(void) {
     init_ui_gameplay(score, player_life);
 }
 
-void update_gameplay_screen(void) {
+inline void update_gameplay_screen(void) {
     // Check game over
     if (player_life <= 0) {
         show_gameover_screen();
+        return;
+    }
+
+    // Exit to title screen
+    if (!joypad() && (prev_controller & J_START)) {
+        show_title_screen();
         return;
     }
 
@@ -651,12 +659,6 @@ void update_gameplay_screen(void) {
     } else {
         frame_counter = 0;
         is_first_frame_count = FALSE;
-    }
-
-    // Exit to title screen
-    if (!joypad() && (prev_controller & J_START)) {
-        show_title_screen();
-        return;
     }
 
     player_control();
@@ -683,7 +685,7 @@ void show_gameover_screen(void) {
     render_gameover();
 }
 
-void update_gameover_screen(void) {
+inline void update_gameover_screen(void) {
     // First, fall down player
     if (player_pos[1] < SCREEN_BOTTOM) {
         player_pos[1] += 3;
@@ -692,8 +694,7 @@ void update_gameover_screen(void) {
     }
 
     // Second, wait for input to restart
-    const UINT8 controller = joypad();
-    if (!controller && (prev_controller & (J_START | J_A | J_B))) {
+    if (!joypad() && (prev_controller & (J_START | J_A | J_B))) {
         show_title_screen();
     }
 }
