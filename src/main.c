@@ -254,7 +254,7 @@ void init_player(void) {
     player_move_max_x = (visual_max < collision_max) ? visual_max : collision_max;
 
     // Calculate starting position (centered)
-    player_pos[0] = player_move_min_x + ((player_move_max_x - player_move_min_x) / 2U);
+    player_pos[0] = player_move_min_x + ((player_move_max_x - player_move_min_x) >> 1);
 
     render_player();
 }
