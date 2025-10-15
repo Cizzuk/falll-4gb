@@ -3,13 +3,6 @@
 
 #include <rand.h>
 
-// Screen constants
-// #define SCREEN_TOP 16
-// #define SCREEN_BOTTOM (SCREEN_TOP + SCREEN_HEIGHT)
-// #define SCREEN_LEFT 8
-// #define SCREEN_RIGHT (SCREEN_LEFT + SCREEN_WIDTH)
-// #define SPRITE_SIZE 8
-
 inline UINT8 uint8_mod3(UINT8 num) {
     // return num % 3U;
     if (num >= 192U) num -= 192U;
