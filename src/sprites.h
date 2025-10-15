@@ -107,38 +107,38 @@ extern const unsigned short SpritePalette[32];
 extern const unsigned char Sprites[];
 
 /* Sprite number entries. */
-#define SpriteNumPlayer0_0 0
-#define SpriteNumPlayer0_1 1
-#define SpriteNumPlayer0_2 2
-#define SpriteNumPlayer0_3 3
-#define SpriteNumPlayer1_0 4
-#define SpriteNumPlayer1_1 5
-#define SpriteNumPlayer1_2 6
-#define SpriteNumPlayer1_3 7
-#define SpriteNumPlayer2_0 8
-#define SpriteNumPlayer2_1 9
-#define SpriteNumPlayer2_2 10
-#define SpriteNumPlayer2_3 11
+#define SpriteNumPlayer0_0 0U
+#define SpriteNumPlayer0_1 1U
+#define SpriteNumPlayer0_2 2U
+#define SpriteNumPlayer0_3 3U
+#define SpriteNumPlayer1_0 4U
+#define SpriteNumPlayer1_1 5U
+#define SpriteNumPlayer1_2 6U
+#define SpriteNumPlayer1_3 7U
+#define SpriteNumPlayer2_0 8U
+#define SpriteNumPlayer2_1 9U
+#define SpriteNumPlayer2_2 10U
+#define SpriteNumPlayer2_3 11U
 
-#define SpriteNumLeaf1TopLeft 12
-#define SpriteNumLeaf1TopRight 13
-#define SpriteNumLeaf1BottomLeft 14
-#define SpriteNumLeaf1BottomRight 15
+#define SpriteNumLeaf1TopLeft 12U
+#define SpriteNumLeaf1TopRight 13U
+#define SpriteNumLeaf1BottomLeft 14U
+#define SpriteNumLeaf1BottomRight 15U
 
-#define SpriteNumLeaf2TopLeft 16
-#define SpriteNumLeaf2TopRight 17
-#define SpriteNumLeaf2BottomLeft 18
-#define SpriteNumLeaf2BottomRight 19
+#define SpriteNumLeaf2TopLeft 16U
+#define SpriteNumLeaf2TopRight 17U
+#define SpriteNumLeaf2BottomLeft 18U
+#define SpriteNumLeaf2BottomRight 19U
 
-#define SpriteNumLeaf3TopLeft 20
-#define SpriteNumLeaf3TopRight 21
-#define SpriteNumLeaf3BottomLeft 22
-#define SpriteNumLeaf3BottomRight 23
+#define SpriteNumLeaf3TopLeft 20U
+#define SpriteNumLeaf3TopRight 21U
+#define SpriteNumLeaf3BottomLeft 22U
+#define SpriteNumLeaf3BottomRight 23U
 
-#define SpriteNumAppleBombTopLeft 24
-#define SpriteNumAppleBombTopRight 25
-#define SpriteNumAppleBombBottomLeft 26
-#define SpriteNumAppleBombBottomRight 27
+#define SpriteNumAppleBombTopLeft 24U
+#define SpriteNumAppleBombTopRight 25U
+#define SpriteNumAppleBombBottomLeft 26U
+#define SpriteNumAppleBombBottomRight 27U
 
 #endif
 

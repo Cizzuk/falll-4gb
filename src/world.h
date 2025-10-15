@@ -1,9 +1,9 @@
 #ifndef __World_h_INCLUDE
 #define __World_h_INCLUDE
 
-#define WorldWidth 20
-#define WorldHeight 32
-#define WorldBank 0
+#define WorldWidth 20U
+#define WorldHeight 32U
+#define WorldBank 0U
 
 #define WORLD_ATTR_RANDOM_COL_COUNT 4U
 #define WORLD_ATTR_RANDOM_PALETTE_MIN 2U

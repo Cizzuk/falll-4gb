@@ -33,7 +33,7 @@ inline UINT8 uint8_mod10(UINT8 num) {
 }
 
 inline UINT8 uint8_random(UINT8 min, UINT8 max) {
-    return (rand() % (max - min + 1)) + min;
+    return (rand() % (max - min + 1U)) + min;
 }
 
 inline BOOLEAN check_collision(UINT8 a_left, UINT8 a_top, UINT8 a_right, UINT8 a_bottom,
@@ -48,7 +48,7 @@ inline UINT8 get_first_digit(UINT8 num) {
 
 inline UINT8 get_second_digit(UINT8 num) {
     // return num / 10U;
-    for (UINT8 i = 0; i < 10U; i++) {
+    for (UINT8 i = 0U; i < 10U; i++) {
         if (num < (i + 1U) * 10U) {
             return i;
         }

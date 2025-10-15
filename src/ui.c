@@ -4,7 +4,7 @@
 #include "ui.h"
 
 // FALLLL
-static const UINT8 ui_title_text[6U] = {
+static const UINT8 ui_title_text[6] = {
     UI_TILE_TITLE_F,
     UI_TILE_TITLE_A,
     UI_TILE_TITLE_L,
@@ -14,7 +14,7 @@ static const UINT8 ui_title_text[6U] = {
 };
 
 // START
-static const UINT8 ui_menu_start_text[5U] = {
+static const UINT8 ui_menu_start_text[5] = {
     UI_TILE_TEXT_S,
     UI_TILE_TEXT_T,
     UI_TILE_TEXT_A,
@@ -23,7 +23,7 @@ static const UINT8 ui_menu_start_text[5U] = {
 };
 
 // CHANGE
-static const UINT8 ui_menu_change_text[6U] = {
+static const UINT8 ui_menu_change_text[6] = {
     UI_TILE_TEXT_C,
     UI_TILE_TEXT_H,
     UI_TILE_TEXT_A,
@@ -43,7 +43,7 @@ static const UINT8 ui_tile_overflow[UI_SCORE_DIGITS] = {
 };
 
 // GAME
-static const UINT8 ui_gameover_top_text[4U] = {
+static const UINT8 ui_gameover_top_text[4] = {
     UI_TILE_TEXT_G,
     UI_TILE_TEXT_A,
     UI_TILE_TEXT_M,
@@ -51,7 +51,7 @@ static const UINT8 ui_gameover_top_text[4U] = {
 };
 
 // OVER
-static const UINT8 ui_gameover_bottom_text[5U] = {
+static const UINT8 ui_gameover_bottom_text[5] = {
     UI_TILE_BLANK,
     UI_TILE_DIGIT_START,
     UI_TILE_TEXT_V,
@@ -60,31 +60,31 @@ static const UINT8 ui_gameover_bottom_text[5U] = {
 };
 
 static void set_ui_tile(UINT8 column, UINT8 row, UINT8 tile, UINT8 palette) {
-    VBK_REG = 0;
+    VBK_REG = 0U;
     set_win_tile_xy(column, row, tile);
 
     // Set palette if on CGB hardware
     if (_cpu == CGB_TYPE) {
-        VBK_REG = 1;
+        VBK_REG = 1U;
         set_win_tile_xy(column, row, palette & 0x07U);
-        VBK_REG = 0;
+        VBK_REG = 0U;
     }
 }
 
 static void set_ui_text(UINT8 start_column, UINT8 row, const UINT8 *tiles, UINT8 length, UINT8 palette) {
-    for (UINT8 i = 0; i < length; i++) {
+    for (UINT8 i = 0U; i < length; i++) {
         set_ui_tile(start_column + i, row, tiles[i], palette);
     }
 }
 
 static void clear_row(UINT8 row) {
-    for (UINT8 column = 0; column < UI_WINDOW_TILE_WIDTH; column++) {
+    for (UINT8 column = 0U; column < UI_WINDOW_TILE_WIDTH; column++) {
         set_ui_tile(column, row, UI_TILE_BLANK, UI_ATTR_DEFAULT);
     }
 }
 
 static void clear_all_rows(void) {
-    for (UINT8 row = 0; row < UI_WINDOW_TILE_HEIGHT; row++) {
+    for (UINT8 row = 0U; row < UI_WINDOW_TILE_HEIGHT; row++) {
         clear_row(row);
     }
 }
@@ -129,7 +129,7 @@ void render_title_menu(BOOLEAN cursor_pos) {
 void render_score(UINT8 score[3]) {
     // If score is 1M, show NICE!!
     if (score[2] > 99U) {
-        for (UINT8 i = 0; i < UI_SCORE_DIGITS; i++) {
+        for (UINT8 i = 0U; i < UI_SCORE_DIGITS; i++) {
             const UINT8 column = UI_SCORE_COLUMN + (UI_SCORE_DIGITS - 1U - i);
             const UINT8 tile = ui_tile_overflow[UI_SCORE_DIGITS - 1U - i];
             set_ui_tile(column, UI_SCORE_ROW, tile, UI_ATTR_DEFAULT);
@@ -138,7 +138,7 @@ void render_score(UINT8 score[3]) {
     }
 
     // Score display per digit
-    for (UINT8 i = 0; i < UI_SCORE_DIGITS; i++) {
+    for (UINT8 i = 0U; i < UI_SCORE_DIGITS; i++) {
         const UINT8 column = UI_SCORE_COLUMN + (UI_SCORE_DIGITS - 1U - i);
         
         UINT8 tile;
@@ -160,7 +160,7 @@ void render_score(UINT8 score[3]) {
 }
 
 void render_lives(UINT8 lives) {
-    for (UINT8 i = 0; i < UI_MAX_LIVES; i++) {
+    for (UINT8 i = 0U; i < UI_MAX_LIVES; i++) {
         if (i < lives) {
             set_ui_tile(UI_LIVES_COLUMN + i, UI_LIVES_ROW, UI_TILE_HEART, UI_ATTR_LIFE);
         } else {
