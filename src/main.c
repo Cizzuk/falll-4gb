@@ -659,10 +659,10 @@ inline void update_gameplay_screen(void) {
 
     if (frame_counter < 179) {
         frame_counter++;
-        initrand((UINT16)rand_timer | (UINT16)rand_controller << 8);
     } else {
         frame_counter = 0;
         is_first_frame_count = FALSE;
+        initrand((UINT16)rand_timer | (UINT16)rand_controller << 8);
     }
 
     player_control();
