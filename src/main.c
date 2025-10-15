@@ -305,7 +305,7 @@ void player_control(void) {
     const BOOLEAN is_slow = (controller & (J_A | J_B));
 
     if (dog_mode) {
-        const BOOLEAN is_fast = (!is_slow && frame_counter % 3 == 0);
+        const BOOLEAN is_fast = (!is_slow && uint8_mod3(frame_counter) == 0);
 
         if (controller & J_RIGHT) {
             if (player_pos[0] < player_move_max_x) {
@@ -328,7 +328,7 @@ void player_control(void) {
     } else {
         // Slow down
         if (is_slow) {
-            if (frame_counter % 2) {
+            if (frame_counter & 1U) { // frame_counter % 2
                 return;
             }
         }
@@ -395,8 +395,8 @@ UINT8 leaves_speed_calc(void) {
 
     {
         const UINT8 stage = real_score / LEAF_SPEED_STAGE_INTERVAL;
-        const UINT8 pattern = stage & 3U; // 0, 1, 2, 3
-        const UINT8 modulo = frame_counter & 3U;
+        const UINT8 pattern = stage & 3U; // stage % 4
+        const UINT8 modulo = frame_counter & 3U; // frame_counter % 4
         UINT8 speed = LEAF_SPEED_INITIAL + (stage >> 2); // Increase speed every 4 stages
 
         // Boost speed based on pattern
@@ -499,7 +499,8 @@ void apple_bomb_scroll(void) {
     }
 
     // Summon apple or bomb
-    if (frame_counter % 60 == 25) {
+    // frame_counter % 60 == 25 => 25, 85, 145
+    if (frame_counter == 25 || frame_counter == 85 || frame_counter == 145) {
         if (score[0] % 10 == 0) {
             is_bomb = FALSE;
             summon_apple_bomb();
@@ -510,10 +511,12 @@ void apple_bomb_scroll(void) {
     }
 
     // Gravity
-    if (frame_counter % 3 && apple_bomb_pos[1] > 1) {
-        apple_bomb_pos[1] -= 2;
-    } else if (apple_bomb_pos[1] > 0) {
-        apple_bomb_pos[1] -= 1;
+    if (apple_bomb_pos[1] > 0) {
+        if (uint8_mod3(frame_counter) && apple_bomb_pos[1] > 1) {
+            apple_bomb_pos[1] -= 2;
+        } else {
+            apple_bomb_pos[1] -= 1;
+        }
     }
 }
 
@@ -527,7 +530,8 @@ void score_counter(void) {
         return;
     }
 
-    if (frame_counter % 60 == 40) {
+    // frame_counter % 60 == 40 => 40, 100, 160
+    if (frame_counter == 40 || frame_counter == 100 || frame_counter == 160) {
         score[0]++;
         if (score[0] > 99) {
             score[0] = 0;

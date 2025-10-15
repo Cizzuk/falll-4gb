@@ -19,4 +19,36 @@ inline BOOLEAN check_collision(UINT8 a_left, UINT8 a_top, UINT8 a_right, UINT8 a
     return (a_left <= b_right) && (a_right >= b_left) && (a_top <= b_bottom) && (a_bottom >= b_top);
 }
 
+inline UINT8 get_first_digit(UINT8 num) {
+    // return num % 10U;
+    for (UINT8 i = 0; i < 10U; i++) {
+        if (num < (i + 1U) * 10U) {
+            return num - i * 10U;
+        }
+    }
+    return 0U; // Fallback
+}
+
+inline UINT8 get_second_digit(UINT8 num) {
+    // return num / 10U;
+    for (UINT8 i = 0; i < 10U; i++) {
+        if (num < (i + 1U) * 10U) {
+            return i;
+        }
+    }
+    return 0U; // Fallback
+}
+
+inline UINT8 uint8_mod3(UINT8 num) {
+    // return num % 3U;
+    if (num >= 192U) num -= 192U;
+    if (num >= 96U) num -= 96U;
+    if (num >= 48U) num -= 48U;
+    if (num >= 24U) num -= 24U;
+    if (num >= 12U) num -= 12U;
+    if (num >= 6U) num -= 6U;
+    if (num >= 3U) num -= 3U;
+    return num;
+}
+
 #endif

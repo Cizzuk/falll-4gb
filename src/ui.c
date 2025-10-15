@@ -1,5 +1,6 @@
 #include <gb/gb.h>
 #include <gb/cgb.h>
+#include "utils.h"
 #include "ui.h"
 
 // FALLLL
@@ -86,14 +87,6 @@ static void set_ui_text(UINT8 start_column, UINT8 row, const UINT8 *tiles, UINT8
     for (UINT8 i = 0; i < length; ++i) {
         set_ui_tile(start_column + i, row, tiles[i], palette);
     }
-}
-
-inline static UINT8 get_first_digit(UINT8 num) {
-    return num % 10U;
-}
-
-inline static UINT8 get_second_digit(UINT8 num) {
-    return num / 10U;
 }
 
 void init_window(void) {
