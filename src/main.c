@@ -593,10 +593,21 @@ void update_colliders(void) {
 
     // Check apple/bomb
     {
-        const UINT8 apple_left = (apple_bomb_pos[0] + APPLE_BOMB_MARGIN_LEFT);
-        const UINT8 apple_right = (apple_bomb_pos[0] + APPLE_BOMB_HITBOX_WIDTH - APPLE_BOMB_MARGIN_RIGHT);
-        const UINT8 apple_top = (apple_bomb_pos[1] + APPLE_BOMB_MARGIN_TOP);
-        const UINT8 apple_bottom = (apple_bomb_pos[1] + APPLE_BOMB_HITBOX_HEIGHT - APPLE_BOMB_MARGIN_BOTTOM);
+        UINT8 apple_left;
+        UINT8 apple_right;
+        UINT8 apple_top;
+        UINT8 apple_bottom;
+        if (is_bomb) {
+            apple_left = (apple_bomb_pos[0] + BOMB_MARGIN_LEFT);
+            apple_right = (apple_bomb_pos[0] + APPLE_BOMB_HITBOX_WIDTH - BOMB_MARGIN_RIGHT);
+            apple_top = (apple_bomb_pos[1] + BOMB_MARGIN_TOP);
+            apple_bottom = (apple_bomb_pos[1] + APPLE_BOMB_HITBOX_HEIGHT - BOMB_MARGIN_BOTTOM);
+        } else {
+            apple_left = (apple_bomb_pos[0] + APPLE_MARGIN_LEFT);
+            apple_right = (apple_bomb_pos[0] + APPLE_BOMB_HITBOX_WIDTH - APPLE_MARGIN_RIGHT);
+            apple_top = (apple_bomb_pos[1] + APPLE_MARGIN_TOP);
+            apple_bottom = (apple_bomb_pos[1] + APPLE_BOMB_HITBOX_HEIGHT - APPLE_MARGIN_BOTTOM);
+        }
 
         if (check_collision(player_left, player_top, player_right, player_bottom,
                             apple_left, apple_top, apple_right, apple_bottom)) {
@@ -725,7 +736,7 @@ inline void update_gameover_screen(void) {
 
 void main(void) {
     DISPLAY_OFF;
-    
+
     // Initialize
     init_vram();
     init_window();
