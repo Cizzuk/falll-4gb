@@ -729,7 +729,7 @@ inline void update_gameover_screen(void) {
     }
 
     // Second, wait for input to restart
-    if (!joypad() && (prev_controller & (J_START | J_A | J_B))) {
+    if (!joypad() && (prev_controller & (J_START | J_SELECT | J_A | J_B))) {
         show_title_screen();
     }
 }
