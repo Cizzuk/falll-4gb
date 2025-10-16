@@ -333,8 +333,7 @@ void player_control(void) {
                     player_pos[0]++;
                 }
             }
-        }
-        if (controller & J_LEFT) {
+        } else if (controller & J_LEFT) {
             if (player_pos[0] > player_move_min_x) {
                 if (is_fast && player_pos[0] > (player_move_min_x + 1U)) {
                     player_pos[0] -= 2U;
@@ -356,8 +355,7 @@ void player_control(void) {
                 player_pos[0]++;
                 player_flip = TRUE;
             }
-        }
-        if (controller & J_LEFT) {
+        } else if (controller & J_LEFT) {
             if (player_pos[0] > player_move_min_x) {
                 player_pos[0]--;
                 player_flip = FALSE;
@@ -641,22 +639,22 @@ inline void update_title_screen(void) {
 
     // Move cursor
     if (controller) {
-        if (!(prev_controller & J_SELECT) && (controller & J_SELECT)) {
+        if ((controller & J_SELECT) && !(prev_controller & J_SELECT)) {
             cursor_pos = !cursor_pos;
             render_title_menu(cursor_pos);
         }
-        if (!(prev_controller & J_UP) && (controller & J_UP)) {
+        if ((controller & J_UP) && !(prev_controller & J_UP)) {
             cursor_pos = FALSE;
             render_title_menu(cursor_pos);
         }
-        if (!(prev_controller & J_DOWN) && (controller & J_DOWN)) {
+        if ((controller & J_DOWN) && !(prev_controller & J_DOWN)) {
             cursor_pos = TRUE;
             render_title_menu(cursor_pos);
         }
     }
 
     // Select option
-    if (!controller && (prev_controller & (J_START | J_A | J_B))) {
+    if ((prev_controller & (J_START | J_A | J_B)) && !controller) {
         if (cursor_pos) {
             dog_mode = !dog_mode;
             init_player();
