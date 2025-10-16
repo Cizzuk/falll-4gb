@@ -1,8 +1,10 @@
 #ifndef __Map_h_INCLUDE
 #define __Map_h_INCLUDE
 
-#define MapWidth 20U
-#define MapHeight 32U
+#define MapTitleWidth 11U
+#define MapTitleHeight 18U
+#define MapGameWidth 11U
+#define MapGameHeight 32U
 #define MapBank 0U
 
 #define MAP_ATTR_WIDTH 11U

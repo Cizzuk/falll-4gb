@@ -56,7 +56,7 @@ void init_vram(void) {
     set_sprite_data(0U, 22U, Sprites);
     set_bkg_palette(0U, 8U, BackgroundPalette);
     set_sprite_palette(0U, 8U, SpritePalette);
-    set_bkg_tiles(0U, 0U, MapWidth, MapHeight, MapTitle);
+    set_bkg_tiles(0U, 0U, MapTitleWidth, MapTitleHeight, MapTitle);
     init_bkg_attr_tree();
     init_bkg_attr_random();
 }
@@ -621,7 +621,7 @@ void show_title_screen(void) {
     cursor_pos = FALSE;
     init_game();
     init_ui_title();
-    set_bkg_tiles(0U, 0U, MapWidth, MapHeight, MapTitle);
+    set_bkg_tiles(0U, 0U, MapTitleWidth, MapTitleHeight, MapTitle);
     init_bkg_attr_random();
 }
 
@@ -660,7 +660,7 @@ void show_gameplay_screen(void) {
     scene_mode = 1U;
     initrand((UINT16)rand_timer | (UINT16)rand_controller << 8U);
     init_game();
-    set_bkg_tiles(0U, 0U, MapWidth, MapHeight, MapGame);
+    set_bkg_tiles(0U, 0U, MapGameWidth, MapGameHeight, MapGame);
     init_ui_gameplay(score, player_life);
 }
 
