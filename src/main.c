@@ -314,7 +314,7 @@ void render_player(void) {
     }
 }
 
-void player_control(void) {
+inline void player_control(void) {
     const UINT8 controller = joypad();
     if (controller & J_RIGHT && controller & J_LEFT) {
         return;
@@ -536,7 +536,7 @@ void apple_bomb_scroll(void) {
     }
 }
 
-void background_scroll(void) {
+inline void background_scroll(void) {
     background_scroll_y++;
     move_bkg(0U, background_scroll_y);
 }
@@ -566,7 +566,7 @@ void score_counter(void) {
 }
 
 // Colliders
-void update_colliders(void) {
+inline void update_colliders(void) {
     const UINT8 player_left = (player_pos[0] + player_hitbox_margin_left);
     const UINT8 player_right = (player_pos[0] + player_hitbox_width - player_hitbox_margin_right);
     const UINT8 player_top = (player_pos[1] + player_hitbox_margin_top);
@@ -637,30 +637,28 @@ void show_title_screen(void) {
 inline void update_title_screen(void) {
     const UINT8 controller = joypad();
 
-    // Move cursor
-    if (controller) {
+    if (controller) { // Press button
+        // Move cursor
         if ((controller & J_SELECT) && !(prev_controller & J_SELECT)) {
             cursor_pos = !cursor_pos;
             render_title_menu(cursor_pos);
-        }
-        if ((controller & J_UP) && !(prev_controller & J_UP)) {
+        } else if ((controller & J_UP) && !(prev_controller & J_UP)) {
             cursor_pos = FALSE;
             render_title_menu(cursor_pos);
-        }
-        if ((controller & J_DOWN) && !(prev_controller & J_DOWN)) {
+        } else if ((controller & J_DOWN) && !(prev_controller & J_DOWN)) {
             cursor_pos = TRUE;
             render_title_menu(cursor_pos);
         }
-    }
-
-    // Select option
-    if ((prev_controller & (J_START | J_A | J_B)) && !controller) {
-        if (cursor_pos) {
-            dog_mode = !dog_mode;
-            init_player();
-        } else {
-            show_gameplay_screen();
-            return;
+    } else { // Release button
+        // Select option
+        if ((prev_controller & (J_START | J_A | J_B))) {
+            if (cursor_pos) {
+                dog_mode = !dog_mode;
+                init_player();
+            } else {
+                show_gameplay_screen();
+                return;
+            }
         }
     }
 }
