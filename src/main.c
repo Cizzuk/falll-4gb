@@ -4,7 +4,7 @@
 #include "main.h"
 #include "background.h"
 #include "sprites.h"
-#include "world.h"
+#include "map.h"
 #include "utils.h"
 #include "ui.h"
 
@@ -52,35 +52,53 @@ UINT8 background_scroll_y = 0U;
 
 void init_vram(void) {
     VBK_REG = 0U;
-    set_bkg_data(0U, 80U, Background);
+    set_bkg_data(0U, 116U, Background);
     set_sprite_data(0U, 22U, Sprites);
     set_bkg_palette(0U, 8U, BackgroundPalette);
     set_sprite_palette(0U, 8U, SpritePalette);
-    set_bkg_tiles(0U, 0U, WorldWidth, WorldHeight, World);
-    init_bkg_attr();
+    set_bkg_tiles(0U, 0U, MapWidth, MapHeight, MapTitle);
+    init_bkg_attr_tree();
+    init_bkg_attr_random();
 }
 
-void init_bkg_attr(void) {
-    // Set palettes if on CGB hardware
-    if (_cpu == CGB_TYPE) {
-        VBK_REG = 1U;
-        // Copy world palette
-        UINT8 row_palette[WorldWidth];
-        for (UINT8 col = 0U; col < WorldWidth; col++) {
-            row_palette[col] = WorldPalette[col];
+void init_bkg_attr_tree(void) {
+    if (_cpu != CGB_TYPE) {
+        return;
+    }
+
+    VBK_REG = 1U;
+
+    UINT8 column_palette[MAP_ATTR_HEIGHT];
+
+    for (UINT8 i = 0U; i < MAP_ATTR_TREE_COLS_COUNT; i++) {
+        for (UINT8 row = 0U; row < MAP_ATTR_HEIGHT; row++) {
+            column_palette[row] = MapTreePalette[row];
         }
 
-        // Apply palette per row
-        for (UINT8 row = 0U; row < WorldHeight; row++) {
-            // Randomize specific columns
-            for (UINT8 i = 0U; i < WORLD_ATTR_RANDOM_COL_COUNT; i++) {
-                const UINT8 random_col = WorldAttrRandomColumns[i];
-                row_palette[random_col] = uint8_random(WORLD_ATTR_RANDOM_PALETTE_MIN, WORLD_ATTR_RANDOM_PALETTE_MAX);
-            }
-            set_bkg_tiles(0U, row, WorldWidth, 1U, row_palette);
-        }
-        VBK_REG = 0U;
+        set_bkg_tiles(MapAttrTreeCols[i], 0U, 1U, MAP_ATTR_HEIGHT, column_palette);
     }
+
+    VBK_REG = 0U;
+}
+
+void init_bkg_attr_random(void) {
+    if (_cpu != CGB_TYPE) {
+        return;
+    }
+
+    VBK_REG = 1U;
+
+    UINT8 column_palette[MAP_ATTR_HEIGHT];
+
+    for (UINT8 i = 0U; i < MAP_ATTR_RANDOM_COLS_COUNT; i++) {
+        for (UINT8 row = 0U; row < MAP_ATTR_HEIGHT; row++) {
+            column_palette[row] = uint8_random(WORLD_ATTR_RANDOM_PALETTE_MIN, WORLD_ATTR_RANDOM_PALETTE_MAX);
+        }
+
+        set_bkg_tiles(MapAttrRandomCols[i], 0U, 1U, MAP_ATTR_HEIGHT, column_palette);
+    }
+
+    VBK_REG = 0U;
 }
 
 // Refresh game variables
@@ -603,7 +621,8 @@ void show_title_screen(void) {
     cursor_pos = FALSE;
     init_game();
     init_ui_title();
-    init_bkg_attr();
+    set_bkg_tiles(0U, 0U, MapWidth, MapHeight, MapTitle);
+    init_bkg_attr_random();
 }
 
 inline void update_title_screen(void) {
@@ -641,6 +660,7 @@ void show_gameplay_screen(void) {
     scene_mode = 1U;
     initrand((UINT16)rand_timer | (UINT16)rand_controller << 8U);
     init_game();
+    set_bkg_tiles(0U, 0U, MapWidth, MapHeight, MapGame);
     init_ui_gameplay(score, player_life);
 }
 
