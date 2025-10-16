@@ -55,7 +55,7 @@ void init_vram(void) {
     set_bkg_data(0U, 116U, Background);
     set_sprite_data(0U, 22U, Sprites);
     set_bkg_palette(0U, 8U, BackgroundPalette);
-    set_sprite_palette(0U, 8U, SpritePalette);
+    set_sprite_palette(0U, 7U, SpritePalette);
     set_bkg_tiles(0U, 0U, MapTitleWidth, MapTitleHeight, MapTitle);
     init_bkg_attr_tree();
     init_bkg_attr_random();
@@ -679,7 +679,7 @@ inline void update_gameplay_screen(void) {
     }
 
     // Exit to title screen
-    if (!joypad() && (prev_controller & J_START)) {
+    if ((prev_controller & J_START) && !joypad()) {
         show_title_screen();
         return;
     }
@@ -688,7 +688,9 @@ inline void update_gameplay_screen(void) {
         frame_counter++;
     } else {
         frame_counter = 0U;
-        is_first_frame_count = FALSE;
+        if (is_first_frame_count) {
+            is_first_frame_count = FALSE;
+        }
         initrand((UINT16)rand_timer | (UINT16)rand_controller << 8U);
     }
 
@@ -725,7 +727,7 @@ inline void update_gameover_screen(void) {
     }
 
     // Second, wait for input to restart
-    if (!joypad() && (prev_controller & (J_START | J_SELECT | J_A | J_B))) {
+    if ((prev_controller & (J_START | J_SELECT | J_A | J_B)) && !joypad()) {
         show_title_screen();
     }
 }
