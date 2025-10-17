@@ -643,8 +643,8 @@ void show_title_screen(void) {
     scene_mode = 0U;
     cursor_pos = FALSE;
     init_game();
-    init_ui_title();
     set_map_tree();
+    init_ui_title();
     init_map_attr_random();
 }
 
