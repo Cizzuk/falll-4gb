@@ -770,12 +770,12 @@ void main(void) {
         rand_controller += ~controller;
 
         // Update scene
-        if (scene_mode == 0U) {
-            // Title screen
-            update_title_screen();
-        } else if (scene_mode == 1U) {
+        if (scene_mode == 1U) {
             // Gaming
             update_gameplay_screen();
+        } else if (scene_mode == 0U) {
+            // Title screen
+            update_title_screen();
         } else if (scene_mode == 2U) {
             // Game over
             update_gameover_screen();
