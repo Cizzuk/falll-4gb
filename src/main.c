@@ -3,10 +3,11 @@
 #include <rand.h>
 #include "main.h"
 #include "background.h"
-#include "sprites.h"
 #include "map.h"
-#include "utils.h"
+#include "sound.h"
+#include "sprites.h"
 #include "ui.h"
+#include "utils.h"
 
 // Game state
 UINT8 rand_timer = 0U;
@@ -753,6 +754,7 @@ void main(void) {
     init_vram();
     init_window();
     init_sprites();
+    init_sound();
     show_title_screen();
     prev_controller = joypad();
 
