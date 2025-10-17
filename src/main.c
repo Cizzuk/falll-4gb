@@ -56,49 +56,63 @@ void init_vram(void) {
     set_sprite_data(0U, 22U, Sprites);
     set_bkg_palette(0U, 8U, BackgroundPalette);
     set_sprite_palette(0U, 7U, SpritePalette);
-    set_bkg_tiles(0U, 0U, MapTitleWidth, MapTitleHeight, MapTitle);
-    init_bkg_attr_tree();
-    init_bkg_attr_random();
+    set_map_base();
+    set_map_tree();
+    init_map_attr_tree();
+    init_map_attr_random();
 }
 
-void init_bkg_attr_tree(void) {
+void init_map_attr_tree(void) {
     if (_cpu != CGB_TYPE) {
         return;
     }
 
     VBK_REG = 1U;
 
-    UINT8 column_palette[MAP_ATTR_HEIGHT];
+    UINT8 column_palette[MapHeight];
 
     for (UINT8 i = 0U; i < MAP_ATTR_TREE_COLS_COUNT; i++) {
-        for (UINT8 row = 0U; row < MAP_ATTR_HEIGHT; row++) {
+        for (UINT8 row = 0U; row < MapHeight; row++) {
             column_palette[row] = MapTreePalette[row];
         }
 
-        set_bkg_tiles(MapAttrTreeCols[i], 0U, 1U, MAP_ATTR_HEIGHT, column_palette);
+        set_bkg_tiles(MapAttrTreeCols[i], 0U, 1U, MapHeight, column_palette);
     }
 
     VBK_REG = 0U;
 }
 
-void init_bkg_attr_random(void) {
+void init_map_attr_random(void) {
     if (_cpu != CGB_TYPE) {
         return;
     }
 
     VBK_REG = 1U;
 
-    UINT8 column_palette[MAP_ATTR_HEIGHT];
+    UINT8 column_palette[MapHeight];
 
     for (UINT8 i = 0U; i < MAP_ATTR_RANDOM_COLS_COUNT; i++) {
-        for (UINT8 row = 0U; row < MAP_ATTR_HEIGHT; row++) {
-            column_palette[row] = uint8_random(WORLD_ATTR_RANDOM_PALETTE_MIN, WORLD_ATTR_RANDOM_PALETTE_MAX);
+        for (UINT8 row = 0U; row < MapHeight; row++) {
+            column_palette[row] = uint8_random(MAP_ATTR_RANDOM_PALETTE_MIN, MAP_ATTR_RANDOM_PALETTE_MAX);
         }
 
-        set_bkg_tiles(MapAttrRandomCols[i], 0U, 1U, MAP_ATTR_HEIGHT, column_palette);
+        set_bkg_tiles(MapAttrRandomCols[i], 0U, 1U, MapHeight, column_palette);
     }
 
     VBK_REG = 0U;
+}
+
+inline void set_map_base(void) {
+    set_bkg_tiles(0U, MAP_BASE_HEIGHT, MAP_BASE_WIDTH, MAP_BASE_HEIGHT, MapBase);
+    set_bkg_tiles(0U, MAP_BASE_HEIGHT * 2, MAP_BASE_WIDTH, MAP_BASE_HEIGHT, MapBase);
+}
+
+inline void set_map_tree(void) {
+    set_bkg_tiles(MAP_TREE_X, MAP_TREE_Y, MAP_TREE_WIDTH, MAP_TREE_HEIGHT, MapObjTree);
+}
+
+inline void set_map_tree_curtain(void) {
+    set_bkg_tiles(MAP_TREE_X, MAP_TREE_Y, MAP_TREE_WIDTH, MAP_TREE_HEIGHT, MapObjTreeCurtain);
 }
 
 // Refresh game variables
@@ -630,8 +644,8 @@ void show_title_screen(void) {
     cursor_pos = FALSE;
     init_game();
     init_ui_title();
-    set_bkg_tiles(0U, 0U, MapTitleWidth, MapTitleHeight, MapTitle);
-    init_bkg_attr_random();
+    set_map_tree();
+    init_map_attr_random();
 }
 
 inline void update_title_screen(void) {
@@ -667,7 +681,7 @@ void show_gameplay_screen(void) {
     scene_mode = 1U;
     initrand((UINT16)rand_timer | (UINT16)rand_controller << 8U);
     init_game();
-    set_bkg_tiles(0U, 0U, MapGameWidth, MapGameHeight, MapGame);
+    set_map_tree_curtain();
     init_ui_gameplay(score, player_life);
 }
 
