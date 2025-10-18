@@ -28,4 +28,4 @@ If your lives reach zero, it's game over. Press START, SELECT, A, or B to return
 
 I hold the copyright for the graphic content, including background maps and sprites.
 
-The code is licensed under the "MIT License".
+The code is licensed under the [MIT License](https://github.com/Cizzuk/falll-4gb/blob/main/LICENSE).
