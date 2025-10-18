@@ -51,7 +51,7 @@ UINT8 apple_bomb_pos[2] = {APPLE_BOMB_START_X, APPLE_BOMB_START_Y};
 UINT8 is_bomb = FALSE;
 UINT8 background_scroll_y = 0U;
 
-void init_vram(void) {
+inline void init_vram(void) {
     VBK_REG = 0U;
     set_bkg_data(0U, 116U, Background);
     set_sprite_data(0U, 22U, Sprites);
@@ -600,6 +600,11 @@ inline void update_colliders(void) {
             if (player_life > 0U) {
                 player_life--;
                 render_lives(player_life);
+                if (player_life != 0U) {
+                    play_sound_stick();
+                } else {
+                    play_sound_gameover();
+                }
             }
         }
     }
@@ -627,11 +632,13 @@ inline void update_colliders(void) {
             apple_bomb_pos[1] = 0U; // Hide apple/bomb
             if (is_bomb) {
                 player_life = 0U;
+                play_sound_bomb();
             } else {
                 player_life++;
                 if (player_life > PLAYER_INITIAL_LIFE) {
                     player_life = PLAYER_INITIAL_LIFE;
                 }
+                play_sound_apple();
             }
             render_lives(player_life);
         }
@@ -644,6 +651,7 @@ void show_title_screen(void) {
     scene_mode = 0U;
     cursor_pos = FALSE;
     init_game();
+    play_sound_done();
     set_map_tree();
     init_ui_title();
     init_map_attr_random();
@@ -657,12 +665,15 @@ inline void update_title_screen(void) {
         if ((controller & J_SELECT) && !(prev_controller & J_SELECT)) {
             cursor_pos = !cursor_pos;
             render_title_menu(cursor_pos);
+            play_sound_select();
         } else if ((controller & J_UP) && !(prev_controller & J_UP)) {
             cursor_pos = FALSE;
             render_title_menu(cursor_pos);
+            play_sound_select();
         } else if ((controller & J_DOWN) && !(prev_controller & J_DOWN)) {
             cursor_pos = TRUE;
             render_title_menu(cursor_pos);
+            play_sound_select();
         }
     } else { // Release button
         // Select option
@@ -670,6 +681,7 @@ inline void update_title_screen(void) {
             if (cursor_pos) {
                 dog_mode = !dog_mode;
                 init_player();
+                play_sound_done();
             } else {
                 show_gameplay_screen();
                 return;
@@ -682,6 +694,7 @@ void show_gameplay_screen(void) {
     scene_mode = 1U;
     initrand((UINT16)rand_timer | (UINT16)rand_controller << 8U);
     init_game();
+    play_sound_gamestart();
     set_map_tree_curtain();
     init_ui_gameplay(score, player_life);
 }
@@ -782,6 +795,9 @@ void main(void) {
             // Game over
             update_gameover_screen();
         }
+
+        // Update sound
+        update_sound();
 
         // Store previous controller state
         prev_controller = controller;
