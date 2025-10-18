@@ -338,7 +338,7 @@ inline void player_control(void) {
     const BOOLEAN is_slow = (controller & (J_A | J_B));
 
     if (dog_mode) {
-        const BOOLEAN is_fast = (!is_slow && uint8_mod3(frame_counter) == 0U);
+        const BOOLEAN is_fast = (!is_slow && (frame_counter & 2U) == 0U); // frame_counter % 4 == 0
 
         if (controller & J_RIGHT) {
             if (player_pos[0] < player_move_max_x) {
