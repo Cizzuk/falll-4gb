@@ -410,33 +410,31 @@ UINT8 leaves_speed_calc(void) {
         return LEAF_SPEED_MAX;
     }
 
-    {
-        const UINT8 stage = first_255_score / LEAF_SPEED_STAGE_INTERVAL;
-        const UINT8 pattern = stage & 3U; // stage % 4
-        const UINT8 modulo = frame_counter & 3U; // frame_counter % 4
-        UINT8 speed = LEAF_SPEED_INITIAL + (stage >> 2U); // Increase speed every 4 stages
+    const UINT8 stage = first_255_score / LEAF_SPEED_STAGE_INTERVAL;
+    const UINT8 pattern = stage & 3U; // stage % 4
+    const UINT8 modulo = frame_counter & 3U; // frame_counter % 4
+    UINT8 speed = LEAF_SPEED_INITIAL + (stage >> 2U); // Increase speed every 4 stages
 
-        // Boost speed based on pattern
-        // if pattern is 0, no boost
-        if (pattern == 1U) {
-            // 1 boost per 4f
-            if (modulo == 0U) {
-                speed++;
-            }
-        } else if (pattern == 2U) {
-            // 2 boosts per 4f
-            if ((modulo == 0U) || (modulo == 2U)) {
-                speed++;
-            }
-        } else if (pattern == 3U) {
-            // 3 boosts per 4f
-            if (modulo != 3U) {
-                speed++;
-            }
+    // Boost speed based on pattern
+    // if pattern is 0, no boost
+    if (pattern == 1U) {
+        // 1 boost per 4f
+        if (modulo == 0U) {
+            speed++;
         }
-
-        return speed;
+    } else if (pattern == 2U) {
+        // 2 boosts per 4f
+        if ((modulo == 0U) || (modulo == 2U)) {
+            speed++;
+        }
+    } else if (pattern == 3U) {
+        // 3 boosts per 4f
+        if (modulo != 3U) {
+            speed++;
+        }
     }
+
+    return speed;
 }
 
 void leaves_scroll(void) {
