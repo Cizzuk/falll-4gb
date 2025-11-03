@@ -18,6 +18,7 @@ BOOLEAN dog_mode = FALSE;
 UINT8 frame_counter = 0U; // counts from 0 to 179
 BOOLEAN is_first_frame_count = TRUE;
 UINT8 score[3] = {0U, 0U, 0U};
+UINT8 first_255_score = 0U; // Only counts up to 255
 
 // Title screen state
 BOOLEAN cursor_pos = FALSE; // F: Start, T: Change
@@ -124,6 +125,7 @@ void init_game(void) {
     score[0] = 0U;
     score[1] = 0U;
     score[2] = 0U;
+    first_255_score = 0U;
     // Player state
     player_life = PLAYER_INITIAL_LIFE;
     init_player();
@@ -400,32 +402,13 @@ void render_leaves(void) {
 }
 
 UINT8 leaves_speed_calc(void) {
-    // Calculate score for speed
-    UINT8 real_score = score[0];
-    
-    if (score[2]) {
-        real_score = UINT8_MAX;
-    } else {
-        if (score[1] > 2U) {
-            real_score = UINT8_MAX;
-        } else if (score[1] == 1U) {
-            real_score += 100U;
-        } else if (score[1] == 2U) {
-            if (score[0] > 55U) {
-                real_score = UINT8_MAX;
-            } else {
-                real_score += 200U;
-            }
-        }
-    }
-
     // Max speed reached
-    if (real_score >= LEAF_SPEED_ACCEL_LIMIT) {
+    if (first_255_score >= LEAF_SPEED_ACCEL_LIMIT) {
         return LEAF_SPEED_MAX;
     }
 
     {
-        const UINT8 stage = real_score / LEAF_SPEED_STAGE_INTERVAL;
+        const UINT8 stage = first_255_score / LEAF_SPEED_STAGE_INTERVAL;
         const UINT8 pattern = stage & 3U; // stage % 4
         const UINT8 modulo = frame_counter & 3U; // frame_counter % 4
         UINT8 speed = LEAF_SPEED_INITIAL + (stage >> 2U); // Increase speed every 4 stages
@@ -564,6 +547,9 @@ void score_counter(void) {
     // frame_counter % 60 == 40 => 40, 100, 160
     if (frame_counter == 40U || frame_counter == 100U || frame_counter == 160U) {
         score[0]++;
+        if (first_255_score < 255U) {
+            first_255_score++;
+        }
         if (score[0] > 99U) {
             score[0] = 0U;
             score[1]++;
