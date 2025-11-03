@@ -10,7 +10,6 @@
 #include "utils.h"
 
 // Game state
-UINT8 rand_timer = 0U;
 UINT8 rand_controller = 0U;
 UINT8 prev_controller = 0U;
 UINT8 scene_mode = 0U; // 0: title, 1: gameplay, 2: gameover
@@ -51,6 +50,10 @@ UINT8 leaves_pos[3][2] = {
 UINT8 apple_bomb_pos[2] = {APPLE_BOMB_START_X, APPLE_BOMB_START_Y};
 UINT8 is_bomb = FALSE;
 UINT8 background_scroll_y = 0U;
+
+inline void init_random_seed(void) {
+    initrand((UINT16)DIV_REG | (UINT16)rand_controller << 8U);
+}
 
 inline void init_vram(void) {
     VBK_REG = 0U;
@@ -678,11 +681,11 @@ inline void update_title_screen(void) {
 
 void show_gameplay_screen(void) {
     scene_mode = 1U;
-    initrand((UINT16)rand_timer | (UINT16)rand_controller << 8U);
     init_game();
     play_sound_gamestart();
     set_map_tree_curtain();
     init_ui_gameplay(score, player_life);
+    init_random_seed();
 }
 
 inline void update_gameplay_screen(void) {
@@ -705,7 +708,7 @@ inline void update_gameplay_screen(void) {
         if (is_first_frame_count) {
             is_first_frame_count = FALSE;
         }
-        initrand((UINT16)rand_timer | (UINT16)rand_controller << 8U);
+        init_random_seed();
     }
 
     player_control();
@@ -766,8 +769,7 @@ void main(void) {
     while (TRUE) {
         const UINT8 controller = joypad();
 
-        // Create random seed
-        rand_timer++;
+        // Create random seed from controller input
         rand_controller += ~controller;
 
         // Update scene

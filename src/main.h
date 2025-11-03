@@ -79,7 +79,6 @@
 // Cap to UINT8 max value if overflow
 #define LEAF_SPEED_ACCEL_LIMIT ((LEAF_SPEED_ACCEL_RAW > 255U) ? 255U : (UINT8)LEAF_SPEED_ACCEL_RAW)
 
-extern UINT8 rand_timer;
 extern UINT8 rand_controller;
 extern UINT8 prev_controller;
 extern UINT8 scene_mode;
@@ -113,6 +112,7 @@ extern UINT8 apple_bomb_pos[2];
 extern UINT8 is_bomb;
 extern UINT8 background_scroll_y;
 
+void init_random_seed(void);
 void init_vram(void);
 void init_map_attr_tree(void);
 void init_map_attr_random(void);
