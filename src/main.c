@@ -401,7 +401,7 @@ void render_leaves(void) {
     move_sprite(SpriteNumLeaf3BottomRight, leaves_pos[2][0] + 8U, leaves_pos[2][1] + 8U);
 }
 
-UINT8 leaves_speed_calc(void) {
+inline UINT8 leaves_speed_calc(void) {
     // Max speed reached
     if (first_255_score >= LEAF_SPEED_ACCEL_LIMIT) {
         return LEAF_SPEED_MAX;
