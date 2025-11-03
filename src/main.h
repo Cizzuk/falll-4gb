@@ -110,7 +110,6 @@ extern UINT8 player_move_max_x;
 extern UINT8 leaves_pos[3][2];
 extern UINT8 apple_bomb_pos[2];
 extern UINT8 is_bomb;
-extern UINT8 background_scroll_y;
 
 void init_random_seed(void);
 void init_vram(void);
@@ -130,7 +129,6 @@ void leaves_scroll(void);
 void summon_apple_bomb(void);
 void render_apple_bomb(void);
 void apple_bomb_scroll(void);
-void background_scroll(void);
 void score_counter(void);
 void update_colliders(void);
 

@@ -49,7 +49,6 @@ UINT8 leaves_pos[3][2] = {
 };
 UINT8 apple_bomb_pos[2] = {APPLE_BOMB_START_X, APPLE_BOMB_START_Y};
 UINT8 is_bomb = FALSE;
-UINT8 background_scroll_y = 0U;
 
 inline void init_random_seed(void) {
     initrand((UINT16)DIV_REG | (UINT16)rand_controller << 8U);
@@ -145,8 +144,6 @@ void init_game(void) {
     apple_bomb_pos[1] = APPLE_BOMB_START_Y;
     is_bomb = FALSE;
     render_apple_bomb();
-    // Background state
-    background_scroll_y = 0U;
     move_bkg(0U, 0U);
 }
 
@@ -509,7 +506,7 @@ void render_apple_bomb(void) {
 
 void apple_bomb_scroll(void) {
     // Ignore first 10 points
-    if (score[0] < 10U && score[1] <= 0U && score[2] <= 0U) {
+    if (first_255_score < 10U) {
         return;
     }
 
@@ -533,11 +530,6 @@ void apple_bomb_scroll(void) {
             apple_bomb_pos[1] -= 1U;
         }
     }
-}
-
-inline void background_scroll(void) {
-    background_scroll_y++;
-    move_bkg(0U, background_scroll_y);
 }
 
 void score_counter(void) {
@@ -597,38 +589,36 @@ inline void update_colliders(void) {
     }
 
     // Check apple/bomb
-    {
-        UINT8 apple_left;
-        UINT8 apple_right;
-        UINT8 apple_top;
-        UINT8 apple_bottom;
-        if (is_bomb) {
-            apple_left = (apple_bomb_pos[0] + BOMB_MARGIN_LEFT);
-            apple_right = (apple_bomb_pos[0] + APPLE_BOMB_HITBOX_WIDTH - BOMB_MARGIN_RIGHT);
-            apple_top = (apple_bomb_pos[1] + BOMB_MARGIN_TOP);
-            apple_bottom = (apple_bomb_pos[1] + APPLE_BOMB_HITBOX_HEIGHT - BOMB_MARGIN_BOTTOM);
-        } else {
-            apple_left = (apple_bomb_pos[0] + APPLE_MARGIN_LEFT);
-            apple_right = (apple_bomb_pos[0] + APPLE_BOMB_HITBOX_WIDTH - APPLE_MARGIN_RIGHT);
-            apple_top = (apple_bomb_pos[1] + APPLE_MARGIN_TOP);
-            apple_bottom = (apple_bomb_pos[1] + APPLE_BOMB_HITBOX_HEIGHT - APPLE_MARGIN_BOTTOM);
-        }
+    UINT8 apple_left;
+    UINT8 apple_right;
+    UINT8 apple_top;
+    UINT8 apple_bottom;
+    if (is_bomb) {
+        apple_left = (apple_bomb_pos[0] + BOMB_MARGIN_LEFT);
+        apple_right = (apple_bomb_pos[0] + APPLE_BOMB_HITBOX_WIDTH - BOMB_MARGIN_RIGHT);
+        apple_top = (apple_bomb_pos[1] + BOMB_MARGIN_TOP);
+        apple_bottom = (apple_bomb_pos[1] + APPLE_BOMB_HITBOX_HEIGHT - BOMB_MARGIN_BOTTOM);
+    } else {
+        apple_left = (apple_bomb_pos[0] + APPLE_MARGIN_LEFT);
+        apple_right = (apple_bomb_pos[0] + APPLE_BOMB_HITBOX_WIDTH - APPLE_MARGIN_RIGHT);
+        apple_top = (apple_bomb_pos[1] + APPLE_MARGIN_TOP);
+        apple_bottom = (apple_bomb_pos[1] + APPLE_BOMB_HITBOX_HEIGHT - APPLE_MARGIN_BOTTOM);
+    }
 
-        if (check_collision(player_left, player_top, player_right, player_bottom,
-                            apple_left, apple_top, apple_right, apple_bottom)) {
-            apple_bomb_pos[1] = 0U; // Hide apple/bomb
-            if (is_bomb) {
-                player_life = 0U;
-                play_sound_bomb();
-            } else {
-                player_life++;
-                if (player_life > PLAYER_INITIAL_LIFE) {
-                    player_life = PLAYER_INITIAL_LIFE;
-                }
-                play_sound_apple();
+    if (check_collision(player_left, player_top, player_right, player_bottom,
+                        apple_left, apple_top, apple_right, apple_bottom)) {
+        apple_bomb_pos[1] = 0U; // Hide apple/bomb
+        if (is_bomb) {
+            player_life = 0U;
+            play_sound_bomb();
+        } else {
+            player_life++;
+            if (player_life > PLAYER_INITIAL_LIFE) {
+                player_life = PLAYER_INITIAL_LIFE;
             }
-            render_lives(player_life);
+            play_sound_apple();
         }
+        render_lives(player_life);
     }
 }
 
@@ -715,7 +705,7 @@ inline void update_gameplay_screen(void) {
     score_counter();
     render_leaves();
     render_apple_bomb();
-    background_scroll();
+    scroll_bkg(0U, 1U);
     update_colliders();
 }
 
