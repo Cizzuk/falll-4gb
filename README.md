@@ -4,6 +4,8 @@ This is a Game Boy port of my old action game [FALLLL](https://cizzuk.net/projec
 
 Developed using [GBDK](https://github.com/gbdk-2020/gbdk-2020).
 
+![Preview](preview.png)
+
 ## Guide
 
 ### Title
