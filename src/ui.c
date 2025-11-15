@@ -5,6 +5,20 @@
 #include "ui.h"
 #include "utils.h"
 
+// Clear needed rows
+static const UINT8 clear_rows_title[] = {
+    UI_SCORE_ROW,
+    UI_LIVES_ROW,
+    UI_GAMEOVER_TOP_ROW,
+    UI_GAMEOVER_BOTTOM_ROW
+};
+
+static const UINT8 clear_rows_gameplay[] = {
+    UI_TITLE_ROW,
+    UI_MENU_START_ROW,
+    UI_MENU_CHANGE_ROW
+};
+
 // FALLLL
 static const UINT8 ui_title_text[6] = {
     UI_TILE_TITLE_F,
@@ -100,12 +114,6 @@ static void clear_row(UINT8 row) {
     }
 }
 
-static void clear_all_rows(void) {
-    for (UINT8 row = 0U; row < UI_WINDOW_TILE_HEIGHT; row++) {
-        clear_row(row);
-    }
-}
-
 void init_window(void) {
     fill_win_rect(0U, 0U, UI_WINDOW_TILE_WIDTH, UI_WINDOW_TILE_HEIGHT, UI_TILE_BLANK);
     move_win(UI_WINDOW_X, UI_WINDOW_Y);
@@ -126,13 +134,17 @@ void init_window_attr(void) {
 }
 
 void init_ui_title(void) {
-    clear_all_rows();
+    for (UINT8 i = 0U; i < (UINT8)sizeof(clear_rows_title); i++) {
+        clear_row(clear_rows_title[i]);
+    }
     set_ui_text(UI_TITLE_COLUMN, UI_TITLE_ROW, ui_title_text, (UINT8)sizeof(ui_title_text));
     render_title_menu();
 }
 
 void init_ui_gameplay(void) {
-    clear_all_rows();
+    for (UINT8 i = 0U; i < (UINT8)sizeof(clear_rows_gameplay); i++) {
+        clear_row(clear_rows_gameplay[i]);
+    }
     render_score();
     render_lives();
 }
@@ -168,25 +180,16 @@ void render_score(void) {
         return;
     }
 
-    // Score display per digit
+    UINT8 score_text[UI_SCORE_DIGITS];
+    score_text[5] = get_first_digit(score[0]) + UI_TILE_DIGIT_START;
+    score_text[4] = get_second_digit(score[0]) + UI_TILE_DIGIT_START;
+    score_text[3] = get_first_digit(score[1]) + UI_TILE_DIGIT_START;
+    score_text[2] = get_second_digit(score[1]) + UI_TILE_DIGIT_START;
+    score_text[1] = get_first_digit(score[2]) + UI_TILE_DIGIT_START;
+    score_text[0] = get_second_digit(score[2]) + UI_TILE_DIGIT_START;
     for (UINT8 i = 0U; i < UI_SCORE_DIGITS; i++) {
         const UINT8 column = UI_SCORE_COLUMN + (UI_SCORE_DIGITS - 1U - i);
-        
-        UINT8 tile;
-        if (i == 0U) {
-            tile = get_first_digit(score[0]) + UI_TILE_DIGIT_START;
-        } else if (i == 1U) {
-            tile = get_second_digit(score[0]) + UI_TILE_DIGIT_START;
-        } else if (i == 2U) {
-            tile = get_first_digit(score[1]) + UI_TILE_DIGIT_START;
-        } else if (i == 3U) {
-            tile = get_second_digit(score[1]) + UI_TILE_DIGIT_START;
-        } else if (i == 4U) {
-            tile = get_first_digit(score[2]) + UI_TILE_DIGIT_START;
-        } else { // i == 5U
-            tile = get_second_digit(score[2]) + UI_TILE_DIGIT_START;
-        }
-        set_ui_tile(column, UI_SCORE_ROW, tile);
+        set_ui_tile(column, UI_SCORE_ROW, score_text[UI_SCORE_DIGITS - 1U - i]);
     }
 }
 
