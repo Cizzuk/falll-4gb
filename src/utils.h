@@ -1,6 +1,7 @@
 #ifndef __Utils_h_INCLUDE
 #define __Utils_h_INCLUDE
 
+#include <gb/gb.h>
 #include <rand.h>
 
 inline UINT8 uint8_mod3(UINT8 num) {

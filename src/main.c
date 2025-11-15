@@ -1,8 +1,9 @@
 #include <gb/gb.h>
 #include <gb/cgb.h>
 #include <rand.h>
-#include "main.h"
+
 #include "background.h"
+#include "main.h"
 #include "map.h"
 #include "sound.h"
 #include "sprites.h"

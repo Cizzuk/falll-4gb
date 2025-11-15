@@ -1,4 +1,3 @@
-#include <gb/gb.h>
 #include "background.h"
 
 /* Background palette data. */

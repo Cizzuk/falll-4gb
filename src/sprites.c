@@ -1,4 +1,3 @@
-#include <gb/gb.h>
 #include "sprites.h"
 
 /* Sprite palette data. */

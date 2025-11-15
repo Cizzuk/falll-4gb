@@ -1,5 +1,4 @@
 #include <gb/gb.h>
-#include <gb/cgb.h>
 #include "sound.h"
 
 static UINT8 sound_timer = 0U; // 0 - 255, 255: idle

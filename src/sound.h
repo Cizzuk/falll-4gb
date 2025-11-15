@@ -1,8 +1,6 @@
 #ifndef __Sound_h_INCLUDE
 #define __Sound_h_INCLUDE
 
-#include <gb/gb.h>
-
 extern void init_sound(void);
 extern void update_sound(void);
 extern void stop_sound(void);

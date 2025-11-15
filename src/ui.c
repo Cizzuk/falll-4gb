@@ -1,8 +1,9 @@
 #include <gb/gb.h>
 #include <gb/cgb.h>
+
 #include "main.h"
-#include "utils.h"
 #include "ui.h"
+#include "utils.h"
 
 // FALLLL
 static const UINT8 ui_title_text[6] = {
