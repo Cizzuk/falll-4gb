@@ -1,5 +1,6 @@
 #include <gb/gb.h>
 #include <gb/cgb.h>
+#include "main.h"
 #include "utils.h"
 #include "ui.h"
 
@@ -97,16 +98,16 @@ void init_window(void) {
 void init_ui_title(void) {
     clear_all_rows();
     set_ui_text(UI_TITLE_COLUMN, UI_TITLE_ROW, ui_title_text, (UINT8)sizeof(ui_title_text), UI_ATTR_DEFAULT);
-    render_title_menu(FALSE);
+    render_title_menu();
 }
 
-void init_ui_gameplay(UINT8 score[3], UINT8 lives) {
+void init_ui_gameplay(void) {
     clear_all_rows();
-    render_score(score);
-    render_lives(lives);
+    render_score();
+    render_lives();
 }
 
-void render_title_menu(BOOLEAN cursor_pos) {
+void render_title_menu(void) {
     UINT8 start_cursor_tile = UI_TILE_BLANK;
     UINT8 change_cursor_tile = UI_TILE_BLANK;
 
@@ -126,7 +127,7 @@ void render_title_menu(BOOLEAN cursor_pos) {
     set_ui_text(UI_MENU_TEXT_COLUMN, UI_MENU_CHANGE_ROW, ui_menu_change_text, (UINT8)sizeof(ui_menu_change_text), UI_ATTR_DEFAULT);
 }
 
-void render_score(UINT8 score[3]) {
+void render_score(void) {
     // If score is 1M, show NICE!!
     if (score[2] > 99U) {
         for (UINT8 i = 0U; i < UI_SCORE_DIGITS; i++) {
@@ -159,9 +160,9 @@ void render_score(UINT8 score[3]) {
     }
 }
 
-void render_lives(UINT8 lives) {
+void render_lives(void) {
     for (UINT8 i = 0U; i < UI_MAX_LIVES; i++) {
-        if (i < lives) {
+        if (i < player_life) {
             set_ui_tile(UI_LIVES_COLUMN + i, UI_LIVES_ROW, UI_TILE_HEART, UI_ATTR_LIFE);
         } else {
             set_ui_tile(UI_LIVES_COLUMN + i, UI_LIVES_ROW, UI_TILE_BLANK, UI_ATTR_DEFAULT);

@@ -60,10 +60,10 @@
 
 extern void init_window(void);
 extern void init_ui_title(void);
-extern void init_ui_gameplay(UINT8 score[3], UINT8 lives);
-extern void render_title_menu(BOOLEAN cursor_pos);
-extern void render_score(UINT8 score[3]);
-extern void render_lives(UINT8 lives);
+extern void init_ui_gameplay(void);
+extern void render_title_menu(void);
+extern void render_score(void);
+extern void render_lives(void);
 extern void render_gameover(void);
 
 #endif

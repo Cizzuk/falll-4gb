@@ -550,7 +550,7 @@ void score_counter(void) {
                 }
             }
         }
-        render_score(score);
+        render_score();
     }
 }
 
@@ -573,7 +573,7 @@ inline void update_colliders(void) {
             leaves_pos[i][1] = 0U; // Hide leaf
             if (player_life > 0U) {
                 player_life--;
-                render_lives(player_life);
+                render_lives();
                 if (player_life != 0U) {
                     play_sound_stick();
                 } else {
@@ -613,7 +613,7 @@ inline void update_colliders(void) {
             }
             play_sound_apple();
         }
-        render_lives(player_life);
+        render_lives();
     }
 }
 
@@ -634,15 +634,15 @@ inline void update_title_screen(void) {
         // Move cursor
         if ((controller & J_SELECT) && !(prev_controller & J_SELECT)) {
             cursor_pos = !cursor_pos;
-            render_title_menu(cursor_pos);
+            render_title_menu();
             play_sound_select();
         } else if ((controller & J_UP) && !(prev_controller & J_UP)) {
             cursor_pos = FALSE;
-            render_title_menu(cursor_pos);
+            render_title_menu();
             play_sound_select();
         } else if ((controller & J_DOWN) && !(prev_controller & J_DOWN)) {
             cursor_pos = TRUE;
-            render_title_menu(cursor_pos);
+            render_title_menu();
             play_sound_select();
         }
     } else { // Release button
@@ -665,7 +665,7 @@ void show_gameplay_screen(void) {
     init_game();
     play_sound_gamestart();
     set_map_tree_curtain();
-    init_ui_gameplay(score, player_life);
+    init_ui_gameplay();
     init_random_seed();
 }
 
@@ -704,7 +704,7 @@ inline void update_gameplay_screen(void) {
 
 void show_gameover_screen(void) {
     scene_mode = 2U;
-    render_score(score);
+    render_score();
     // Hide leaves
     leaves_pos[0][1] = SCREEN_BOTTOM;
     leaves_pos[1][1] = SCREEN_BOTTOM;
