@@ -88,14 +88,14 @@ void init_map_attr_random(void) {
 
     VBK_REG = 1U;
 
-    UINT8 column_palette[MapHeight];
+    UINT8 column_palette[MAP_ATTR_RANDOM_PALETTE_COUNT];
 
     for (UINT8 i = 0U; i < MAP_ATTR_RANDOM_COLS_COUNT; i++) {
-        for (UINT8 row = 0U; row < MapHeight; row++) {
+        for (UINT8 row = 0U; row < (MAP_ATTR_RANDOM_PALETTE_COUNT); row++) {
             column_palette[row] = uint8_random(MAP_ATTR_RANDOM_PALETTE_MIN, MAP_ATTR_RANDOM_PALETTE_MAX);
         }
 
-        set_bkg_tiles(MapAttrRandomCols[i], 0U, 1U, MapHeight, column_palette);
+        set_bkg_tiles(MapAttrRandomCols[i], 0U, MAP_ATTR_RANDOM_COLS_WIDTH, MapHeight, column_palette);
     }
 
     VBK_REG = 0U;

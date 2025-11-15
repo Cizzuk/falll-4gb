@@ -15,7 +15,7 @@ const unsigned char MapAttrTreeCols[MAP_ATTR_TREE_COLS_COUNT] = {
 };
 
 const unsigned char MapAttrRandomCols[MAP_ATTR_RANDOM_COLS_COUNT] = {
-  0U, 1U, 9U, 10U
+  0U, 9U
 };
 
 /* ====== Map data ====== */
