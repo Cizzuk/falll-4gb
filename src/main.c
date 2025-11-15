@@ -65,7 +65,6 @@ inline void init_vram(void) {
     set_map_base();
     set_map_tree();
     init_map_attr_tree();
-    init_map_attr_random();
 }
 
 void init_map_attr_tree(void) {
@@ -663,7 +662,6 @@ inline void update_title_screen(void) {
 
 void show_gameplay_screen(void) {
     scene_mode = 1U;
-    init_game();
     play_sound_gamestart();
     set_map_tree_curtain();
     init_ui_gameplay();
@@ -740,12 +738,14 @@ void main(void) {
     init_sprites();
     init_sound();
     show_title_screen();
-    prev_controller = joypad();
 
     // Show All
     SHOW_BKG;
     SHOW_WIN;
     SHOW_SPRITES;
+
+    // Turn display on
+    wait_vbl_done();
     DISPLAY_ON;
 
     while (TRUE) {
