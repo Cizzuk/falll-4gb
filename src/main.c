@@ -513,10 +513,11 @@ void apple_bomb_scroll(void) {
     // Summon apple or bomb
     // frame_counter % 60 == 25 => 25, 85, 145
     if (frame_counter == 25U || frame_counter == 85U || frame_counter == 145U) {
-        if (uint8_mod10(score[0]) == 0U) {
+        const UINT8 score_mod10 = uint8_mod10(score[0]);
+        if (score_mod10 == 0U) {
             is_bomb = FALSE;
             summon_apple_bomb();
-        } else if (uint8_mod10(score[0]) == 5U) {
+        } else if (score_mod10 == 5U) {
             is_bomb = TRUE;
             summon_apple_bomb();
         }
