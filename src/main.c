@@ -622,11 +622,11 @@ inline void update_colliders(void) {
 void show_title_screen(void) {
     scene_mode = 0U;
     cursor_pos = FALSE;
-    init_game();
-    play_sound_done();
-    set_map_tree();
-    init_ui_title();
     init_map_attr_random();
+    set_map_tree();
+    init_game();
+    init_ui_title();
+    play_sound_done();
 }
 
 inline void update_title_screen(void) {
@@ -662,10 +662,10 @@ inline void update_title_screen(void) {
 
 void show_gameplay_screen(void) {
     scene_mode = 1U;
-    play_sound_gamestart();
     set_map_tree_curtain();
     init_ui_gameplay();
     init_random_seed();
+    play_sound_gamestart();
 }
 
 inline void update_gameplay_screen(void) {
