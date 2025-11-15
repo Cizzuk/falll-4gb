@@ -155,44 +155,44 @@ void update_sound(void) {
     sound_timer++;
 }
 
-void stop_sound(void) {
+inline void stop_sound(void) {
     sound_timer = 255U;
     sound_id = 0U;
     NR22_REG = 0x00;
     NR42_REG = 0x00;
 }
 
-void play_sound_stick(void) {
+inline void play_sound_stick(void) {
     sound_timer = 0U;
     sound_id = 1U;
 }
 
-void play_sound_apple(void) {
+inline void play_sound_apple(void) {
     sound_timer = 0U;
     sound_id = 2U;
 }
 
-void play_sound_gameover(void) {
+inline void play_sound_gameover(void) {
     sound_timer = 0U;
     sound_id = 3U;
 }
 
-void play_sound_gamestart(void) {
+inline void play_sound_gamestart(void) {
     sound_timer = 0U;
     sound_id = 4U;
 }
 
-void play_sound_bomb(void) {
+inline void play_sound_bomb(void) {
     sound_timer = 0U;
     sound_id = 5U;
 }
 
-void play_sound_done(void) {
+inline void play_sound_done(void) {
     sound_timer = 0U;
     sound_id = 6U;
 }
 
-void play_sound_select(void) {
+inline void play_sound_select(void) {
     sound_timer = 0U;
     sound_id = 8U;
 }
