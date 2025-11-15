@@ -10,6 +10,7 @@
 #include "utils.h"
 
 // Game state
+UINT8 controller = 0U;
 UINT8 rand_controller = 0U;
 UINT8 prev_controller = 0U;
 UINT8 scene_mode = 0U; // 0: title, 1: gameplay, 2: gameover
@@ -332,7 +333,6 @@ void render_player(void) {
 }
 
 inline void player_control(void) {
-    const UINT8 controller = joypad();
     if (controller & J_RIGHT && controller & J_LEFT) {
         return;
     }
@@ -635,8 +635,6 @@ void show_title_screen(void) {
 }
 
 inline void update_title_screen(void) {
-    const UINT8 controller = joypad();
-
     if (controller) { // Press button
         // Move cursor
         if ((controller & J_SELECT) && !(prev_controller & J_SELECT)) {
@@ -684,7 +682,7 @@ inline void update_gameplay_screen(void) {
     }
 
     // Exit to title screen
-    if ((prev_controller & J_START) && !joypad()) {
+    if ((prev_controller & J_START) && !controller) {
         show_title_screen();
         return;
     }
@@ -732,7 +730,7 @@ inline void update_gameover_screen(void) {
     }
 
     // Second, wait for input to restart
-    if ((prev_controller & (J_START | J_SELECT | J_A | J_B)) && !joypad()) {
+    if ((prev_controller & (J_START | J_SELECT | J_A | J_B)) && !controller) {
         show_title_screen();
     }
 }
@@ -755,7 +753,7 @@ void main(void) {
     DISPLAY_ON;
 
     while (TRUE) {
-        const UINT8 controller = joypad();
+        controller = joypad();
 
         // Create random seed from controller input
         rand_controller += ~controller;
