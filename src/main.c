@@ -74,14 +74,8 @@ void init_map_attr_tree(void) {
 
     VBK_REG = 1U;
 
-    UINT8 column_palette[MapHeight];
-
     for (UINT8 i = 0U; i < MAP_ATTR_TREE_COLS_COUNT; i++) {
-        for (UINT8 row = 0U; row < MapHeight; row++) {
-            column_palette[row] = MapTreePalette[row];
-        }
-
-        set_bkg_tiles(MapAttrTreeCols[i], 0U, 1U, MapHeight, column_palette);
+        set_bkg_tiles(MapAttrTreeCols[i], 0U, 1U, MapHeight, MapTreePalette);
     }
 
     VBK_REG = 0U;
