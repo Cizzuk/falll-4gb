@@ -109,7 +109,7 @@ inline void set_ui_text(UINT8 start_column, UINT8 row, const UINT8 *tiles, UINT8
 }
 
 inline void clear_row(UINT8 row) {
-    for (UINT8 column = 0U; column < UI_WINDOW_TILE_WIDTH; column++) {
+    for (UINT8 column = UI_PADDING_LEFT; column < UI_WINDOW_TILE_WIDTH; column++) {
         set_ui_tile(column, row, UI_TILE_BLANK);
     }
 }
