@@ -59,6 +59,7 @@
 #define UI_GAMEOVER_COLUMN 2U
 
 extern void init_window(void);
+extern void init_window_attr(void);
 extern void init_ui_title(void);
 extern void init_ui_gameplay(void);
 extern void render_title_menu(void);
