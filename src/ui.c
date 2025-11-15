@@ -97,18 +97,18 @@ static const UINT8 ui_row_palettes[UI_WINDOW_TILE_HEIGHT] = {
     UI_ATTR_DEFAULT
 };
 
-static void set_ui_tile(UINT8 column, UINT8 row, UINT8 tile) {
+inline void set_ui_tile(UINT8 column, UINT8 row, UINT8 tile) {
     VBK_REG = 0U;
     set_win_tile_xy(column, row, tile);
 }
 
-static void set_ui_text(UINT8 start_column, UINT8 row, const UINT8 *tiles, UINT8 length) {
+inline void set_ui_text(UINT8 start_column, UINT8 row, const UINT8 *tiles, UINT8 length) {
     for (UINT8 i = 0U; i < length; i++) {
         set_ui_tile(start_column + i, row, tiles[i]);
     }
 }
 
-static void clear_row(UINT8 row) {
+inline void clear_row(UINT8 row) {
     for (UINT8 column = 0U; column < UI_WINDOW_TILE_WIDTH; column++) {
         set_ui_tile(column, row, UI_TILE_BLANK);
     }
