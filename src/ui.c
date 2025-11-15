@@ -98,7 +98,6 @@ static const UINT8 ui_row_palettes[UI_WINDOW_TILE_HEIGHT] = {
 };
 
 inline void set_ui_tile(UINT8 column, UINT8 row, UINT8 tile) {
-    VBK_REG = 0U;
     set_win_tile_xy(column, row, tile);
 }
 
