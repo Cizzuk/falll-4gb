@@ -150,15 +150,9 @@ void init_ui_gameplay(void) {
 }
 
 void render_title_menu(void) {
-    UINT8 start_cursor_tile = UI_TILE_BLANK;
-    UINT8 change_cursor_tile = UI_TILE_BLANK;
-
     // Set cursor position
-    if (cursor_pos) {
-        change_cursor_tile = UI_TILE_CURSOR;
-    } else {
-        start_cursor_tile = UI_TILE_CURSOR;
-    }
+    const UINT8 start_cursor_tile = cursor_pos ? UI_TILE_BLANK : UI_TILE_CURSOR;
+    const UINT8 change_cursor_tile = cursor_pos ? UI_TILE_CURSOR : UI_TILE_BLANK;
 
     // START section
     set_ui_tile(UI_MENU_CURSOR_COLUMN, UI_MENU_START_ROW, start_cursor_tile);
